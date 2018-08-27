@@ -1,0 +1,6 @@
+framework module Wonders {
+    umbrella header "Wonders.h"
+
+    export *
+    module * { export * }
+}

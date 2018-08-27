@@ -6,7 +6,7 @@ data class Game(val player1: Player,
                 var currentPlayer: Int = 0
 )
 
-data class Player(var gold: Int) {
+data class Player internal constructor(var gold: Int) {
     val cards: MutableList<Card> = mutableListOf()
 
     fun resources(): Resource {
