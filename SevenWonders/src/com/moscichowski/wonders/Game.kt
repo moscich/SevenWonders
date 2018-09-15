@@ -39,7 +39,15 @@ data class Resource(val wood: Int = 0,
                     val stone: Int = 0,
                     val glass: Int = 0,
                     val papyrus: Int = 0,
-                    val gold: Int = 0)
+                    val gold: Int = 0) {
+    operator fun plus(sum: Resource): Resource {
+        return Resource(wood = sum.wood + wood,
+                clay = sum.clay + clay,
+                stone = sum.stone + stone,
+                glass = sum.glass + glass,
+                papyrus = sum.papyrus + papyrus)
+    }
+}
 
 data class Card(val name: String, val cost: Resource = Resource(), val features: MutableList<CardFeature> = mutableListOf())
 

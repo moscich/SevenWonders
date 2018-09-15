@@ -125,4 +125,18 @@ class WondersTests {
         wonders.takeAction(TakeCard(availableCard))
         assertEquals(parentCard, wonders.gameState.board.cards[0].card)
     }
+
+    @Test
+    fun hasResourcesBuysCard() {
+        val card = Card("Card", cost = Resource(2, 4,6,8,10,7))
+        val availableNode = BoardNode(card)
+        val board = Board(mutableListOf(availableNode))
+        val player = Player(40)
+        val providedResources = Resource(1,2,3,4,5,0)
+        player.cards.add(Card("Wood", features = mutableListOf(ProvideResource(providedResources))))
+        val game = Game(player, Player(6), board)
+        val wonders = Wonders(game)
+        wonders.takeAction(TakeCard(card))
+        assertEquals(3, game.player1.gold)
+    }
 }
