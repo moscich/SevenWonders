@@ -53,3 +53,4 @@ data class Card(val name: String, val cost: Resource = Resource(), val features:
 
 sealed class CardFeature
 data class ProvideResource(val resource: Resource) : CardFeature()
+object WoodWarehouse : CardFeature()
