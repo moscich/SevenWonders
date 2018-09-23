@@ -141,7 +141,7 @@ class WondersTests {
     }
 
     @Test
-    fun hasWarehouseBuysCard() {
+    fun hasWoodWarehouseBuysCard() {
         val card = Card("Wood Card", Resource(wood = 4))
         val node = BoardNode(card)
         val board = Board(mutableListOf(node))
@@ -155,4 +155,37 @@ class WondersTests {
         wonders.takeAction(TakeCard(card))
         assertEquals(2, player1.gold)
     }
+
+    @Test
+    fun hasClayWarehouseBuysCard() {
+        val card = Card("Clay Card", Resource(clay = 4))
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val player1 = Player(6)
+        val warehouseFeatures = mutableListOf<CardFeature>(ClayWarehouse)
+        player1.cards.add(Card("Clay warehouse", features = warehouseFeatures))
+        val opponent = Player(6)
+        opponent.cards.add(Card("Clay provider", features = mutableListOf(ProvideResource(Resource(clay = 2)))))
+        val game = Game(player1, opponent, board)
+        val wonders = Wonders(game)
+        wonders.takeAction(TakeCard(card))
+        assertEquals(2, player1.gold)
+    }
+
+    @Test
+    fun hasStoneWarehouseBuysCard() {
+        val card = Card("Stone Card", Resource(stone = 4))
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val player1 = Player(6)
+        val warehouseFeatures = mutableListOf<CardFeature>(StoneWarehouse)
+        player1.cards.add(Card("Stone warehouse", features = warehouseFeatures))
+        val opponent = Player(6)
+        opponent.cards.add(Card("Stone provider", features = mutableListOf(ProvideResource(Resource(stone = 2)))))
+        val game = Game(player1, opponent, board)
+        val wonders = Wonders(game)
+        wonders.takeAction(TakeCard(card))
+        assertEquals(2, player1.gold)
+    }
+
 }

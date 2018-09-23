@@ -1,6 +1,5 @@
 package com.moscichowski.wonders
 
-import kotlin.math.abs
 import kotlin.math.max
 
 class Wonders {
@@ -24,10 +23,15 @@ class Wonders {
 
                     val providedResources = player.providedResources()
 
+                    val playerFeatures = player.cards.flatMap { it.features }
+                    val woodCost = if (playerFeatures.find { it is WoodWarehouse } != null) { 1 } else { opponentResource.wood + 2 }
+                    val clayCost = if (playerFeatures.find { it is ClayWarehouse } != null) { 1 } else { opponentResource.clay + 2 }
+                    val stoneCost = if (playerFeatures.find { it is StoneWarehouse } != null) { 1 } else { opponentResource.stone + 2 }
 
-                    val requiredGold = max(0, action.card.cost.clay - providedResources.clay) * (opponentResource.clay + 2) +
-                            max(0, action.card.cost.wood - providedResources.wood) * (opponentResource.wood + 2) +
-                            max(0, action.card.cost.stone - providedResources.stone) * (opponentResource.stone + 2) +
+
+                    val requiredGold = max(0, action.card.cost.clay - providedResources.clay) * clayCost +
+                            max(0, action.card.cost.wood - providedResources.wood) * woodCost +
+                            max(0, action.card.cost.stone - providedResources.stone) * stoneCost +
                             max(0, action.card.cost.papyrus - providedResources.papyrus) * (opponentResource.papyrus + 2) +
                             max(0, action.card.cost.glass - providedResources.glass) * (opponentResource.glass + 2) +
                             action.card.cost.gold
