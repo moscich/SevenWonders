@@ -8,6 +8,7 @@ data class Game(val player1: Player,
 
 data class Player internal constructor(var gold: Int) {
     val cards: MutableList<Card> = mutableListOf()
+    var wonders: List<Pair<Boolean, Wonder>> = listOf()
 
     fun resources(): Resource {
         return cards.flatMap { card -> card.features }.fold(Resource()) { sum, feature ->

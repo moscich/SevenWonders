@@ -1,9 +1,7 @@
 package com.moscichowski.wonders
 
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFails
-import kotlin.test.assertNotNull
+import kotlin.test.*
 
 class WondersTests {
     @Test
@@ -52,7 +50,7 @@ class WondersTests {
         val game = Game(Player(6), Player(6), board)
         val startingState = game.copy()
         val wonders = Wonders(game)
-        wonders.takeAction(TakeCard(card))
+        assertFails { wonders.takeAction(TakeCard(card)) }
         assertEquals(startingState, wonders.gameState)
     }
 
@@ -63,7 +61,7 @@ class WondersTests {
         val game = Game(Player(8), Player(6), board, currentPlayer = 1)
         val startingState = game.copy()
         val wonders = Wonders(game)
-        wonders.takeAction(TakeCard(card))
+        assertFails { wonders.takeAction(TakeCard(card)) }
         assertEquals(startingState, wonders.gameState)
     }
 
@@ -187,5 +185,77 @@ class WondersTests {
         wonders.takeAction(TakeCard(card))
         assertEquals(2, player1.gold)
     }
+
+    @Test
+    fun buildUnavailableWonder() {
+        val card = Card("Stone Card", Resource(stone = 4))
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val wonder = Wonder("Some wonder")
+        val player1 = Player(6)
+        player1.wonders = mutableListOf(Pair(false, Wonder("Different Wonder")))
+        val game = Game(player1, Player(6), board)
+        val wonders = Wonders(game)
+        try {
+            wonders.takeAction(BuildWonder(card, wonder))
+            fail()
+        } catch (err : WonderBuildFailed) {
+            assertEquals("Test", err.something)
+        }
+    }
+
+    @Test
+    fun wonderAlreadyBuilt() {
+        val card = Card("Stone Card", Resource(stone = 4))
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val wonder = Wonder("Some wonder")
+        val player1 = Player(6)
+        player1.wonders = mutableListOf(Pair(true, wonder))
+        val game = Game(player1, Player(6), board)
+        val wonders = Wonders(game)
+        try {
+            wonders.takeAction(BuildWonder(card, wonder))
+            fail()
+        } catch (err : WonderBuildFailed) {
+            assertEquals("Test", err.something)
+        }
+    }
+
+    @Test
+    fun wonderTooExpensive() {
+        val card = Card("Stone Card", Resource(stone = 4))
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val wonder = Wonder("Some wonder", Resource(gold = 7))
+        val player1 = Player(6)
+        player1.wonders = mutableListOf(Pair(false, wonder))
+        val game = Game(player1, Player(6), board)
+        val wonders = Wonders(game)
+        try {
+            wonders.takeAction(BuildWonder(card, wonder))
+            fail()
+        } catch (err : WonderBuildFailed) {
+            assertEquals("Test", err.something)
+        }
+    }
+
+    @Test
+    fun simpleWonderBuild() {
+        val card = Card("Stone Card", Resource(stone = 4))
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val wonder = Wonder("Some wonder", Resource(gold = 2))
+        val player1 = Player(6)
+        player1.wonders = mutableListOf(Pair(false, wonder))
+        val game = Game(player1, Player(6), board)
+        val wonders = Wonders(game)
+        wonders.takeAction(BuildWonder(card, wonder))
+        assertTrue(player1.wonders.first().first)
+        assertEquals(4, player1.gold)
+    }
+}
+
+data class Wonder(val name: String, val cost: Resource = Resource(), val features: List<CardFeature> = mutableListOf()) {
 
 }
