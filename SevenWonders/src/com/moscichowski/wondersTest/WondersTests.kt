@@ -301,6 +301,52 @@ class WondersTests {
         assertEquals(1, opponent.cards.count())
     }
 
+    @Test
+    fun failWhenRemovingNonSilverCard() {
+        val card = Card("Some card", Resource())
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val wonder = Wonder("Some wonder", Resource(gold = 2), listOf(DestroySilverCard))
+        val player1 = Player(6)
+        player1.wonders = mutableListOf(Pair(false, wonder))
+        val opponent = Player(6)
+        val nonSilverCard = Card("Non Silver card", CardColor.BROWN)
+        opponent.cards.add(nonSilverCard)
+        val game = Game(player1, opponent, board)
+        val wonders = Wonders(game)
+        try {
+            wonders.takeAction(BuildWonder(card, wonder, nonSilverCard))
+            fail()
+        } catch (err : WonderBuildFailed) {
+            assertEquals("Test", err.something)
+        }
+
+        assertFalse(player1.wonders.first().first)
+        assertEquals(6, player1.gold)
+        assertEquals(1, board.cards.count())
+        assertEquals(1, opponent.cards.count())
+    }
+
+    @Test
+    fun removeSilverCardWonderFeature() {
+        val card = Card("Some card", Resource())
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val wonder = Wonder("Some wonder", Resource(gold = 2), listOf(DestroySilverCard))
+        val player1 = Player(6)
+        player1.wonders = mutableListOf(Pair(false, wonder))
+        val opponent = Player(6)
+        val silverCard = Card("Silver card", CardColor.SILVER)
+        opponent.cards.add(silverCard)
+        val game = Game(player1, opponent, board)
+        val wonders = Wonders(game)
+        wonders.takeAction(BuildWonder(card, wonder, silverCard))
+        assertTrue(player1.wonders.first().first)
+        assertEquals(4, player1.gold)
+        assertEquals(0, board.cards.count())
+        assertEquals(0, opponent.cards.count())
+    }
+
 }
 
 data class Wonder(val name: String, val cost: Resource = Resource(), val features: List<CardFeature> = mutableListOf())

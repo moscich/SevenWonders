@@ -121,6 +121,16 @@ class Wonders {
                     }
                 }
 
+                if (action.wonder.features.find { it is DestroySilverCard } != null) {
+                    val cardToDestroy = action.param
+                    if (cardToDestroy is Card) {
+                        if (cardToDestroy.color != CardColor.SILVER) {
+                            throw WonderBuildFailed()
+                        }
+                        opponent.cards.remove(cardToDestroy)
+                    }
+                }
+
                 gameState.board.cards.remove(wantedNode)
                 gameState.board.cards.forEach { node: BoardNode ->
                     node.descendants.remove(wantedNode.card)
