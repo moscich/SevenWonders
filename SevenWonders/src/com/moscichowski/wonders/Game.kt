@@ -1,5 +1,7 @@
 package com.moscichowski.wonders
 
+import java.awt.Color
+
 data class Game(val player1: Player,
                 val player2: Player,
                 val board: Board,
@@ -50,7 +52,11 @@ data class Resource(val wood: Int = 0,
     }
 }
 
-data class Card(val name: String, val cost: Resource = Resource(), val features: MutableList<CardFeature> = mutableListOf())
+data class Card(val name: String, val color: CardColor, val cost: Resource = Resource(), val features: MutableList<CardFeature> = mutableListOf())
+
+enum class CardColor {
+    BROWN, SILVER
+}
 
 sealed class CardFeature
 data class ProvideResource(val resource: Resource) : CardFeature()

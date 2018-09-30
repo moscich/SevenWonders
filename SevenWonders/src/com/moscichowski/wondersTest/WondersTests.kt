@@ -274,6 +274,36 @@ class WondersTests {
         assertEquals(0, board.cards.count())
         assertEquals(0, opponent.cards.count())
     }
+
+    @Test
+    fun failWhenRemovingNonBrownCard() {
+        val card = Card("Some card", Resource())
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val wonder = Wonder("Some wonder", Resource(gold = 2), listOf(DestroyBrownCard))
+        val player1 = Player(6)
+        player1.wonders = mutableListOf(Pair(false, wonder))
+        val opponent = Player(6)
+        val nonBrownCard = Card("Non Brown card", CardColor.SILVER)
+        opponent.cards.add(nonBrownCard)
+        val game = Game(player1, opponent, board)
+        val wonders = Wonders(game)
+        try {
+            wonders.takeAction(BuildWonder(card, wonder, nonBrownCard))
+            fail()
+        } catch (err : WonderBuildFailed) {
+            assertEquals("Test", err.something)
+        }
+
+        assertFalse(player1.wonders.first().first)
+        assertEquals(6, player1.gold)
+        assertEquals(1, board.cards.count())
+        assertEquals(1, opponent.cards.count())
+    }
+
 }
 
 data class Wonder(val name: String, val cost: Resource = Resource(), val features: List<CardFeature> = mutableListOf())
+
+//@SuppressWarnings("lowercase")
+fun Card(name: String, cost: Resource = Resource(), features: MutableList<CardFeature> = mutableListOf()): Card = Card(name, CardColor.BROWN, cost, features)

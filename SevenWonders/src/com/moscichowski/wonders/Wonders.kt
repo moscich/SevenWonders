@@ -114,6 +114,9 @@ class Wonders {
                 if (action.wonder.features.find { it is DestroyBrownCard } != null) {
                     val cardToDestroy = action.param
                     if (cardToDestroy is Card) {
+                        if (cardToDestroy.color != CardColor.BROWN) {
+                            throw WonderBuildFailed()
+                        }
                         opponent.cards.remove(cardToDestroy)
                     }
                 }
@@ -159,12 +162,4 @@ class WonderBuildFailed : Error() {
 }
 
 fun main(args: Array<String>) {
-    val availableCard = Card("Av Card")
-    val parentCard = Card("Hidden Parent")
-    val availableNode = BoardNode(availableCard)
-    val unavailableNode = BoardNode(parentCard, mutableListOf(availableCard))
-    val board = Board(mutableListOf(availableNode, unavailableNode))
-    val game = Game(Player(1), Player(2), board)
-    val wonders = Wonders(game)
-    print(wonders.gameState.board.cards)
 }
