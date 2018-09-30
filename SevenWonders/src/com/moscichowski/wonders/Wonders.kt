@@ -111,6 +111,13 @@ class Wonders {
                     throw WonderBuildFailed()
                 }
 
+                if (action.wonder.features.find { it is DestroyBrownCard } != null) {
+                    val cardToDestroy = action.param
+                    if (cardToDestroy is Card) {
+                        opponent.cards.remove(cardToDestroy)
+                    }
+                }
+
                 gameState.board.cards.remove(wantedNode)
                 gameState.board.cards.forEach { node: BoardNode ->
                     node.descendants.remove(wantedNode.card)
@@ -130,7 +137,7 @@ class Wonders {
 
     }
 
-    fun Player.providedResources(): Resource {
+    private fun Player.providedResources(): Resource {
         return cards.flatMap { it.features }.fold(Resource(), operation = { sum, element ->
             return if (element is ProvideResource) {
                 element.resource + sum
@@ -143,7 +150,7 @@ class Wonders {
 
 sealed class Action
 data class TakeCard(val card: Card) : Action()
-data class BuildWonder(val card: Card, val wonder: Wonder) : Action()
+data class BuildWonder(val card: Card, val wonder: Wonder, var param: Any? = null) : Action()
 
 class WonderBuildFailed : Error() {
     val something: String = "Test"

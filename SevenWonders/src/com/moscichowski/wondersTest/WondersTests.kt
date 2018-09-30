@@ -254,8 +254,26 @@ class WondersTests {
         assertTrue(player1.wonders.first().first)
         assertEquals(4, player1.gold)
     }
+
+    @Test
+    fun removeBrownCardWonderFeature() {
+        val card = Card("Some card", Resource())
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val wonder = Wonder("Some wonder", Resource(gold = 2), listOf(DestroyBrownCard))
+        val player1 = Player(6)
+        player1.wonders = mutableListOf(Pair(false, wonder))
+        val opponent = Player(6)
+        val brownCard = Card("Brown card")
+        opponent.cards.add(brownCard)
+        val game = Game(player1, opponent, board)
+        val wonders = Wonders(game)
+        wonders.takeAction(BuildWonder(card, wonder, brownCard))
+        assertTrue(player1.wonders.first().first)
+        assertEquals(4, player1.gold)
+        assertEquals(0, board.cards.count())
+        assertEquals(0, opponent.cards.count())
+    }
 }
 
-data class Wonder(val name: String, val cost: Resource = Resource(), val features: List<CardFeature> = mutableListOf()) {
-
-}
+data class Wonder(val name: String, val cost: Resource = Resource(), val features: List<CardFeature> = mutableListOf())
