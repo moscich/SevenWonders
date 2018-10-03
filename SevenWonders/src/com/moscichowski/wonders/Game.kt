@@ -52,7 +52,7 @@ data class Resource(val wood: Int = 0,
     }
 }
 
-data class Card(val name: String, val color: CardColor, val cost: Resource = Resource(), val features: MutableList<CardFeature> = mutableListOf())
+data class Card(val name: String, val color: CardColor, val cost: Resource = Resource(), val features: List<CardFeature> = listOf())
 
 enum class CardColor {
     BROWN, SILVER
@@ -65,3 +65,5 @@ object ClayWarehouse : CardFeature()
 object StoneWarehouse : CardFeature()
 object DestroyBrownCard : CardFeature()
 object DestroySilverCard : CardFeature()
+object ExtraTurn : CardFeature()
+object ProvideSilverResource: CardFeature()

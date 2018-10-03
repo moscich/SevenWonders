@@ -202,6 +202,7 @@ class WondersTests {
         } catch (err : WonderBuildFailed) {
             assertEquals("Test", err.something)
         }
+        assertEquals(game.currentPlayer, 0)
     }
 
     @Test
@@ -220,6 +221,7 @@ class WondersTests {
         } catch (err : WonderBuildFailed) {
             assertEquals("Test", err.something)
         }
+        assertEquals(game.currentPlayer, 0)
     }
 
     @Test
@@ -238,6 +240,7 @@ class WondersTests {
         } catch (err : WonderBuildFailed) {
             assertEquals("Test", err.something)
         }
+        assertEquals(game.currentPlayer, 0)
     }
 
     @Test
@@ -253,6 +256,7 @@ class WondersTests {
         wonders.takeAction(BuildWonder(card, wonder))
         assertTrue(player1.wonders.first().first)
         assertEquals(4, player1.gold)
+        assertEquals(game.currentPlayer, 1)
     }
 
     @Test
@@ -273,6 +277,7 @@ class WondersTests {
         assertEquals(4, player1.gold)
         assertEquals(0, board.cards.count())
         assertEquals(0, opponent.cards.count())
+        assertEquals(game.currentPlayer, 1)
     }
 
     @Test
@@ -299,6 +304,7 @@ class WondersTests {
         assertEquals(6, player1.gold)
         assertEquals(1, board.cards.count())
         assertEquals(1, opponent.cards.count())
+        assertEquals(game.currentPlayer, 0)
     }
 
     @Test
@@ -347,9 +353,42 @@ class WondersTests {
         assertEquals(0, opponent.cards.count())
     }
 
+    @Test
+    fun buildWonderWithExtraTurnFeature() {
+        val card = Card("Some card", Resource())
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val wonder = Wonder("Some wonder", Resource(gold = 2), listOf(ExtraTurn))
+        val player1 = Player(6)
+        player1.wonders = mutableListOf(Pair(false, wonder))
+        val game = Game(player1, Player(6), board)
+        val wonders = Wonders(game)
+        wonders.takeAction(BuildWonder(card, wonder))
+        assertTrue(player1.wonders.first().first)
+        assertEquals(4, player1.gold)
+        assertEquals(0, board.cards.count())
+        assertEquals(0, game.currentPlayer)
+    }
+
+    @Test
+    fun properCardCostWhenPlayerHasProvideOneSilverResource() {
+        val card = Card("Some card", Resource(papyrus = 1, glass = 1))
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val wonder = Wonder("Some wonder", features = listOf(ProvideSilverResource))
+        val player1 = Player(8)
+        player1.wonders = mutableListOf(Pair(true, wonder))
+        val opponent = Player(6)
+        opponent.cards.add(Card("Forum", features = listOf(ProvideResource(Resource(papyrus = 1, glass = 2)))))
+        val game = Game(player1, opponent, board)
+        val wonders = Wonders(game)
+        wonders.takeAction(TakeCard(card))
+        assertEquals(0, board.cards.count())
+        assertEquals(5, player1.gold)
+    }
 }
 
 data class Wonder(val name: String, val cost: Resource = Resource(), val features: List<CardFeature> = mutableListOf())
 
 //@SuppressWarnings("lowercase")
-fun Card(name: String, cost: Resource = Resource(), features: MutableList<CardFeature> = mutableListOf()): Card = Card(name, CardColor.BROWN, cost, features)
+fun Card(name: String, cost: Resource = Resource(), features: List<CardFeature> = mutableListOf()): Card = Card(name, CardColor.BROWN, cost, features)

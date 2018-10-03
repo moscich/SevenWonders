@@ -24,7 +24,7 @@ class Wonders {
 
                 val opponentResource = opponent.resources()
 
-                val providedResources = player.providedResources()
+                val providedResourcesPossibilities = player.providedResources()
 
                 val playerFeatures = player.cards.flatMap { it.features }
                 val woodCost = if (playerFeatures.find { it is WoodWarehouse } != null) {
@@ -43,12 +43,14 @@ class Wonders {
                     opponentResource.stone + 2
                 }
 
-                val requiredGold = max(0, action.card.cost.clay - providedResources.clay) * clayCost +
-                        max(0, action.card.cost.wood - providedResources.wood) * woodCost +
-                        max(0, action.card.cost.stone - providedResources.stone) * stoneCost +
-                        max(0, action.card.cost.papyrus - providedResources.papyrus) * (opponentResource.papyrus + 2) +
-                        max(0, action.card.cost.glass - providedResources.glass) * (opponentResource.glass + 2) +
-                        action.card.cost.gold
+                val requiredGold = providedResourcesPossibilities.asSequence().map { providedResources ->
+                    max(0, action.card.cost.clay - providedResources.clay) * clayCost +
+                            max(0, action.card.cost.wood - providedResources.wood) * woodCost +
+                            max(0, action.card.cost.stone - providedResources.stone) * stoneCost +
+                            max(0, action.card.cost.papyrus - providedResources.papyrus) * (opponentResource.papyrus + 2) +
+                            max(0, action.card.cost.glass - providedResources.glass) * (opponentResource.glass + 2) +
+                            action.card.cost.gold
+                }.min() ?: throw Error()
 
                 if (player.gold < requiredGold) {
                     throw Error()
@@ -74,7 +76,7 @@ class Wonders {
 
                 val opponentResource = opponent.resources()
 
-                val providedResources = player.providedResources()
+                val providedResources = player.providedResources().first()
 
                 val playerFeatures = player.cards.flatMap { it.features }
                 val woodCost = if (playerFeatures.find { it is WoodWarehouse } != null) {
@@ -136,7 +138,10 @@ class Wonders {
                     node.descendants.remove(wantedNode.card)
                 }
                 player.gold -= requiredGold
-                gameState.currentPlayer = (gameState.currentPlayer + 1) % 2
+
+                if (action.wonder.features.find { it is ExtraTurn } == null) {
+                    gameState.currentPlayer = (gameState.currentPlayer + 1) % 2
+                }
 
                 player.wonders.indexOfFirst { it.second == action.wonder }
                 player.wonders = player.wonders.map {
@@ -150,14 +155,29 @@ class Wonders {
 
     }
 
-    private fun Player.providedResources(): Resource {
-        return cards.flatMap { it.features }.fold(Resource(), operation = { sum, element ->
-            return if (element is ProvideResource) {
+    private fun Player.providedResources(): List<Resource> {
+        val providedFromCards = listOf(cards.flatMap { it.features }.fold(Resource(), operation = { sum, element ->
+            return@fold if (element is ProvideResource) {
                 element.resource + sum
             } else {
                 sum
             }
-        })
+        }))
+
+        val wonderFeatures = wonders.filter { it.first }.flatMap { it.second.features }
+        val possibleResources = wonderFeatures.filter { it is ProvideSilverResource }.map { listOf(Resource(papyrus = 1), Resource(glass = 1)) }.flatMap { it }
+
+        val result = mutableListOf<Resource>()
+        result.addAll(providedFromCards)
+        for (i in 0 until providedFromCards.count()) {
+            val fromCards = providedFromCards[i]
+            for (j in 0 until possibleResources.count()) {
+                val possible = possibleResources[j]
+                result.add(fromCards + possible)
+            }
+        }
+
+        return result
     }
 }
 
