@@ -12,49 +12,14 @@ class Wonders {
     fun takeAction(action: Action) {
         when (action) {
             is TakeCard -> {
+
+                val player = if (gameState.currentPlayer == 0) gameState.player1 else gameState.player2
                 val wantedNode = gameState.board.cards.find { node ->
                     node.card == action.card
                 } ?: throw Error()
-                if (!wantedNode.descendants.isEmpty()) {
-                    throw Error()
-                }
 
-                val player = if (gameState.currentPlayer == 0) gameState.player1 else gameState.player2
-                val opponent = if (gameState.currentPlayer == 1) gameState.player1 else gameState.player2
+                val requiredGold = checkHowMuch(action.card, action.card.cost)
 
-                val opponentResource = opponent.resources()
-
-                val providedResourcesPossibilities = player.providedResources()
-
-                val playerFeatures = player.cards.flatMap { it.features }
-                val woodCost = if (playerFeatures.find { it is WoodWarehouse } != null) {
-                    1
-                } else {
-                    opponentResource.wood + 2
-                }
-                val clayCost = if (playerFeatures.find { it is ClayWarehouse } != null) {
-                    1
-                } else {
-                    opponentResource.clay + 2
-                }
-                val stoneCost = if (playerFeatures.find { it is StoneWarehouse } != null) {
-                    1
-                } else {
-                    opponentResource.stone + 2
-                }
-
-                val requiredGold = providedResourcesPossibilities.asSequence().map { providedResources ->
-                    max(0, action.card.cost.clay - providedResources.clay) * clayCost +
-                            max(0, action.card.cost.wood - providedResources.wood) * woodCost +
-                            max(0, action.card.cost.stone - providedResources.stone) * stoneCost +
-                            max(0, action.card.cost.papyrus - providedResources.papyrus) * (opponentResource.papyrus + 2) +
-                            max(0, action.card.cost.glass - providedResources.glass) * (opponentResource.glass + 2) +
-                            action.card.cost.gold
-                }.min() ?: throw Error()
-
-                if (player.gold < requiredGold) {
-                    throw Error()
-                }
                 gameState.board.cards.remove(wantedNode)
                 gameState.board.cards.forEach { node: BoardNode ->
                     node.descendants.remove(wantedNode.card)
@@ -64,6 +29,7 @@ class Wonders {
                 player.cards.add(action.card)
             }
             is BuildWonder -> {
+                val player = if (gameState.currentPlayer == 0) gameState.player1 else gameState.player2
                 val wantedNode = gameState.board.cards.find { node ->
                     node.card == action.card
                 } ?: throw WonderBuildFailed()
@@ -71,37 +37,10 @@ class Wonders {
                     throw WonderBuildFailed()
                 }
 
-                val player = if (gameState.currentPlayer == 0) gameState.player1 else gameState.player2
+                val requiredGold = checkHowMuch(action.card, action.wonder.cost)
+
                 val opponent = if (gameState.currentPlayer == 1) gameState.player1 else gameState.player2
-
-                val opponentResource = opponent.resources()
-
-                val providedResources = player.providedResources().first()
-
-                val playerFeatures = player.cards.flatMap { it.features }
-                val woodCost = if (playerFeatures.find { it is WoodWarehouse } != null) {
-                    1
-                } else {
-                    opponentResource.wood + 2
-                }
-                val clayCost = if (playerFeatures.find { it is ClayWarehouse } != null) {
-                    1
-                } else {
-                    opponentResource.clay + 2
-                }
-                val stoneCost = if (playerFeatures.find { it is StoneWarehouse } != null) {
-                    1
-                } else {
-                    opponentResource.stone + 2
-                }
-
-                val requiredGold = max(0, action.wonder.cost.clay - providedResources.clay) * clayCost +
-                        max(0, action.wonder.cost.wood - providedResources.wood) * woodCost +
-                        max(0, action.wonder.cost.stone - providedResources.stone) * stoneCost +
-                        max(0, action.wonder.cost.papyrus - providedResources.papyrus) * (opponentResource.papyrus + 2) +
-                        max(0, action.wonder.cost.glass - providedResources.glass) * (opponentResource.glass + 2) +
-                        action.wonder.cost.gold
-
+                
                 if (player.gold < requiredGold) {
                     throw WonderBuildFailed()
                 }
@@ -152,7 +91,56 @@ class Wonders {
                     }}
             }
         }
+    }
 
+    private fun checkHowMuch(card: Card, cost: Resource): Int {
+        val player = if (gameState.currentPlayer == 0) gameState.player1 else gameState.player2
+
+        val wantedNode = gameState.board.cards.find { node ->
+            node.card == card
+        } ?: throw Error()
+
+        if (!wantedNode.descendants.isEmpty()) {
+            throw Error()
+        }
+
+        val opponent = if (gameState.currentPlayer == 1) gameState.player1 else gameState.player2
+
+        val opponentResource = opponent.resources()
+
+        val providedResourcesPossibilities = player.providedResources()
+
+        val playerFeatures = player.cards.flatMap { it.features }
+        val woodCost = if (playerFeatures.find { it is WoodWarehouse } != null) {
+            1
+        } else {
+            opponentResource.wood + 2
+        }
+        val clayCost = if (playerFeatures.find { it is ClayWarehouse } != null) {
+            1
+        } else {
+            opponentResource.clay + 2
+        }
+        val stoneCost = if (playerFeatures.find { it is StoneWarehouse } != null) {
+            1
+        } else {
+            opponentResource.stone + 2
+        }
+
+        val requiredGold = providedResourcesPossibilities.asSequence().map { providedResources ->
+            max(0, cost.clay - providedResources.clay) * clayCost +
+                    max(0, cost.wood - providedResources.wood) * woodCost +
+                    max(0, cost.stone - providedResources.stone) * stoneCost +
+                    max(0, cost.papyrus - providedResources.papyrus) * (opponentResource.papyrus + 2) +
+                    max(0, cost.glass - providedResources.glass) * (opponentResource.glass + 2) +
+                    cost.gold
+        }.min() ?: throw Error()
+
+        if (player.gold < requiredGold) {
+            throw Error()
+        }
+
+        return requiredGold
     }
 
     private fun Player.providedResources(): List<Resource> {
@@ -186,6 +174,12 @@ data class TakeCard(val card: Card) : Action()
 data class BuildWonder(val card: Card, val wonder: Wonder, var param: Any? = null) : Action()
 
 class WonderBuildFailed : Error() {
+    val something: String = "Test"
+    override val message: String?
+        get() = "Wrong neighbourhood"
+}
+
+class TakeCardFailed : Error() {
     val something: String = "Test"
     override val message: String?
         get() = "Wrong neighbourhood"

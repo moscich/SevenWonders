@@ -237,8 +237,7 @@ class WondersTests {
         try {
             wonders.takeAction(BuildWonder(card, wonder))
             fail()
-        } catch (err : WonderBuildFailed) {
-            assertEquals("Test", err.something)
+        } catch (err : Error) {
         }
         assertEquals(game.currentPlayer, 0)
     }
