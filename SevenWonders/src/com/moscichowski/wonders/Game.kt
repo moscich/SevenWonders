@@ -1,5 +1,9 @@
 package com.moscichowski.wonders
 
+import kotlin.math.max
+import kotlin.properties.ObservableProperty
+import kotlin.reflect.KProperty
+
 data class Game(val player1: Player,
                 val player2: Player,
                 val board: Board,
@@ -12,7 +16,15 @@ data class Game(val player1: Player,
         } else  {player2}
 }
 
-data class Player internal constructor(var gold: Int) {
+data class Player internal constructor(var gold_: Int) {
+
+    var gold: Int by object : ObservableProperty<Int>(gold_) {
+        override fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) {
+            val positive = max(0, value)
+            super.setValue(thisRef, property, positive)
+        }
+    }
+
     val cards: MutableList<Card> = mutableListOf()
     var wonders: List<Pair<Boolean, Wonder>> = listOf()
 

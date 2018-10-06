@@ -496,6 +496,13 @@ class WondersTests {
     }
 
     @Test
+    fun goldCantGetNegative() {
+        val player = Player(6)
+        player.gold -= 7
+        assertEquals(0, player.gold)
+    }
+
+    @Test
     fun resourceCombiner() {
         val one = Resource(wood = 1, clay = 1)
         val two = Resource(glass = 1, papyrus = 1)
