@@ -1,7 +1,5 @@
 package com.moscichowski.wonders
 
-import java.awt.Color
-
 data class Game(val player1: Player,
                 val player2: Player,
                 val board: Board,
@@ -50,6 +48,24 @@ data class Resource(val wood: Int = 0,
                 glass = sum.glass + glass,
                 papyrus = sum.papyrus + papyrus)
     }
+
+    fun combine(resource: Resource): List<Resource> {
+        val result = mutableListOf<Resource>()
+        resource.decompose().filter { it != Resource() }.forEach {
+            result.add(this + it)
+        }
+        return result
+    }
+
+    private fun decompose(): List<Resource> {
+        return listOf(
+                Resource(wood = wood),
+                Resource(clay = clay),
+                Resource(stone = stone),
+                Resource(papyrus = papyrus),
+                Resource(glass = glass),
+                Resource(gold = gold))
+    }
 }
 
 data class Card(val name: String, val color: CardColor, val cost: Resource = Resource(), val features: List<CardFeature> = listOf())
@@ -66,4 +82,5 @@ object StoneWarehouse : CardFeature()
 object DestroyBrownCard : CardFeature()
 object DestroySilverCard : CardFeature()
 object ExtraTurn : CardFeature()
-object ProvideSilverResource: CardFeature()
+object ProvideSilverResource : CardFeature()
+object ProvideBrownResource : CardFeature()

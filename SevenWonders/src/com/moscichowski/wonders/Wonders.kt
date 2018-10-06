@@ -40,7 +40,7 @@ class Wonders {
                 val requiredGold = checkHowMuch(action.card, action.wonder.cost)
 
                 val opponent = if (gameState.currentPlayer == 1) gameState.player1 else gameState.player2
-                
+
                 if (player.gold < requiredGold) {
                     throw WonderBuildFailed()
                 }
@@ -152,18 +152,36 @@ class Wonders {
             }
         }))
 
-        val wonderFeatures = wonders.filter { it.first }.flatMap { it.second.features }
-        val possibleResources = wonderFeatures.filter { it is ProvideSilverResource }.map { listOf(Resource(papyrus = 1), Resource(glass = 1)) }.flatMap { it }
+        val toCombine = mutableListOf<Resource>()
+        val cardFeatures = cards.flatMap { it.features }
+        if (cardFeatures.contains(ProvideSilverResource)) {
+            toCombine.add(Resource(papyrus = 1, glass = 1))
 
-        val result = mutableListOf<Resource>()
-        result.addAll(providedFromCards)
-        for (i in 0 until providedFromCards.count()) {
-            val fromCards = providedFromCards[i]
-            for (j in 0 until possibleResources.count()) {
-                val possible = possibleResources[j]
-                result.add(fromCards + possible)
-            }
         }
+        if (cardFeatures.contains(ProvideSilverResource)) {
+            toCombine.add(Resource(wood = 1, clay = 1, stone = 1))
+        }
+
+        val wonderFeatures = wonders.filter { it.first }.flatMap { it.second.features }
+        if (wonderFeatures.contains(ProvideSilverResource)) {
+            toCombine.add(Resource(papyrus = 1, glass = 1))
+        }
+        if (wonderFeatures.contains(ProvideBrownResource)) {
+            toCombine.add(Resource(wood = 1, clay = 1, stone = 1))
+        }
+
+        var result = providedFromCards
+        toCombine.forEach {
+            val newResult = mutableListOf<Resource>()
+            newResult.addAll(result)
+            result.forEach { resultResource ->
+                newResult.addAll(resultResource.combine(it))
+            }
+            result = newResult//result.first().combine(it)
+        }
+//        if (toCombine.count() > 0) {
+//            result = result.first().combine(toCombine.first())
+//        }
 
         return result
     }

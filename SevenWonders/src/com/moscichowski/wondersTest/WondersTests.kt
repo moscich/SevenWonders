@@ -378,12 +378,83 @@ class WondersTests {
         val player1 = Player(8)
         player1.wonders = mutableListOf(Pair(true, wonder))
         val opponent = Player(6)
-        opponent.cards.add(Card("Forum", features = listOf(ProvideResource(Resource(papyrus = 1, glass = 2)))))
+        opponent.cards.add(Card("Providing silver", features = listOf(ProvideResource(Resource(papyrus = 1, glass = 2)))))
         val game = Game(player1, opponent, board)
         val wonders = Wonders(game)
         wonders.takeAction(TakeCard(card))
         assertEquals(0, board.cards.count())
         assertEquals(5, player1.gold)
+    }
+
+    @Test
+    fun properCardCostWhenPlayerHasProvideOneBrownResource() {
+        val card = Card("Some card", Resource(wood = 1, clay = 1, stone = 1))
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val wonder = Wonder("Some wonder", features = listOf(ProvideBrownResource))
+        val player1 = Player(8)
+        player1.wonders = mutableListOf(Pair(true, wonder))
+        val opponent = Player(6)
+        opponent.cards.add(Card("Providing brown", features = listOf(ProvideResource(Resource(wood = 1, clay = 2, stone = 3)))))
+        val game = Game(player1, opponent, board)
+        val wonders = Wonders(game)
+        try {
+            wonders.takeAction(TakeCard(card))
+            assertEquals(0, board.cards.count())
+            assertEquals(1, player1.gold)
+        } catch (e: Error) {
+            fail()
+        }
+    }
+
+    @Test
+    fun combineAllResourceProviders() {
+        val card = Card("Some card", Resource(wood = 1, clay = 1, stone = 1, glass = 1, papyrus = 1))
+        val node = BoardNode(card)
+        val board = Board(mutableListOf(node))
+        val provideBrownWonder = Wonder("Some wonder", features = listOf(ProvideBrownResource))
+        val provideSilverWonder = Wonder("Some wonder", features = listOf(ProvideSilverResource))
+        val player1 = Player(6)
+        player1.wonders = mutableListOf(Pair(true, provideBrownWonder), Pair(true, provideSilverWonder))
+        player1.cards.add(Card("Brown Card", features = listOf(ProvideBrownResource)))
+        player1.cards.add(Card("Silver Card", features = listOf(ProvideSilverResource)))
+        val opponent = Player(6)
+        opponent.cards.add(Card("Lot of resources", features = listOf(ProvideResource(Resource(wood = 1, clay = 2, stone = 3, papyrus = 4, glass = 5)))))
+        val game = Game(player1, opponent, board)
+        val wonders = Wonders(game)
+        try {
+            wonders.takeAction(TakeCard(card))
+            assertEquals(0, board.cards.count())
+            assertEquals(3, player1.gold)
+        } catch (e: Error) {
+            fail()
+        }
+    }
+
+
+    @Test
+    fun resourceCombiner() {
+        val one = Resource(wood = 1, clay = 1)
+        val two = Resource(glass = 1, papyrus = 1)
+
+        val combined = one.combine(two)
+
+        val expected = listOf(Resource(wood = 1, clay = 1, glass = 1), Resource(wood = 1, clay = 1, papyrus = 1))
+        val filtered = expected.filter { !combined.contains(it) }
+        assertEquals(0, filtered.count())
+    }
+
+    @Test
+    fun testing() {
+        val one = Resource(wood = 1, clay = 1, stone = 1, glass = 1, papyrus = 1)
+        val two = Resource(wood = 1)
+
+        val combined = one.combine(two)
+        println(combined)
+//        val expected = listOf(Resource(wood = 1, glass = 1), Resource(wood = 1, papyrus = 1), Resource(clay = 1, papyrus = 1), Resource(clay = 1, papyrus = 1))
+//        val filtered = expected.filter { !combined.contains(it) }
+//        assertEquals(filtered, listOf())
+//        assertSame(expected, combined)
     }
 }
 
