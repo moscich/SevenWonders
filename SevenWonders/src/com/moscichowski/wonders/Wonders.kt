@@ -25,6 +25,9 @@ class Wonders {
                     node.descendants.remove(wantedNode.card)
                 }
                 player.gold -= requiredGold
+
+                resolveCommonFeatures(action.card.features, player)
+
                 gameState.currentPlayer = (gameState.currentPlayer + 1) % 2
                 player.cards.add(action.card)
             }
@@ -83,10 +86,7 @@ class Wonders {
                     opponent.gold = max(0, opponent.gold)
                 }
 
-                val addGoldFeature = action.wonder.features.find { it is AddGold }
-                if (addGoldFeature != null && addGoldFeature is AddGold) {
-                    player.gold += addGoldFeature.gold
-                }
+                resolveCommonFeatures(action.wonder.features, player)
 
                 if (action.wonder.features.find { it is ExtraTurn } == null) {
                     gameState.currentPlayer = (gameState.currentPlayer + 1) % 2
@@ -100,6 +100,13 @@ class Wonders {
                         return@map it
                     }}
             }
+        }
+    }
+
+    private fun resolveCommonFeatures(features: List<CardFeature>, player: Player) {
+        val addGoldFeature = features.find { it is AddGold }
+        if (addGoldFeature != null && addGoldFeature is AddGold) {
+            player.gold += addGoldFeature.gold
         }
     }
 

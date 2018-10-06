@@ -462,6 +462,16 @@ class WondersTests {
     }
 
     @Test
+    fun addGoldBuyCardFeature() {
+        val player1 = Player(6)
+        val (wonders, card) = game(player1, Player(6), cardWithFeature(AddGold(3)))
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(9, player1.gold)
+    }
+
+    @Test
     fun resourceCombiner() {
         val one = Resource(wood = 1, clay = 1)
         val two = Resource(glass = 1, papyrus = 1)
@@ -487,6 +497,10 @@ class WondersTests {
     }
 }
 
+fun cardWithFeature(feature: CardFeature): Card {
+    return Card("Fixture Card", features = listOf(feature))
+}
+
 fun player(wonder: Wonder): Pair<Player, Wonder> {
     val player1 = Player(6)
     player1.wonders = mutableListOf(Pair(false, wonder))
@@ -497,8 +511,7 @@ fun wonderWithFeature(feature: CardFeature): Wonder {
     return Wonder("Fixture wonder", features = listOf(feature))
 }
 
-fun game(player: Player, opponent: Player = Player(6)): Triple<Wonders, Card, Player> {
-    val card = Card("Some card")
+fun game(player: Player, opponent: Player = Player(6), card: Card = Card("Some card")): Triple<Wonders, Card, Player> {
     val node = BoardNode(card)
     val board = Board(mutableListOf(node))
 
