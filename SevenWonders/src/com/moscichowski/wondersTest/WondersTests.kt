@@ -452,6 +452,16 @@ class WondersTests {
     }
 
     @Test
+    fun addGoldFeature() {
+        val (player1, wonder) = player(wonderWithFeature(AddGold(5)))
+        val (wonders, card) = game(player1, Player(1))
+
+        wonders.takeAction(BuildWonder(card, wonder))
+
+        assertEquals(11, player1.gold)
+    }
+
+    @Test
     fun resourceCombiner() {
         val one = Resource(wood = 1, clay = 1)
         val two = Resource(glass = 1, papyrus = 1)

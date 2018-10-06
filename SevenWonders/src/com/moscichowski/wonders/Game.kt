@@ -76,6 +76,7 @@ enum class CardColor {
 
 sealed class CardFeature
 data class ProvideResource(val resource: Resource) : CardFeature()
+data class AddGold(val gold: Int) : CardFeature()
 object WoodWarehouse : CardFeature()
 object ClayWarehouse : CardFeature()
 object StoneWarehouse : CardFeature()

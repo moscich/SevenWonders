@@ -83,6 +83,11 @@ class Wonders {
                     opponent.gold = max(0, opponent.gold)
                 }
 
+                val addGoldFeature = action.wonder.features.find { it is AddGold }
+                if (addGoldFeature != null && addGoldFeature is AddGold) {
+                    player.gold += addGoldFeature.gold
+                }
+
                 if (action.wonder.features.find { it is ExtraTurn } == null) {
                     gameState.currentPlayer = (gameState.currentPlayer + 1) % 2
                 }
