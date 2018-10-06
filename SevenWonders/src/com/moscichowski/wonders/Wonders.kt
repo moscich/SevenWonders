@@ -42,7 +42,7 @@ class Wonders {
 
                 val requiredGold = checkHowMuch(action.card, action.wonder.cost)
 
-                val opponent = if (gameState.currentPlayer == 1) gameState.player1 else gameState.player2
+                val opponent = gameState.opponent
 
                 if (player.gold < requiredGold) {
                     throw WonderBuildFailed()
@@ -98,7 +98,8 @@ class Wonders {
                         return@map Pair(true, it.second)
                     } else {
                         return@map it
-                    }}
+                    }
+                }
             }
         }
     }
@@ -107,6 +108,17 @@ class Wonders {
         val addGoldFeature = features.find { it is AddGold }
         if (addGoldFeature != null && addGoldFeature is AddGold) {
             player.gold += addGoldFeature.gold
+        }
+        val militaryFeature = features.find { it is Military }
+        if (militaryFeature != null && militaryFeature is Military) {
+            gameState.military += if (gameState.currentPlayer == 0) {
+                militaryFeature.points
+            } else {
+                -militaryFeature.points
+            }
+            if(gameState.military > 2) {
+                gameState.opponent.gold -= 2
+            }
         }
     }
 

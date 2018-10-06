@@ -472,6 +472,30 @@ class WondersTests {
     }
 
     @Test
+    fun militarySimple() {
+        val player1 = Player(6)
+        val (wonders, card) = game(player1, Player(6), cardWithFeature(Military(2)))
+        wonders.takeAction(TakeCard(card))
+        assertEquals(2, wonders.gameState.military)
+    }
+
+    @Test
+    fun militaryOpponent() {
+        val player1 = Player(6)
+        val (wonders, card) = game(player1, Player(6), cardWithFeature(Military(2)), 1)
+        wonders.takeAction(TakeCard(card))
+        assertEquals(-2, wonders.gameState.military)
+    }
+
+    @Test
+    fun militaryTakeGold() {
+        val player1 = Player(6)
+        val (wonders, card, opponent) = game(player1, Player(6), cardWithFeature(Military(3)))
+        wonders.takeAction(TakeCard(card))
+        assertEquals(4, opponent.gold)
+    }
+
+    @Test
     fun resourceCombiner() {
         val one = Resource(wood = 1, clay = 1)
         val two = Resource(glass = 1, papyrus = 1)
@@ -511,11 +535,12 @@ fun wonderWithFeature(feature: CardFeature): Wonder {
     return Wonder("Fixture wonder", features = listOf(feature))
 }
 
-fun game(player: Player, opponent: Player = Player(6), card: Card = Card("Some card")): Triple<Wonders, Card, Player> {
+fun game(player: Player, opponent: Player = Player(6), card: Card = Card("Some card"), currentPlayer: Int = 0): Triple<Wonders, Card, Player> {
     val node = BoardNode(card)
     val board = Board(mutableListOf(node))
 
     val game = Game(player, opponent, board)
+    game.currentPlayer = currentPlayer
     val wonders = Wonders(game)
     return Triple(wonders, card, opponent)
 }

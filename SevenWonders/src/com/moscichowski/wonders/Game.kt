@@ -3,8 +3,14 @@ package com.moscichowski.wonders
 data class Game(val player1: Player,
                 val player2: Player,
                 val board: Board,
-                var currentPlayer: Int = 0
-)
+                var currentPlayer: Int = 0,
+                var military: Int = 0
+) {
+    val opponent: Player
+        get() = if (currentPlayer == 1) {
+            player1
+        } else  {player2}
+}
 
 data class Player internal constructor(var gold: Int) {
     val cards: MutableList<Card> = mutableListOf()
@@ -77,6 +83,7 @@ enum class CardColor {
 sealed class CardFeature
 data class ProvideResource(val resource: Resource) : CardFeature()
 data class AddGold(val gold: Int) : CardFeature()
+data class Military(val points: Int) : CardFeature()
 object WoodWarehouse : CardFeature()
 object ClayWarehouse : CardFeature()
 object StoneWarehouse : CardFeature()
