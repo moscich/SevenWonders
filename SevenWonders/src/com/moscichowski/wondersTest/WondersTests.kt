@@ -431,6 +431,25 @@ class WondersTests {
         }
     }
 
+    @Test
+    fun removeGoldFeature() {
+        val (player1, wonder) = player(wonderWithFeature(RemoveGold))
+        val (wonders, card, opponent) = game(player1)
+
+        wonders.takeAction(BuildWonder(card, wonder))
+
+        assertEquals(3, opponent.gold)
+    }
+
+    @Test
+    fun removeGoldFeatureDonGoNegative() {
+        val (player1, wonder) = player(wonderWithFeature(RemoveGold))
+        val (wonders, card, opponent) = game(player1, Player(1))
+
+        wonders.takeAction(BuildWonder(card, wonder))
+
+        assertEquals(0, opponent.gold)
+    }
 
     @Test
     fun resourceCombiner() {
@@ -456,6 +475,26 @@ class WondersTests {
 //        assertEquals(filtered, listOf())
 //        assertSame(expected, combined)
     }
+}
+
+fun player(wonder: Wonder): Pair<Player, Wonder> {
+    val player1 = Player(6)
+    player1.wonders = mutableListOf(Pair(false, wonder))
+    return Pair(player1, wonder)
+}
+
+fun wonderWithFeature(feature: CardFeature): Wonder {
+    return Wonder("Fixture wonder", features = listOf(feature))
+}
+
+fun game(player: Player, opponent: Player = Player(6)): Triple<Wonders, Card, Player> {
+    val card = Card("Some card")
+    val node = BoardNode(card)
+    val board = Board(mutableListOf(node))
+
+    val game = Game(player, opponent, board)
+    val wonders = Wonders(game)
+    return Triple(wonders, card, opponent)
 }
 
 data class Wonder(val name: String, val cost: Resource = Resource(), val features: List<CardFeature> = mutableListOf())

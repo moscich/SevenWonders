@@ -78,6 +78,11 @@ class Wonders {
                 }
                 player.gold -= requiredGold
 
+                if (action.wonder.features.find { it is RemoveGold } != null) {
+                    opponent.gold -= 3
+                    opponent.gold = max(0, opponent.gold)
+                }
+
                 if (action.wonder.features.find { it is ExtraTurn } == null) {
                     gameState.currentPlayer = (gameState.currentPlayer + 1) % 2
                 }
