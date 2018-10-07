@@ -489,10 +489,38 @@ class WondersTests {
 
     @Test
     fun militaryTakeGold() {
-        val player1 = Player(6)
-        val (wonders, card, opponent) = game(player1, Player(6), cardWithFeature(Military(3)))
-        wonders.takeAction(TakeCard(card))
-        assertEquals(4, opponent.gold)
+        val (wonders, cards, opponent) = game((0..10).map { Military(2) }, Player(10))
+
+        wonders.gameState.military = 2
+        wonders.takeAction(TakeCard(cards[0]))
+
+        assertEquals(8, opponent.gold)
+
+        wonders.gameState.military = 2
+        wonders.gameState.currentPlayer = 0
+
+        wonders.takeAction(TakeCard(cards[1]))
+
+        assertEquals(8, opponent.gold)
+        wonders.gameState.military = 4
+        wonders.gameState.currentPlayer = 0
+        wonders.takeAction(TakeCard(cards[1]))
+
+        assertEquals(3, opponent.gold)
+
+        wonders.gameState.military = -2
+        wonders.gameState.currentPlayer = 1
+
+        wonders.takeAction(TakeCard(cards[2]))
+
+        assertEquals(4, wonders.gameState.player1.gold)
+
+        wonders.gameState.player1.gold = 6
+        wonders.gameState.military = -5
+        wonders.gameState.currentPlayer = 1
+        wonders.takeAction(TakeCard(cards[3]))
+        assertEquals(1, wonders.gameState.player1.gold)
+        assertEquals(0, wonders.gameState.militaryThresholds.count())
     }
 
     @Test
@@ -540,6 +568,15 @@ fun player(wonder: Wonder): Pair<Player, Wonder> {
 
 fun wonderWithFeature(feature: CardFeature): Wonder {
     return Wonder("Fixture wonder", features = listOf(feature))
+}
+
+fun game(features: List<CardFeature>, opponent: Player = Player(6)): Triple<Wonders, List<Card>, Player> {
+    val cards = features.map { Card("Test", features = listOf(it)) }// listOf(Card("Test"), )
+    val nodes = cards.map { BoardNode(it) }
+    val board = Board(nodes)
+    val game = Game(Player(6), opponent, board)
+    val wonders = Wonders(game)
+    return Triple(wonders, cards, opponent)
 }
 
 fun game(player: Player, opponent: Player = Player(6), card: Card = Card("Some card"), currentPlayer: Int = 0): Triple<Wonders, Card, Player> {

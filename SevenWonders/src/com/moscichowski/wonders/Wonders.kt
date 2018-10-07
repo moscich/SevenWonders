@@ -116,9 +116,13 @@ class Wonders {
             } else {
                 -militaryFeature.points
             }
-            if(gameState.military > 2) {
-                gameState.opponent.gold -= 2
-            }
+            val activatedThresholds = gameState.militaryThresholds
+                    .filter {
+                        (it.player == 0 && gameState.military >= it.position)
+                        || (it.player == 1 && -gameState.military >= it.position)
+                    }
+            activatedThresholds.forEach { gameState.opponent.gold -= it.gold }
+            gameState.militaryThresholds.removeAll(activatedThresholds)
         }
     }
 

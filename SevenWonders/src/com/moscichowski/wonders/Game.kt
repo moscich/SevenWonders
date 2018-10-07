@@ -4,11 +4,21 @@ import kotlin.math.max
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
 
+data class MilitaryThreashold(val player: Int,
+                              val position: Int,
+                              val gold: Int)
+
 data class Game(val player1: Player,
                 val player2: Player,
                 val board: Board,
                 var currentPlayer: Int = 0,
-                var military: Int = 0
+                var military: Int = 0,
+                val militaryThresholds: MutableList<MilitaryThreashold> = mutableListOf(
+                        MilitaryThreashold(0, 3, 2),
+                        MilitaryThreashold(0, 6, 5),
+                        MilitaryThreashold(1, 3, 2),
+                        MilitaryThreashold(1, 6, 5)
+                        )
 ) {
     val opponent: Player
         get() = if (currentPlayer == 1) {
@@ -39,8 +49,9 @@ data class Player internal constructor(var gold_: Int) {
     }
 }
 
-data class Board(val cards: MutableList<BoardNode>)
-
+data class Board(val cards_: List<BoardNode>) {
+val cards = cards_.toMutableList()
+}
 data class BoardNode(private val innerCard: Card, val descendants: MutableList<Card> = mutableListOf(), private val hidden: Boolean = false) {
     val card: Card?
         get() {
