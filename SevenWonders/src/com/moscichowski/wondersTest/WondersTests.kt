@@ -1,5 +1,6 @@
-package com.moscichowski.wonders
+package com.moscichowski.wondersTest
 
+import com.moscichowski.wonders.*
 import org.junit.Test
 import kotlin.test.*
 
@@ -545,6 +546,16 @@ class WondersTests {
     }
 
     @Test
+    fun takeCardForFree() {
+        val (wonders, card, player) = gameWithCard(Card("Test", cost = Resource(wood = 2, gold = 1), freeSymbol = CardFreeSymbol.SWORD))
+        player.cards.add(Card("Free symbol", features = listOf(FreeSymbol(CardFreeSymbol.SWORD))))
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(6, player.gold)
+    }
+
+    @Test
     fun goldCantGetNegative() {
         val player = Player(6)
         player.gold -= 7
@@ -604,6 +615,16 @@ fun game(features: List<CardFeature>, opponent: Player = Player(6)): Triple<Wond
     return Triple(wonders, cards, opponent)
 }
 
+fun gameWithCard(card: Card = Card("Some card")): Triple<Wonders, Card, Player> {
+    val node = BoardNode(card)
+    val board = Board(mutableListOf(node))
+
+    val player1 = Player(6)
+    val game = Game(player1, Player(6), board)
+    val wonders = Wonders(game)
+    return Triple(wonders, card, player1)
+}
+
 fun game(player: Player, opponent: Player = Player(6), card: Card = Card("Some card"), currentPlayer: Int = 0): Triple<Wonders, Card, Player> {
     val node = BoardNode(card)
     val board = Board(mutableListOf(node))
@@ -628,4 +649,4 @@ fun game(): Triple<Wonders, Card, Player> {
 data class Wonder(val name: String, val cost: Resource = Resource(), val features: List<CardFeature> = mutableListOf())
 
 //@SuppressWarnings("lowercase")
-fun Card(name: String, cost: Resource = Resource(), features: List<CardFeature> = mutableListOf()): Card = Card(name, CardColor.BROWN, cost, features)
+fun Card(name: String, cost: Resource = Resource(), features: List<CardFeature> = mutableListOf(), freeSymbol: CardFreeSymbol? = null): Card = Card(name, CardColor.BROWN, cost, features, freeSymbol)

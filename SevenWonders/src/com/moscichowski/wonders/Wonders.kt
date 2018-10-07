@@ -1,5 +1,6 @@
 package com.moscichowski.wonders
 
+import com.moscichowski.wondersTest.Wonder
 import kotlin.math.max
 
 class Wonders {
@@ -18,7 +19,11 @@ class Wonders {
                     node.card == action.card
                 } ?: throw Error()
 
-                val requiredGold = checkHowMuch(action.card, action.card.cost)
+                val requiredGold = if (player.hasFreeSymbol(action.card.freeSymbol)) {
+                    0
+                } else {
+                    checkHowMuch(action.card, action.card.cost)
+                }
 
                 gameState.board.cards.remove(wantedNode)
                 gameState.board.cards.forEach { node: BoardNode ->

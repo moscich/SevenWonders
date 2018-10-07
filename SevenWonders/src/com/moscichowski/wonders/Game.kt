@@ -1,5 +1,6 @@
 package com.moscichowski.wonders
 
+import com.moscichowski.wondersTest.Wonder
 import kotlin.math.max
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
@@ -51,6 +52,10 @@ data class Player internal constructor(var gold_: Int) {
     fun goldCardsCount(): Int {
         return cards.filter { it.color == CardColor.GOLD }.count()
     }
+
+    fun hasFreeSymbol(symbol: CardFreeSymbol?): Boolean {
+        return cards.flatMap { it.features }.find { it is FreeSymbol && it.symbol == symbol } != null
+    }
 }
 
 data class Board(val cards_: List<BoardNode>) {
@@ -101,7 +106,15 @@ data class Resource(val wood: Int = 0,
     }
 }
 
-data class Card(val name: String, val color: CardColor, val cost: Resource = Resource(), val features: List<CardFeature> = listOf())
+enum class CardFreeSymbol {
+    SWORD
+}
+
+data class Card(val name: String,
+                val color: CardColor,
+                val cost: Resource = Resource(),
+                val features: List<CardFeature> = listOf(),
+                val freeSymbol: CardFreeSymbol? = null)
 
 enum class CardColor {
     BROWN, SILVER, GOLD
@@ -111,6 +124,7 @@ sealed class CardFeature
 data class ProvideResource(val resource: Resource) : CardFeature()
 data class AddGold(val gold: Int) : CardFeature()
 data class Military(val points: Int) : CardFeature()
+data class FreeSymbol(val symbol: CardFreeSymbol) : CardFeature()
 object WoodWarehouse : CardFeature()
 object ClayWarehouse : CardFeature()
 object StoneWarehouse : CardFeature()
