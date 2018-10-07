@@ -556,6 +556,24 @@ class WondersTests {
     }
 
     @Test
+    fun takeScience() {
+        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(Science(ScienceSymbol.WHEEL))))
+        player.cards.add(Card("Science", features = listOf(Science(ScienceSymbol.WHEEL))))
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(GameState.CHOOSE_SCIENCE, wonders.gameState.state)
+    }
+
+    @Test
+    fun cantTakeCardWhenNotInRegularState() {
+        val (wonders, card) = gameWithCard(Card("Test"))
+        wonders.gameState.state = GameState.CHOOSE_SCIENCE
+
+        assertFails { wonders.takeAction(TakeCard(card)) }
+    }
+
+    @Test
     fun goldCantGetNegative() {
         val player = Player(6)
         player.gold -= 7

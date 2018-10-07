@@ -14,6 +14,7 @@ data class Game(val player1: Player,
                 val board: Board,
                 var currentPlayer: Int = 0,
                 var military: Int = 0,
+                var state: GameState = GameState.REGULAR,
                 val militaryThresholds: MutableList<MilitaryThreashold> = mutableListOf(
                         MilitaryThreashold(0, 3, 2),
                         MilitaryThreashold(0, 6, 5),
@@ -25,6 +26,10 @@ data class Game(val player1: Player,
         get() = if (currentPlayer == 1) {
             player1
         } else  {player2}
+}
+
+enum class GameState {
+    REGULAR, CHOOSE_SCIENCE
 }
 
 data class Player internal constructor(var gold_: Int) {
@@ -55,6 +60,11 @@ data class Player internal constructor(var gold_: Int) {
 
     fun hasFreeSymbol(symbol: CardFreeSymbol?): Boolean {
         return cards.flatMap { it.features }.find { it is FreeSymbol && it.symbol == symbol } != null
+    }
+
+    fun hasScienceSymbolFromFeatures(features: List<CardFeature>): Boolean {
+        val symbol = (features.find { it is Science } as? Science)?.science
+        return cards.flatMap { it.features }.find { it is Science && it.science == symbol } != null
     }
 }
 
@@ -110,6 +120,10 @@ enum class CardFreeSymbol {
     SWORD
 }
 
+enum class ScienceSymbol {
+    WHEEL
+}
+
 data class Card(val name: String,
                 val color: CardColor,
                 val cost: Resource = Resource(),
@@ -125,6 +139,7 @@ data class ProvideResource(val resource: Resource) : CardFeature()
 data class AddGold(val gold: Int) : CardFeature()
 data class Military(val points: Int) : CardFeature()
 data class FreeSymbol(val symbol: CardFreeSymbol) : CardFeature()
+data class Science(val science: ScienceSymbol) : CardFeature()
 object WoodWarehouse : CardFeature()
 object ClayWarehouse : CardFeature()
 object StoneWarehouse : CardFeature()

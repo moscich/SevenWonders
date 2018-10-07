@@ -3,14 +3,24 @@ package com.moscichowski.wonders
 import com.moscichowski.wondersTest.Wonder
 import kotlin.math.max
 
-class Wonders {
-    val gameState: Game
-
-    constructor(state: Game) {
-        this.gameState = state
-    }
+class Wonders(state: Game) {
+    val gameState: Game = state
 
     fun takeAction(action: Action) {
+        when(gameState.state) {
+            GameState.REGULAR -> regularAciton(action)
+            GameState.CHOOSE_SCIENCE -> chooseScienceAction(action)
+        }
+    }
+
+    private fun chooseScienceAction(action: Action) {
+        when (action) {
+            is ChooseScience -> {
+            } else -> { throw Error() }
+        }
+    }
+
+    private fun regularAciton(action: Action) {
         when (action) {
             is TakeCard -> {
 
@@ -33,8 +43,13 @@ class Wonders {
 
                 resolveCommonFeatures(action.card.features, player)
 
-                gameState.currentPlayer = (gameState.currentPlayer + 1) % 2
+                if(player.hasScienceSymbolFromFeatures(action.card.features)) {
+                    gameState.state = GameState.CHOOSE_SCIENCE
+                }
+
                 player.cards.add(action.card)
+
+                gameState.currentPlayer = (gameState.currentPlayer + 1) % 2
             }
             is BuildWonder -> {
                 val player = if (gameState.currentPlayer == 0) gameState.player1 else gameState.player2
@@ -118,7 +133,7 @@ class Wonders {
                 }
 
                 player.gold += 2 + player.goldCardsCount()
-            }
+            } else -> { }
         }
     }
 
@@ -240,6 +255,7 @@ class Wonders {
 
 sealed class Action
 data class TakeCard(val card: Card) : Action()
+data class ChooseScience(val oewijf: Int) : Action()
 data class SellCard(val card: Card) : Action()
 data class BuildWonder(val card: Card, val wonder: Wonder, var param: Any? = null) : Action()
 
