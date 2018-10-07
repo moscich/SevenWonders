@@ -47,6 +47,10 @@ data class Player internal constructor(var gold_: Int) {
             }
         }
     }
+
+    fun goldCardsCount(): Int {
+        return cards.filter { it.color == CardColor.GOLD }.count()
+    }
 }
 
 data class Board(val cards_: List<BoardNode>) {
@@ -100,7 +104,7 @@ data class Resource(val wood: Int = 0,
 data class Card(val name: String, val color: CardColor, val cost: Resource = Resource(), val features: List<CardFeature> = listOf())
 
 enum class CardColor {
-    BROWN, SILVER
+    BROWN, SILVER, GOLD
 }
 
 sealed class CardFeature

@@ -524,6 +524,27 @@ class WondersTests {
     }
 
     @Test
+    fun sellCard() {
+        val (wonders, card, player) = game()
+
+        wonders.takeAction(SellCard(card))
+
+        assertEquals(8, player.gold)
+    }
+
+    @Test
+    fun sellCardGoldCards() {
+        val (wonders, card, player) = game()
+
+        player.cards.add(cardWithColor(CardColor.GOLD))
+        player.cards.add(cardWithColor(CardColor.GOLD))
+
+        wonders.takeAction(SellCard(card))
+
+        assertEquals(10, player.gold)
+    }
+
+    @Test
     fun goldCantGetNegative() {
         val player = Player(6)
         player.gold -= 7
@@ -554,6 +575,10 @@ class WondersTests {
 //        assertEquals(filtered, listOf())
 //        assertSame(expected, combined)
     }
+}
+
+fun cardWithColor(color: CardColor): Card {
+    return Card("Color card test", color)
 }
 
 fun cardWithFeature(feature: CardFeature): Card {
@@ -587,6 +612,17 @@ fun game(player: Player, opponent: Player = Player(6), card: Card = Card("Some c
     game.currentPlayer = currentPlayer
     val wonders = Wonders(game)
     return Triple(wonders, card, opponent)
+}
+
+fun game(): Triple<Wonders, Card, Player> {
+    val card = Card("Test")
+    val node = BoardNode(card)
+    val board = Board(mutableListOf(node))
+
+    val player1 = Player(6)
+    val game = Game(player1, Player(6), board)
+    val wonders = Wonders(game)
+    return Triple(wonders, card, player1)
 }
 
 data class Wonder(val name: String, val cost: Resource = Resource(), val features: List<CardFeature> = mutableListOf())

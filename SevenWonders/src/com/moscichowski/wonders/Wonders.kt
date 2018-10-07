@@ -101,6 +101,19 @@ class Wonders {
                     }
                 }
             }
+            is SellCard -> {
+                val player = if (gameState.currentPlayer == 0) gameState.player1 else gameState.player2
+                val wantedNode = gameState.board.cards.find { node ->
+                    node.card == action.card
+                } ?: throw Error()
+
+                gameState.board.cards.remove(wantedNode)
+                gameState.board.cards.forEach { node: BoardNode ->
+                    node.descendants.remove(wantedNode.card)
+                }
+
+                player.gold += 2 + player.goldCardsCount()
+            }
         }
     }
 
@@ -222,6 +235,7 @@ class Wonders {
 
 sealed class Action
 data class TakeCard(val card: Card) : Action()
+data class SellCard(val card: Card) : Action()
 data class BuildWonder(val card: Card, val wonder: Wonder, var param: Any? = null) : Action()
 
 class WonderBuildFailed : Error() {
