@@ -8,7 +8,7 @@ class Wonders(state: Game) {
 
     fun takeAction(action: Action) {
         when(gameState.state) {
-            GameState.REGULAR -> regularAciton(action)
+            GameState.REGULAR -> regularAction(action)
             GameState.CHOOSE_SCIENCE -> chooseScienceAction(action)
         }
     }
@@ -16,11 +16,14 @@ class Wonders(state: Game) {
     private fun chooseScienceAction(action: Action) {
         when (action) {
             is ChooseScience -> {
+                val index = gameState.scienceTokens.indexOfFirst { it.second == action.token }
+                if (index == -1) { throw Error() }
+                gameState.scienceTokens[index] = Pair(gameState.currentPlayer, action.token)
             } else -> { throw Error() }
         }
     }
 
-    private fun regularAciton(action: Action) {
+    private fun regularAction(action: Action) {
         when (action) {
             is TakeCard -> {
 
@@ -255,7 +258,7 @@ class Wonders(state: Game) {
 
 sealed class Action
 data class TakeCard(val card: Card) : Action()
-data class ChooseScience(val oewijf: Int) : Action()
+data class ChooseScience(val token: ScienceToken) : Action()
 data class SellCard(val card: Card) : Action()
 data class BuildWonder(val card: Card, val wonder: Wonder, var param: Any? = null) : Action()
 

@@ -15,6 +15,7 @@ data class Game(val player1: Player,
                 var currentPlayer: Int = 0,
                 var military: Int = 0,
                 var state: GameState = GameState.REGULAR,
+                val scienceTokens: MutableList<Pair<Int?, ScienceToken>> = mutableListOf(),
                 val militaryThresholds: MutableList<MilitaryThreashold> = mutableListOf(
                         MilitaryThreashold(0, 3, 2),
                         MilitaryThreashold(0, 6, 5),
@@ -122,6 +123,10 @@ enum class CardFreeSymbol {
 
 enum class ScienceSymbol {
     WHEEL
+}
+
+enum class ScienceToken {
+    ENGINEERING
 }
 
 data class Card(val name: String,

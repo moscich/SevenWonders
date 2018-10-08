@@ -574,6 +574,18 @@ class WondersTests {
     }
 
     @Test
+    fun chooseScience() {
+        val wonders = Wonders(Game(Player(6), Player(6), Board(listOf())))
+        wonders.gameState.state = GameState.CHOOSE_SCIENCE
+        wonders.gameState.scienceTokens.add(Pair(null, ScienceToken.ENGINEERING))
+
+        wonders.takeAction(ChooseScience(ScienceToken.ENGINEERING))
+
+        assertEquals(0, wonders.gameState.scienceTokens[0].first)
+        assertEquals(ScienceToken.ENGINEERING, wonders.gameState.scienceTokens[0].second)
+    }
+
+    @Test
     fun goldCantGetNegative() {
         val player = Player(6)
         player.gold -= 7
