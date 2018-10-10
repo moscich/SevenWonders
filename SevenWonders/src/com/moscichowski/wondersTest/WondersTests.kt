@@ -590,19 +590,19 @@ class WondersTests {
         assertEquals(ScienceToken.ENGINEERING, wonders.game.scienceTokens[0].second)
     }
 
-//    @Test
-//    fun architecture() {
-//        val (wonders, card, player) = game()
-//        val wonder = Wonder("Some wonder", Resource(1, 1, 1, 1, 1))
-//        wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 2, 3, 4, 5)))))
-//        wonders.game.scienceTokens.add(Pair(0, ScienceToken.ARCHITECTURE))
-//        player.wonders = listOf(Pair(false, wonder))
-//        player.gold = 16
-//
-//        wonders.takeAction(BuildWonder(card, wonder))
-//
-//        assertEquals(4, player.gold)
-//    }
+    @Test
+    fun architecture() {
+        val (wonders, card, player) = game()
+        val wonder = Wonder("Some wonder", Resource(1, 1, 1, 1, 1))
+        wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 2, 3, 4, 5)))))
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.ARCHITECTURE))
+        player.wonders = listOf(Pair(false, wonder))
+        player.gold = 16
+
+        wonders.takeAction(BuildWonder(card, wonder))
+
+        assertEquals(4, player.gold)
+    }
 
     @Test
     fun goldCantGetNegative() {

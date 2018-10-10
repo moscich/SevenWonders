@@ -89,4 +89,11 @@ class WonderBuilder: ActionPerformer() {
             }
         }
     }
+
+    override fun resourcesToCombine(): MutableList<Resource> {
+        return mutableListOf(
+                Resource(wood = 1, clay = 1, stone = 1, papyrus = 1, glass = 1),
+                Resource(wood = 1, clay = 1, stone = 1, papyrus = 1, glass = 1)
+        )
+    }
 }
