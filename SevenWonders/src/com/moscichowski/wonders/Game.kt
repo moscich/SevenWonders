@@ -139,15 +139,31 @@ enum class CardColor {
     BROWN, SILVER, GOLD
 }
 
+enum class WarehouseType {
+    WOOD {
+        override fun cost(resource: Resource): Int {
+            return resource.wood
+        }
+    }, CLAY {
+        override fun cost(resource: Resource): Int {
+            return resource.clay
+        }
+    }, STONE {
+        override fun cost(resource: Resource): Int {
+            return resource.stone
+        }
+    };
+
+    abstract fun cost(resource: Resource): Int
+}
+
 sealed class CardFeature
 data class ProvideResource(val resource: Resource) : CardFeature()
 data class AddGold(val gold: Int) : CardFeature()
 data class Military(val points: Int) : CardFeature()
 data class FreeSymbol(val symbol: CardFreeSymbol) : CardFeature()
 data class Science(val science: ScienceSymbol) : CardFeature()
-object WoodWarehouse : CardFeature()
-object ClayWarehouse : CardFeature()
-object StoneWarehouse : CardFeature()
+data class Warehouse(val type: WarehouseType) : CardFeature()
 object DestroyBrownCard : CardFeature()
 object DestroySilverCard : CardFeature()
 object ExtraTurn : CardFeature()

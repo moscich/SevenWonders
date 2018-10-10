@@ -1,6 +1,7 @@
 package com.moscichowski.wonders
 
 import com.moscichowski.wondersTest.Wonder
+import com.sun.org.apache.xpath.internal.operations.Bool
 import kotlin.math.max
 
 class Wonders(state: Game) {
@@ -180,21 +181,9 @@ class Wonders(state: Game) {
         val providedResourcesPossibilities = player.providedResources()
 
         val playerFeatures = player.cards.flatMap { it.features }
-        val woodCost = if (playerFeatures.find { it is WoodWarehouse } != null) {
-            1
-        } else {
-            opponentResource.wood + 2
-        }
-        val clayCost = if (playerFeatures.find { it is ClayWarehouse } != null) {
-            1
-        } else {
-            opponentResource.clay + 2
-        }
-        val stoneCost = if (playerFeatures.find { it is StoneWarehouse } != null) {
-            1
-        } else {
-            opponentResource.stone + 2
-        }
+        val woodCost = playerFeatures.cost(WarehouseType.WOOD, opponentResource)
+        val clayCost = playerFeatures.cost(WarehouseType.CLAY, opponentResource)
+        val stoneCost = playerFeatures.cost(WarehouseType.STONE, opponentResource)
 
         val requiredGold = providedResourcesPossibilities.asSequence().map { providedResources ->
             max(0, cost.clay - providedResources.clay) * clayCost +
@@ -246,13 +235,18 @@ class Wonders(state: Game) {
             result.forEach { resultResource ->
                 newResult.addAll(resultResource.combine(it))
             }
-            result = newResult//result.first().combine(it)
+            result = newResult
         }
-//        if (toCombine.count() > 0) {
-//            result = result.first().combine(toCombine.first())
-//        }
 
         return result
+    }
+
+    private fun List<CardFeature>.cost(type: WarehouseType, opponentResource: Resource): Int {
+        return if (find { it is Warehouse && it.type == type } != null) {
+            1
+        } else {
+            type.cost(opponentResource) + 2
+        }
     }
 }
 
