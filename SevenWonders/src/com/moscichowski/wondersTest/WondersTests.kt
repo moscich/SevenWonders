@@ -52,7 +52,7 @@ class WondersTests {
         val startingState = game.copy()
         val wonders = Wonders(game)
         assertFails { wonders.takeAction(TakeCard(card)) }
-        assertEquals(startingState, wonders.gameState)
+        assertEquals(startingState, wonders.game)
     }
 
     @Test
@@ -63,7 +63,7 @@ class WondersTests {
         val startingState = game.copy()
         val wonders = Wonders(game)
         assertFails { wonders.takeAction(TakeCard(card)) }
-        assertEquals(startingState, wonders.gameState)
+        assertEquals(startingState, wonders.game)
     }
 
     @Test
@@ -77,7 +77,7 @@ class WondersTests {
         val startingState = game.copy()
         val wonders = Wonders(game)
         assertFails { wonders.takeAction(TakeCard(Card("Parent"))) }
-        assertEquals(startingState, wonders.gameState)
+        assertEquals(startingState, wonders.game)
     }
 
     @Test
@@ -117,12 +117,12 @@ class WondersTests {
         val board = Board(mutableListOf(availableNode, unavailableNode))
         val game = Game(Player(1), Player(2), board)
         val wonders = Wonders(game)
-        val hiddenCard = wonders.gameState.board.cards.firstOrNull { boardNode -> boardNode.card == null }
-        val visibleCard = wonders.gameState.board.cards.firstOrNull { boardNode -> boardNode.card == availableCard }
+        val hiddenCard = wonders.game.board.cards.firstOrNull { boardNode -> boardNode.card == null }
+        val visibleCard = wonders.game.board.cards.firstOrNull { boardNode -> boardNode.card == availableCard }
         assertNotNull(hiddenCard)
         assertNotNull(visibleCard)
         wonders.takeAction(TakeCard(availableCard))
-        assertEquals(parentCard, wonders.gameState.board.cards[0].card)
+        assertEquals(parentCard, wonders.game.board.cards[0].card)
     }
 
     @Test
@@ -477,7 +477,7 @@ class WondersTests {
         val player1 = Player(6)
         val (wonders, card) = game(player1, Player(6), cardWithFeature(Military(2)))
         wonders.takeAction(TakeCard(card))
-        assertEquals(2, wonders.gameState.military)
+        assertEquals(2, wonders.game.military)
     }
 
     @Test
@@ -485,43 +485,43 @@ class WondersTests {
         val player1 = Player(6)
         val (wonders, card) = game(player1, Player(6), cardWithFeature(Military(2)), 1)
         wonders.takeAction(TakeCard(card))
-        assertEquals(-2, wonders.gameState.military)
+        assertEquals(-2, wonders.game.military)
     }
 
     @Test
     fun militaryTakeGold() {
         val (wonders, cards, opponent) = game((0..10).map { Military(2) }, Player(10))
 
-        wonders.gameState.military = 2
+        wonders.game.military = 2
         wonders.takeAction(TakeCard(cards[0]))
 
         assertEquals(8, opponent.gold)
 
-        wonders.gameState.military = 2
-        wonders.gameState.currentPlayer = 0
+        wonders.game.military = 2
+        wonders.game.currentPlayer = 0
 
         wonders.takeAction(TakeCard(cards[1]))
 
         assertEquals(8, opponent.gold)
-        wonders.gameState.military = 4
-        wonders.gameState.currentPlayer = 0
+        wonders.game.military = 4
+        wonders.game.currentPlayer = 0
         wonders.takeAction(TakeCard(cards[1]))
 
         assertEquals(3, opponent.gold)
 
-        wonders.gameState.military = -2
-        wonders.gameState.currentPlayer = 1
+        wonders.game.military = -2
+        wonders.game.currentPlayer = 1
 
         wonders.takeAction(TakeCard(cards[2]))
 
-        assertEquals(4, wonders.gameState.player1.gold)
+        assertEquals(4, wonders.game.player1.gold)
 
-        wonders.gameState.player1.gold = 6
-        wonders.gameState.military = -5
-        wonders.gameState.currentPlayer = 1
+        wonders.game.player1.gold = 6
+        wonders.game.military = -5
+        wonders.game.currentPlayer = 1
         wonders.takeAction(TakeCard(cards[3]))
-        assertEquals(1, wonders.gameState.player1.gold)
-        assertEquals(0, wonders.gameState.militaryThresholds.count())
+        assertEquals(1, wonders.game.player1.gold)
+        assertEquals(0, wonders.game.militaryThresholds.count())
     }
 
     @Test
@@ -567,13 +567,13 @@ class WondersTests {
 
         wonders.takeAction(TakeCard(card))
 
-        assertEquals(GameState.CHOOSE_SCIENCE, wonders.gameState.state)
+        assertEquals(GameState.CHOOSE_SCIENCE, wonders.game.state)
     }
 
     @Test
     fun cantTakeCardWhenNotInRegularState() {
         val (wonders, card) = gameWithCard(Card("Test"))
-        wonders.gameState.state = GameState.CHOOSE_SCIENCE
+        wonders.game.state = GameState.CHOOSE_SCIENCE
 
         assertFails { wonders.takeAction(TakeCard(card)) }
     }
@@ -581,28 +581,28 @@ class WondersTests {
     @Test
     fun chooseScience() {
         val wonders = Wonders(Game(Player(6), Player(6), Board(listOf())))
-        wonders.gameState.state = GameState.CHOOSE_SCIENCE
-        wonders.gameState.scienceTokens.add(Pair(null, ScienceToken.ENGINEERING))
+        wonders.game.state = GameState.CHOOSE_SCIENCE
+        wonders.game.scienceTokens.add(Pair(null, ScienceToken.ENGINEERING))
 
         wonders.takeAction(ChooseScience(ScienceToken.ENGINEERING))
 
-        assertEquals(0, wonders.gameState.scienceTokens[0].first)
-        assertEquals(ScienceToken.ENGINEERING, wonders.gameState.scienceTokens[0].second)
+        assertEquals(0, wonders.game.scienceTokens[0].first)
+        assertEquals(ScienceToken.ENGINEERING, wonders.game.scienceTokens[0].second)
     }
 
-    @Test
-    fun architecture() {
-        val (wonders, card, player) = game()
-        val wonder = Wonder("Some wonder", Resource(1, 1, 1, 1, 1))
-        wonders.gameState.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 2, 3, 4, 5)))))
-        wonders.gameState.scienceTokens.add(Pair(0, ScienceToken.ARCHITECTURE))
-        player.wonders = listOf(Pair(false, wonder))
-        player.gold = 16
-
-        wonders.takeAction(BuildWonder(card, wonder))
-
-        assertEquals(4, player.gold)
-    }
+//    @Test
+//    fun architecture() {
+//        val (wonders, card, player) = game()
+//        val wonder = Wonder("Some wonder", Resource(1, 1, 1, 1, 1))
+//        wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 2, 3, 4, 5)))))
+//        wonders.game.scienceTokens.add(Pair(0, ScienceToken.ARCHITECTURE))
+//        player.wonders = listOf(Pair(false, wonder))
+//        player.gold = 16
+//
+//        wonders.takeAction(BuildWonder(card, wonder))
+//
+//        assertEquals(4, player.gold)
+//    }
 
     @Test
     fun goldCantGetNegative() {
@@ -630,10 +630,6 @@ class WondersTests {
 
         val combined = one.combine(two)
         println(combined)
-//        val expected = listOf(Resource(wood = 1, glass = 1), Resource(wood = 1, papyrus = 1), Resource(clay = 1, papyrus = 1), Resource(clay = 1, papyrus = 1))
-//        val filtered = expected.filter { !combined.contains(it) }
-//        assertEquals(filtered, listOf())
-//        assertSame(expected, combined)
     }
 }
 
@@ -694,8 +690,6 @@ fun game(): Triple<Wonders, Card, Player> {
     val wonders = Wonders(game)
     return Triple(wonders, card, player1)
 }
-
-data class Wonder(val name: String, val cost: Resource = Resource(), val features: List<CardFeature> = mutableListOf())
 
 //@SuppressWarnings("lowercase")
 fun Card(name: String, cost: Resource = Resource(), features: List<CardFeature> = mutableListOf(), freeSymbol: CardFreeSymbol? = null): Card = Card(name, CardColor.BROWN, cost, features, freeSymbol)

@@ -1,6 +1,5 @@
 package com.moscichowski.wonders
 
-import com.moscichowski.wondersTest.Wonder
 import kotlin.math.max
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
@@ -30,7 +29,17 @@ data class Game(val player1: Player,
 }
 
 enum class GameState {
-    REGULAR, CHOOSE_SCIENCE
+    REGULAR {
+        override fun canPerform(action: Action): Boolean {
+            return action !is ChooseScience
+        }
+    }, CHOOSE_SCIENCE {
+        override fun canPerform(action: Action): Boolean {
+            return action is ChooseScience
+        }
+    };
+
+    abstract fun canPerform(action: Action): Boolean
 }
 
 data class Player internal constructor(var gold_: Int) {
@@ -170,3 +179,5 @@ object ExtraTurn : CardFeature()
 object RemoveGold : CardFeature()
 object ProvideSilverResource : CardFeature()
 object ProvideBrownResource : CardFeature()
+
+data class Wonder(val name: String, val cost: Resource = Resource(), val features: List<CardFeature> = mutableListOf())
