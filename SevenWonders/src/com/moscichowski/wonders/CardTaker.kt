@@ -23,21 +23,7 @@ class CardTaker: ActionPerformer() {
             val opponentResource = opponent.resources()
             var providedResourcesPossibilities = player1.providedResources()
 
-            if (action.card.color == CardColor.BLUE && hasConstructionFeature(game)) {
-                val toCombine = resourcesToCombine()
-                toCombine.add(Resource(1,1,1,1,1))
-                toCombine.add(Resource(1,1,1,1,1))
-                var result = providedResourcesPossibilities
-                toCombine.forEach {
-                    val newResult = mutableListOf<Resource>()
-                    newResult.addAll(result)
-                    result.forEach { resultResource ->
-                        newResult.addAll(resultResource.combine(it))
-                    }
-                    result = newResult
-                }
-                providedResourcesPossibilities = result
-            }
+            providedResourcesPossibilities = appendConstructionIfExist(action, game, providedResourcesPossibilities)
 
             val playerFeatures = player1.cards.flatMap { it.features }
             val woodCost = playerFeatures.cost(WarehouseType.WOOD, opponentResource)
@@ -74,6 +60,17 @@ class CardTaker: ActionPerformer() {
         game.currentPlayer = (game.currentPlayer + 1) % 2
     }
 
-    fun hasConstructionFeature(game: Game) =
+    private fun appendConstructionIfExist(action: TakeCard, game: Game, providedResourcesPossibilities: List<Resource>): List<Resource> {
+        var providedResourcesPossibilities1 = providedResourcesPossibilities
+        if (action.card.color == CardColor.BLUE && hasConstructionFeature(game)) {
+            val toCombine = mutableListOf<Resource>()
+            toCombine.add(Resource(1, 1, 1, 1, 1))
+            toCombine.add(Resource(1, 1, 1, 1, 1))
+            providedResourcesPossibilities1 = combinePromos(providedResourcesPossibilities1, toCombine)
+        }
+        return providedResourcesPossibilities1
+    }
+
+    private fun hasConstructionFeature(game: Game) =
             game.scienceTokens.find { it.first == game.currentPlayer && it.second == ScienceToken.CONSTRUCTION } != null
 }

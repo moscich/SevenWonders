@@ -32,7 +32,7 @@ open class ActionPerformer {
             }
         }))
 
-        val toCombine = resourcesToCombine()
+        val toCombine = mutableListOf<Resource>()
         val cardFeatures = cards.flatMap { it.features }
         if (cardFeatures.contains(ProvideSilverResource)) {
             toCombine.add(Resource(papyrus = 1, glass = 1))
@@ -50,6 +50,10 @@ open class ActionPerformer {
             toCombine.add(Resource(wood = 1, clay = 1, stone = 1))
         }
 
+        return combinePromos(providedFromCards, toCombine)
+    }
+
+    fun combinePromos(providedFromCards: List<Resource>, toCombine: MutableList<Resource>): List<Resource> {
         var result = providedFromCards
         toCombine.forEach {
             val newResult = mutableListOf<Resource>()
@@ -59,12 +63,7 @@ open class ActionPerformer {
             }
             result = newResult
         }
-
         return result
-    }
-
-    open fun resourcesToCombine(): MutableList<Resource> {
-        return mutableListOf()
     }
 
     fun List<CardFeature>.cost(type: WarehouseType, opponentResource: Resource): Int {

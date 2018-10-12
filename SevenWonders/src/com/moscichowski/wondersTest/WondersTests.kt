@@ -605,6 +605,19 @@ class WondersTests {
     }
 
     @Test
+    fun architectureBug() {
+        val (wonders, card, player) = game()
+        val wonder = Wonder("Some wonder", Resource(1, 1, 1, 1, 1))
+        wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 2, 3, 4, 5)))))
+        player.wonders = listOf(Pair(false, wonder))
+        player.gold = 25
+
+        wonders.takeAction(BuildWonder(card, wonder))
+
+        assertEquals(0, player.gold)
+    }
+
+    @Test
     fun construction() {
         val (wonders, card) = gameWithCard(Card("Test", cost = Resource(1, 1, 1, 1, 1), color = CardColor.BLUE))
         wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 2, 3, 4, 5)))))

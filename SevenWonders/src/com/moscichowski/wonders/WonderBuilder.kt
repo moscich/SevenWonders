@@ -18,7 +18,10 @@ class WonderBuilder: ActionPerformer() {
         }
         val opponent = if (game.currentPlayer == 1) game.player1 else game.player2
         val opponentResource = opponent.resources()
-        val providedResourcesPossibilities = player1.providedResources()
+        var providedResourcesPossibilities = player1.providedResources()
+
+        providedResourcesPossibilities = appendConstructionIfExist(game, providedResourcesPossibilities)
+
         val playerFeatures = player1.cards.flatMap { it.features }
         val woodCost = playerFeatures.cost(WarehouseType.WOOD, opponentResource)
         val clayCost = playerFeatures.cost(WarehouseType.CLAY, opponentResource)
@@ -90,10 +93,17 @@ class WonderBuilder: ActionPerformer() {
         }
     }
 
-    override fun resourcesToCombine(): MutableList<Resource> {
-        return mutableListOf(
-                Resource(wood = 1, clay = 1, stone = 1, papyrus = 1, glass = 1),
-                Resource(wood = 1, clay = 1, stone = 1, papyrus = 1, glass = 1)
-        )
+    private fun appendConstructionIfExist(game: Game, providedResourcesPossibilities: List<Resource>): List<Resource> {
+        var providedResourcesPossibilities1 = providedResourcesPossibilities
+        if (hasConstructionFeature(game)) {
+            val toCombine = mutableListOf<Resource>()
+            toCombine.add(Resource(1, 1, 1, 1, 1))
+            toCombine.add(Resource(1, 1, 1, 1, 1))
+            providedResourcesPossibilities1 = combinePromos(providedResourcesPossibilities1, toCombine)
+        }
+        return providedResourcesPossibilities1
     }
+
+    private fun hasConstructionFeature(game: Game) =
+            game.scienceTokens.find { it.first == game.currentPlayer && it.second == ScienceToken.ARCHITECTURE } != null
 }
