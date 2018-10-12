@@ -21,7 +21,24 @@ class CardTaker: ActionPerformer() {
             }
             val opponent = if (game.currentPlayer == 1) game.player1 else game.player2
             val opponentResource = opponent.resources()
-            val providedResourcesPossibilities = player1.providedResources()
+            var providedResourcesPossibilities = player1.providedResources()
+
+            if (action.card.color == CardColor.BLUE && hasConstructionFeature(game)) {
+                val toCombine = resourcesToCombine()
+                toCombine.add(Resource(1,1,1,1,1))
+                toCombine.add(Resource(1,1,1,1,1))
+                var result = providedResourcesPossibilities
+                toCombine.forEach {
+                    val newResult = mutableListOf<Resource>()
+                    newResult.addAll(result)
+                    result.forEach { resultResource ->
+                        newResult.addAll(resultResource.combine(it))
+                    }
+                    result = newResult
+                }
+                providedResourcesPossibilities = result
+            }
+
             val playerFeatures = player1.cards.flatMap { it.features }
             val woodCost = playerFeatures.cost(WarehouseType.WOOD, opponentResource)
             val clayCost = playerFeatures.cost(WarehouseType.CLAY, opponentResource)
@@ -56,4 +73,7 @@ class CardTaker: ActionPerformer() {
 
         game.currentPlayer = (game.currentPlayer + 1) % 2
     }
+
+    fun hasConstructionFeature(game: Game) =
+            game.scienceTokens.find { it.first == game.currentPlayer && it.second == ScienceToken.CONSTRUCTION } != null
 }

@@ -605,6 +605,28 @@ class WondersTests {
     }
 
     @Test
+    fun construction() {
+        val (wonders, card) = gameWithCard(Card("Test", cost = Resource(1, 1, 1, 1, 1), color = CardColor.BLUE))
+        wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 2, 3, 4, 5)))))
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.CONSTRUCTION))
+        wonders.game.player1.gold = 16
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(4, wonders.game.player1.gold)
+    }
+
+    @Test
+    fun `construction works only with blue`() {
+        val (wonders, card) = gameWithCard(Card("Test", cost = Resource(1, 1, 1, 1, 1)))
+        wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 2, 3, 4, 5)))))
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.CONSTRUCTION))
+        wonders.game.player1.gold = 16
+
+        assertFails{ wonders.takeAction(TakeCard(card)) }
+    }
+
+    @Test
     fun goldCantGetNegative() {
         val player = Player(6)
         player.gold -= 7

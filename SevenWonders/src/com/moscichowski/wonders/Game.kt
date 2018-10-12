@@ -135,7 +135,7 @@ enum class ScienceSymbol {
 }
 
 enum class ScienceToken {
-    ENGINEERING, ARCHITECTURE
+    ENGINEERING, ARCHITECTURE, CONSTRUCTION
 }
 
 data class Card(val name: String,
@@ -145,7 +145,7 @@ data class Card(val name: String,
                 val freeSymbol: CardFreeSymbol? = null)
 
 enum class CardColor {
-    BROWN, SILVER, GOLD
+    BROWN, SILVER, GOLD, BLUE
 }
 
 enum class WarehouseType {
