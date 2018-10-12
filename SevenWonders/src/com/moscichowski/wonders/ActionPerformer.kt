@@ -1,5 +1,7 @@
 package com.moscichowski.wonders
 
+import kotlin.math.max
+
 abstract class ActionPerformer {
     fun resolveCommonFeatures(game: Game, features: List<CardFeature>, player: Player) {
         val addGoldFeature = features.find { it is AddGold }
@@ -90,5 +92,21 @@ abstract class ActionPerformer {
             throw Error()
         }
         return Pair(player, wantedNode)
+    }
+
+    fun resourceCost(player: Player, opponentResource: Resource, providedResourcesPossibilities: List<Resource>, cost: Resource): Int {
+        val playerFeatures = player.cards.flatMap { it.features }
+        val woodCost = playerFeatures.cost(WarehouseType.WOOD, opponentResource)
+        val clayCost = playerFeatures.cost(WarehouseType.CLAY, opponentResource)
+        val stoneCost = playerFeatures.cost(WarehouseType.STONE, opponentResource)
+        val requiredGold = providedResourcesPossibilities.asSequence().map { providedResources ->
+            max(0, cost.clay - providedResources.clay) * clayCost +
+                    max(0, cost.wood - providedResources.wood) * woodCost +
+                    max(0, cost.stone - providedResources.stone) * stoneCost +
+                    max(0, cost.papyrus - providedResources.papyrus) * (opponentResource.papyrus + 2) +
+                    max(0, cost.glass - providedResources.glass) * (opponentResource.glass + 2) +
+                    cost.gold
+        }.min() ?: throw Error()
+        return requiredGold
     }
 }

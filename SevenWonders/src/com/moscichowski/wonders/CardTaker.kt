@@ -12,18 +12,7 @@ class CardTaker : ActionPerformer() {
 
         providedResourcesPossibilities = appendConstructionIfExist(action, game, providedResourcesPossibilities)
 
-        val playerFeatures = player.cards.flatMap { it.features }
-        val woodCost = playerFeatures.cost(WarehouseType.WOOD, opponentResource)
-        val clayCost = playerFeatures.cost(WarehouseType.CLAY, opponentResource)
-        val stoneCost = playerFeatures.cost(WarehouseType.STONE, opponentResource)
-        var requiredGold = providedResourcesPossibilities.asSequence().map { providedResources ->
-            max(0, action.card.cost.clay - providedResources.clay) * clayCost +
-                    max(0, action.card.cost.wood - providedResources.wood) * woodCost +
-                    max(0, action.card.cost.stone - providedResources.stone) * stoneCost +
-                    max(0, action.card.cost.papyrus - providedResources.papyrus) * (opponentResource.papyrus + 2) +
-                    max(0, action.card.cost.glass - providedResources.glass) * (opponentResource.glass + 2) +
-                    action.card.cost.gold
-        }.min() ?: throw Error()
+        var requiredGold = resourceCost(player, opponentResource, providedResourcesPossibilities, action.card.cost)
 
         if (player.hasFreeSymbol(action.card.freeSymbol)) {
             requiredGold = 0

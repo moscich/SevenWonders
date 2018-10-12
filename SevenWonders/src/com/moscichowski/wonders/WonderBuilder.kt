@@ -13,18 +13,7 @@ class WonderBuilder: ActionPerformer() {
 
         providedResourcesPossibilities = appendConstructionIfExist(game, providedResourcesPossibilities)
 
-        val playerFeatures = player.cards.flatMap { it.features }
-        val woodCost = playerFeatures.cost(WarehouseType.WOOD, opponentResource)
-        val clayCost = playerFeatures.cost(WarehouseType.CLAY, opponentResource)
-        val stoneCost = playerFeatures.cost(WarehouseType.STONE, opponentResource)
-        val requiredGold = providedResourcesPossibilities.asSequence().map { providedResources ->
-            max(0, action.wonder.cost.clay - providedResources.clay) * clayCost +
-                    max(0, action.wonder.cost.wood - providedResources.wood) * woodCost +
-                    max(0, action.wonder.cost.stone - providedResources.stone) * stoneCost +
-                    max(0, action.wonder.cost.papyrus - providedResources.papyrus) * (opponentResource.papyrus + 2) +
-                    max(0, action.wonder.cost.glass - providedResources.glass) * (opponentResource.glass + 2) +
-                    action.wonder.cost.gold
-        }.min() ?: throw Error()
+        val requiredGold = resourceCost(player, opponentResource, providedResourcesPossibilities, action.wonder.cost)
 
         if (player.gold < requiredGold) {
             throw WonderBuildFailed()
