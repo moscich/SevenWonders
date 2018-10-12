@@ -8,12 +8,8 @@ class WonderBuilder: ActionPerformer() {
         val (player, wantedNode) = boardCheck(game, action.card)
 
         val opponent = if (game.currentPlayer == 1) game.player1 else game.player2
-        val opponentResource = opponent.resources()
-        var providedResourcesPossibilities = player.providedResources()
 
-        providedResourcesPossibilities = appendConstructionIfExist(game, providedResourcesPossibilities)
-
-        val requiredGold = resourceCost(player, opponentResource, providedResourcesPossibilities, action.wonder.cost)
+        val requiredGold = required2(game, player, action.wonder.cost)
 
         if (player.gold < requiredGold) {
             throw WonderBuildFailed()

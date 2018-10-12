@@ -72,7 +72,7 @@ data class Player internal constructor(var gold_: Int) {
         return cards.flatMap { it.features }.find { it is FreeSymbol && it.symbol == symbol } != null
     }
 
-    fun hasScienceSymbolFromFeatures(features: List<CardFeature>): Boolean {
+    fun alreadyHasThisScienceSymbol(features: List<CardFeature>): Boolean {
         val symbol = (features.find { it is Science } as? Science)?.science
         return cards.flatMap { it.features }.find { it is Science && it.science == symbol } != null
     }
