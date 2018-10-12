@@ -5,24 +5,15 @@ import kotlin.math.max
 
 class WonderBuilder: ActionPerformer() {
     fun buildWonder(action: BuildWonder, game: Game) {
-        val wantedNode = game.board.cards.find { node ->
-            node.card == action.card
-        } ?: throw WonderBuildFailed()
-        if (!wantedNode.descendants.isEmpty()) {
-            throw WonderBuildFailed()
-        }
+        val (player, wantedNode) = boardCheck(game, action.card)
 
-        val player1 = if (game.currentPlayer == 0) game.player1 else game.player2
-        if (!wantedNode.descendants.isEmpty()) {
-            throw Error()
-        }
         val opponent = if (game.currentPlayer == 1) game.player1 else game.player2
         val opponentResource = opponent.resources()
-        var providedResourcesPossibilities = player1.providedResources()
+        var providedResourcesPossibilities = player.providedResources()
 
         providedResourcesPossibilities = appendConstructionIfExist(game, providedResourcesPossibilities)
 
-        val playerFeatures = player1.cards.flatMap { it.features }
+        val playerFeatures = player.cards.flatMap { it.features }
         val woodCost = playerFeatures.cost(WarehouseType.WOOD, opponentResource)
         val clayCost = playerFeatures.cost(WarehouseType.CLAY, opponentResource)
         val stoneCost = playerFeatures.cost(WarehouseType.STONE, opponentResource)
@@ -35,11 +26,11 @@ class WonderBuilder: ActionPerformer() {
                     action.wonder.cost.gold
         }.min() ?: throw Error()
 
-        if (player1.gold < requiredGold) {
+        if (player.gold < requiredGold) {
             throw WonderBuildFailed()
         }
 
-        val hasWonderAvailable = !player1.wonders.any {
+        val hasWonderAvailable = !player.wonders.any {
             it.second == action.wonder && !it.first
         }
         if (hasWonderAvailable) {
@@ -70,21 +61,21 @@ class WonderBuilder: ActionPerformer() {
         game.board.cards.forEach { node: BoardNode ->
             node.descendants.remove(wantedNode.card)
         }
-        player1.gold -= requiredGold
+        player.gold -= requiredGold
 
         if (action.wonder.features.find { it is RemoveGold } != null) {
             opponent.gold -= 3
             opponent.gold = max(0, opponent.gold)
         }
 
-        resolveCommonFeatures(game, action.wonder.features, player1)
+        resolveCommonFeatures(game, action.wonder.features, player)
 
         if (action.wonder.features.find { it is ExtraTurn } == null) {
             game.currentPlayer = (game.currentPlayer + 1) % 2
         }
 
-        player1.wonders.indexOfFirst { it.second == action.wonder }
-        player1.wonders = player1.wonders.map {
+        player.wonders.indexOfFirst { it.second == action.wonder }
+        player.wonders = player.wonders.map {
             if (it.second == action.wonder) {
                 return@map Pair(true, it.second)
             } else {
@@ -96,9 +87,7 @@ class WonderBuilder: ActionPerformer() {
     private fun appendConstructionIfExist(game: Game, providedResourcesPossibilities: List<Resource>): List<Resource> {
         var providedResourcesPossibilities1 = providedResourcesPossibilities
         if (hasConstructionFeature(game)) {
-            val toCombine = mutableListOf<Resource>()
-            toCombine.add(Resource(1, 1, 1, 1, 1))
-            toCombine.add(Resource(1, 1, 1, 1, 1))
+            val toCombine = discountBy2Combine()
             providedResourcesPossibilities1 = combinePromos(providedResourcesPossibilities1, toCombine)
         }
         return providedResourcesPossibilities1

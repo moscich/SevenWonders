@@ -1,6 +1,6 @@
 package com.moscichowski.wonders
 
-open class ActionPerformer {
+abstract class ActionPerformer {
     fun resolveCommonFeatures(game: Game, features: List<CardFeature>, player: Player) {
         val addGoldFeature = features.find { it is AddGold }
         if (addGoldFeature != null && addGoldFeature is AddGold) {
@@ -72,5 +72,23 @@ open class ActionPerformer {
         } else {
             type.cost(opponentResource) + 2
         }
+    }
+
+    fun discountBy2Combine(): MutableList<Resource> {
+        val toCombine = mutableListOf<Resource>()
+        toCombine.add(Resource(1, 1, 1, 1, 1))
+        toCombine.add(Resource(1, 1, 1, 1, 1))
+        return toCombine
+    }
+
+    fun boardCheck(game: Game, card: Card): Pair<Player, BoardNode> {
+        val player = if (game.currentPlayer == 0) game.player1 else game.player2
+        val wantedNode = game.board.cards.find { node ->
+            node.card == card
+        } ?: throw Error()
+        if (!wantedNode.descendants.isEmpty()) {
+            throw Error()
+        }
+        return Pair(player, wantedNode)
     }
 }
