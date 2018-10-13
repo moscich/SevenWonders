@@ -130,4 +130,9 @@ abstract class ActionPerformer {
         }.min() ?: throw Error()
         return requiredGold
     }
+
+    fun doesOpponentHaveEconomy(game: Game): Boolean {
+        val opponentIndex = if (game.currentPlayer == 0) { 1 } else { 0 }
+        return game.scienceTokens.find { it.first == opponentIndex && it.second == ScienceToken.ECONOMY } != null
+    }
 }

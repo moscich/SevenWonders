@@ -46,8 +46,4 @@ class CardTaker : ActionPerformer() {
         game.currentPlayer = (game.currentPlayer + 1) % 2
     }
 
-    private fun doesOpponentHaveEconomy(game: Game): Boolean {
-        val opponentIndex = if (game.currentPlayer == 0) { 1 } else { 0 }
-            return game.scienceTokens.find { it.first == opponentIndex && it.second == ScienceToken.ECONOMY } != null
-}
 }

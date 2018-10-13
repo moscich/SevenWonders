@@ -55,6 +55,10 @@ class WonderBuilder : ActionPerformer() {
         }
         player.gold -= requiredGold
 
+        if (doesOpponentHaveEconomy(game)) {
+            game.opponent.gold += (requiredGold - action.wonder.cost.gold)
+        }
+
         if (action.wonder.features.find { it is RemoveGold } != null) {
             opponent.gold -= 3
             opponent.gold = max(0, opponent.gold)
