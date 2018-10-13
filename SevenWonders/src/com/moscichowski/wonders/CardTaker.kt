@@ -1,7 +1,18 @@
 package com.moscichowski.wonders
 
 class CardTaker : ActionPerformer() {
+    private lateinit var game: Game
+    private lateinit var card: Card
+    override fun hasPromo(): Boolean {
+        return hasConstruction() && card.color == CardColor.BLUE
+    }
+
+    private fun hasConstruction() =
+            game.scienceTokens.find { it.first == game.currentPlayer && it.second == ScienceToken.CONSTRUCTION } != null
+
     fun takeCard(game: Game, action: TakeCard) {
+        this.game = game
+        this.card = action.card
         val (player, wantedNode) = boardCheck(game, action.card)
 
         var requiredGold = required2(game, player, action.card.cost)

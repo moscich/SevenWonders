@@ -1,6 +1,10 @@
 package com.moscichowski.wonders
 
 class CardSeller: ActionPerformer() {
+    override fun hasPromo(): Boolean {
+        return false
+    }
+
     fun sellCard(game: Game, action: SellCard) {
         val player = if (game.currentPlayer == 0) game.player1 else game.player2
         val wantedNode = game.board.cards.find { node ->

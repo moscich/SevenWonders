@@ -1,5 +1,6 @@
 package com.moscichowski.wonders
 
+import com.sun.org.apache.xpath.internal.operations.Bool
 import kotlin.math.max
 
 abstract class ActionPerformer {
@@ -99,22 +100,21 @@ abstract class ActionPerformer {
         val opponentResource = opponent.resources()
         var providedResourcesPossibilities = player.providedResources()
 
-//        providedResourcesPossibilities = appendConstructionIfExist(card, game, providedResourcesPossibilities)
+        if (hasPromo()) {
+            providedResourcesPossibilities = appendConstructionIfExist(providedResourcesPossibilities)
+        }
 
         return resourceCost(player, opponentResource, providedResourcesPossibilities, cost)
     }
 
-    private fun appendConstructionIfExist(card: Card, game: Game, providedResourcesPossibilities: List<Resource>): List<Resource> {
+    abstract fun hasPromo(): Boolean
+
+    private fun appendConstructionIfExist(providedResourcesPossibilities: List<Resource>): List<Resource> {
         var providedResourcesPossibilities1 = providedResourcesPossibilities
-        if (card.color == CardColor.BLUE && hasConstructionFeature(game)) {
-            val toCombine = discountBy2Combine()
-            providedResourcesPossibilities1 = combinePromos(providedResourcesPossibilities1, toCombine)
-        }
+        val toCombine = discountBy2Combine()
+        providedResourcesPossibilities1 = combinePromos(providedResourcesPossibilities1, toCombine)
         return providedResourcesPossibilities1
     }
-
-    private fun hasConstructionFeature(game: Game) =
-            game.scienceTokens.find { it.first == game.currentPlayer && it.second == ScienceToken.CONSTRUCTION } != null
 
     fun resourceCost(player: Player, opponentResource: Resource, providedResourcesPossibilities: List<Resource>, cost: Resource): Int {
         val playerFeatures = player.cards.flatMap { it.features }

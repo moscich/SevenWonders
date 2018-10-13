@@ -3,8 +3,15 @@ package com.moscichowski.wonders
 import kotlin.math.max
 
 
-class WonderBuilder: ActionPerformer() {
+class WonderBuilder() : ActionPerformer() {
+    private lateinit var game: Game
+
+    override fun hasPromo(): Boolean {
+        return game.scienceTokens.find { it.first == game.currentPlayer && it.second == ScienceToken.ARCHITECTURE } != null
+    }
+
     fun buildWonder(action: BuildWonder, game: Game) {
+        this.game = game
         val (player, wantedNode) = boardCheck(game, action.card)
 
         val opponent = if (game.currentPlayer == 1) game.player1 else game.player2
