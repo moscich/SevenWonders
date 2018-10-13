@@ -135,7 +135,7 @@ enum class ScienceSymbol {
 }
 
 enum class ScienceToken {
-    ENGINEERING, ARCHITECTURE, CONSTRUCTION
+    ENGINEERING, ARCHITECTURE, CONSTRUCTION, ECONOMY
 }
 
 data class Card(val name: String,

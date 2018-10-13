@@ -1,6 +1,5 @@
 package com.moscichowski.wonders
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 import kotlin.math.max
 
 abstract class ActionPerformer {

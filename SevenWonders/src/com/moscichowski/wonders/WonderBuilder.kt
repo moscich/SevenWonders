@@ -3,7 +3,7 @@ package com.moscichowski.wonders
 import kotlin.math.max
 
 
-class WonderBuilder() : ActionPerformer() {
+class WonderBuilder : ActionPerformer() {
     private lateinit var game: Game
 
     override fun hasPromo(): Boolean {

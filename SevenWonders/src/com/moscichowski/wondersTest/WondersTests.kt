@@ -526,7 +526,12 @@ class WondersTests {
 
     @Test
     fun militaryActivateMultipleAtOnce() {
+        val (wonders, cards, opponent) = game((0..10).map { Military(7) }, Player(10))
 
+        wonders.takeAction(TakeCard(cards[0]))
+
+        assertEquals(3, opponent.gold)
+        assertEquals(2, wonders.game.militaryThresholds.count())
     }
 
     @Test
@@ -637,6 +642,38 @@ class WondersTests {
         wonders.game.player1.gold = 16
 
         assertFails{ wonders.takeAction(TakeCard(card)) }
+    }
+
+    @Test
+    fun economyTakeCard() {
+        val (wonders, card) = gameWithCard(Card("Test", cost = Resource(1, 1, 1, 1, 1, 10)))
+        wonders.game.player1.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 1, 1, 1, 1)))))
+        wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 1)))))
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.ECONOMY))
+        wonders.game.player2.gold = 20
+        wonders.game.currentPlayer = 1
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(1, wonders.game.player2.gold)
+        assertEquals(15, wonders.game.player1.gold)
+    }
+
+    @Test
+    fun economyBuildWonder() {
+        val (wonders, card) = game()
+        wonders.game.player1.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 1, 1, 1, 1)))))
+        wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 1)))))
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.ECONOMY))
+        val wonder = Wonder("", Resource(1, 1, 1, 1, 1, 10))
+        wonders.game.player2.wonders = listOf(Pair(false, wonder))
+        wonders.game.player2.gold = 20
+        wonders.game.currentPlayer = 1
+
+        wonders.takeAction(BuildWonder(card, wonder))
+
+        assertEquals(1, wonders.game.player2.gold)
+        assertEquals(15, wonders.game.player1.gold)
     }
 
     @Test

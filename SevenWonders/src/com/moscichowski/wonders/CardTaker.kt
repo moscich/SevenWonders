@@ -29,7 +29,12 @@ class CardTaker : ActionPerformer() {
         game.board.cards.forEach { node: BoardNode ->
             node.descendants.remove(wantedNode.card)
         }
+
         player.gold -= requiredGold
+
+        if (doesOpponentHaveEconomy(game)) {
+            game.opponent.gold += (requiredGold - action.card.cost.gold)
+        }
 
         resolveCommonFeatures(game, action.card.features, player)
 
@@ -40,4 +45,9 @@ class CardTaker : ActionPerformer() {
         player.cards.add(action.card)
         game.currentPlayer = (game.currentPlayer + 1) % 2
     }
+
+    private fun doesOpponentHaveEconomy(game: Game): Boolean {
+        val opponentIndex = if (game.currentPlayer == 0) { 1 } else { 0 }
+            return game.scienceTokens.find { it.first == opponentIndex && it.second == ScienceToken.ECONOMY } != null
+}
 }
