@@ -6,7 +6,11 @@ class CardTaker : ActionPerformer() {
     override fun hasPromo(): Boolean {
         return game.doesCurrentPlayerHaveScience(ScienceToken.CONSTRUCTION) && card.color == CardColor.BLUE
     }
-    
+
+    override fun additionalMilitaryPoints(): Int {
+        return if (game.doesCurrentPlayerHaveScience(ScienceToken.STRATEGY)) { 1 } else { 0 }
+    }
+
     fun takeCard(game: Game, action: TakeCard) {
         this.game = game
         this.card = action.card

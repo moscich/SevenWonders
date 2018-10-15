@@ -10,7 +10,7 @@ abstract class ActionPerformer {
         }
         val militaryFeature = features.find { it is Military }
         if (militaryFeature != null && militaryFeature is Military) {
-            val points = if (game.scienceTokens.find { it.first == game.currentPlayer && it.second == ScienceToken.MILITARY } != null) { militaryFeature.points + 1 } else { militaryFeature.points }
+            val points = militaryFeature.points + additionalMilitaryPoints()
             game.military += if (game.currentPlayer == 0) {
                 points
             } else {
@@ -24,6 +24,10 @@ abstract class ActionPerformer {
             activatedThresholds.forEach { game.opponent.gold -= it.gold }
             game.militaryThresholds.removeAll(activatedThresholds)
         }
+    }
+
+    open fun additionalMilitaryPoints(): Int {
+        return 0
     }
 
     fun Player.providedResources(): List<Resource> {

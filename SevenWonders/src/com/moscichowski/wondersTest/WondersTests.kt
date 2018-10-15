@@ -679,11 +679,23 @@ class WondersTests {
     @Test
     fun strategy() {
         val (wonders, card) = gameWithCard(Card("Test", features = listOf(Military(2))))
-        wonders.game.scienceTokens.add(Pair(0, ScienceToken.MILITARY))
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.STRATEGY))
 
         wonders.takeAction(TakeCard(card))
 
         assertEquals(3, wonders.game.military)
+    }
+
+    @Test
+    fun strategyOnlyWorksWithRedCards() {
+        val (wonders, card) = game()
+        val wonder = Wonder("", features = listOf(Military(2)))
+        wonders.game.player1.wonders = listOf(Pair(false, wonder))
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.STRATEGY))
+
+        wonders.takeAction(BuildWonder(card, wonder))
+
+        assertEquals(2, wonders.game.military)
     }
 
     @Test
