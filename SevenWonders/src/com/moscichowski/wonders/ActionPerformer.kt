@@ -10,10 +10,11 @@ abstract class ActionPerformer {
         }
         val militaryFeature = features.find { it is Military }
         if (militaryFeature != null && militaryFeature is Military) {
+            val points = if (game.scienceTokens.find { it.first == game.currentPlayer && it.second == ScienceToken.MILITARY } != null) { militaryFeature.points + 1 } else { militaryFeature.points }
             game.military += if (game.currentPlayer == 0) {
-                militaryFeature.points
+                points
             } else {
-                -militaryFeature.points
+                -points
             }
             val activatedThresholds = game.militaryThresholds
                     .filter {
