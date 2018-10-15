@@ -155,7 +155,9 @@ data class Card(val name: String,
 enum class CardColor {
     BROWN, SILVER, GOLD, BLUE,
 
-    RED
+    RED,
+
+    GREEN
 }
 
 enum class WarehouseType {

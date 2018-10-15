@@ -169,7 +169,9 @@ abstract class ActionPerformer {
             CardColor.RED -> 1
             CardColor.BROWN -> 2
             CardColor.SILVER -> 3
-            else -> 0
+            CardColor.GREEN -> 1
+            CardColor.BLUE -> 1
+            CardColor.GOLD -> 1
         }
     }
 }

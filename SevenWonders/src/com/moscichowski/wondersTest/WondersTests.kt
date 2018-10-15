@@ -743,40 +743,26 @@ class WondersTests {
     }
 
     @Test
-    fun goldForSilverColor() {
-        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(GoldForColor(CardColor.SILVER))))
-        player.cards.add(Card("Silver 1", color = CardColor.SILVER))
-        player.cards.add(Card("Silver 2", color = CardColor.SILVER))
-        player.cards.add(Card("Something else", color = CardColor.BROWN))
+    fun goldForCardColor() {
+        val cases = listOf(
+                Pair(CardColor.SILVER, 3),
+                Pair(CardColor.BROWN, 2),
+                Pair(CardColor.RED, 1),
+                Pair(CardColor.GREEN, 1),
+                Pair(CardColor.BLUE, 1),
+                Pair(CardColor.GOLD, 1)
+                )
+        cases.forEach {
+            for (i in 0..2) {
+                val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(GoldForColor(it.first))))
+                for (cardNo in 0 until i) {
+                    player.cards.add(Card("Color card", color = it.first))
+                }
+                wonders.takeAction(TakeCard(card))
 
-        wonders.takeAction(TakeCard(card))
-
-        assertEquals(12, player.gold)
-    }
-
-    @Test
-    fun goldForBrownColor() {
-        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(GoldForColor(CardColor.BROWN))))
-        player.cards.add(Card("Brown 1", color = CardColor.BROWN))
-        player.cards.add(Card("Brown 2", color = CardColor.BROWN))
-        player.cards.add(Card("Something else", color = CardColor.SILVER))
-
-        wonders.takeAction(TakeCard(card))
-
-        assertEquals(10, player.gold)
-    }
-
-    @Test
-    fun goldForRedColor() {
-        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(GoldForColor(CardColor.RED))))
-        player.cards.add(Card("Red 1", color = CardColor.RED))
-        player.cards.add(Card("Red 2", color = CardColor.RED))
-        player.cards.add(Card("Red 3", color = CardColor.RED))
-        player.cards.add(Card("Something else", color = CardColor.SILVER))
-
-        wonders.takeAction(TakeCard(card))
-
-        assertEquals(9, player.gold)
+                assertEquals(6 + it.second*i, player.gold, "${it.first}")
+            }
+        }
     }
 
     @Test
