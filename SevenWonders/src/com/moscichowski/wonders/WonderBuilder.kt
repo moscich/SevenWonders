@@ -80,16 +80,4 @@ class WonderBuilder : ActionPerformer() {
             }
         }
     }
-
-    private fun appendConstructionIfExist(game: Game, providedResourcesPossibilities: List<Resource>): List<Resource> {
-        var providedResourcesPossibilities1 = providedResourcesPossibilities
-        if (hasConstructionFeature(game)) {
-            val toCombine = discountBy2Combine()
-            providedResourcesPossibilities1 = combinePromos(providedResourcesPossibilities1, toCombine)
-        }
-        return providedResourcesPossibilities1
-    }
-
-    private fun hasConstructionFeature(game: Game) =
-            game.scienceTokens.find { it.first == game.currentPlayer && it.second == ScienceToken.ARCHITECTURE } != null
 }

@@ -20,12 +20,18 @@ data class Game(val player1: Player,
                         MilitaryThreashold(0, 6, 5),
                         MilitaryThreashold(1, 3, 2),
                         MilitaryThreashold(1, 6, 5)
-                        )
+                )
 ) {
     val opponent: Player
         get() = if (currentPlayer == 1) {
             player1
-        } else  {player2}
+        } else {
+            player2
+        }
+
+    fun doesCurrentPlayerHaveScience(science: ScienceToken): Boolean {
+        return scienceTokens.find { it.first == currentPlayer && it.second == science } != null
+    }
 }
 
 enum class GameState {
@@ -33,7 +39,8 @@ enum class GameState {
         override fun canPerform(action: Action): Boolean {
             return action !is ChooseScience
         }
-    }, CHOOSE_SCIENCE {
+    },
+    CHOOSE_SCIENCE {
         override fun canPerform(action: Action): Boolean {
             return action is ChooseScience
         }
@@ -79,8 +86,9 @@ data class Player internal constructor(var gold_: Int) {
 }
 
 data class Board(val cards_: List<BoardNode>) {
-val cards = cards_.toMutableList()
+    val cards = cards_.toMutableList()
 }
+
 data class BoardNode(private val innerCard: Card, val descendants: MutableList<Card> = mutableListOf(), private val hidden: Boolean = false) {
     val card: Card?
         get() {
@@ -135,7 +143,7 @@ enum class ScienceSymbol {
 }
 
 enum class ScienceToken {
-    ENGINEERING, ARCHITECTURE, CONSTRUCTION, ECONOMY, MILITARY, THEOLOGY
+    ENGINEERING, ARCHITECTURE, CONSTRUCTION, ECONOMY, MILITARY, THEOLOGY, CITY_PLANNING
 }
 
 data class Card(val name: String,
@@ -153,11 +161,13 @@ enum class WarehouseType {
         override fun cost(resource: Resource): Int {
             return resource.wood
         }
-    }, CLAY {
+    },
+    CLAY {
         override fun cost(resource: Resource): Int {
             return resource.clay
         }
-    }, STONE {
+    },
+    STONE {
         override fun cost(resource: Resource): Int {
             return resource.stone
         }

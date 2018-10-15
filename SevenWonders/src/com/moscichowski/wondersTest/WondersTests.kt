@@ -699,6 +699,27 @@ class WondersTests {
     }
 
     @Test
+    fun cityPlanning() {
+        val (wonders, card, player) = gameWithCard(Card("Test", cost = Resource(wood = 2, gold = 1), freeSymbol = CardFreeSymbol.SWORD))
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.CITY_PLANNING))
+        player.cards.add(Card("Free symbol", features = listOf(FreeSymbol(CardFreeSymbol.SWORD))))
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(10, player.gold)
+    }
+
+    @Test
+    fun cityPlanningDoesWorkOnlyWithFreeSymbol() {
+        val (wonders, card, player) = gameWithCard(Card("Test", cost = Resource(wood = 2, gold = 1), freeSymbol = CardFreeSymbol.SWORD))
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.CITY_PLANNING))
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(1, player.gold)
+    }
+
+    @Test
     fun goldCantGetNegative() {
         val player = Player(6)
         player.gold -= 7

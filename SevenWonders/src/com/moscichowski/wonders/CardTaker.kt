@@ -4,12 +4,9 @@ class CardTaker : ActionPerformer() {
     private lateinit var game: Game
     private lateinit var card: Card
     override fun hasPromo(): Boolean {
-        return hasConstruction() && card.color == CardColor.BLUE
+        return game.doesCurrentPlayerHaveScience(ScienceToken.CONSTRUCTION) && card.color == CardColor.BLUE
     }
-
-    private fun hasConstruction() =
-            game.scienceTokens.find { it.first == game.currentPlayer && it.second == ScienceToken.CONSTRUCTION } != null
-
+    
     fun takeCard(game: Game, action: TakeCard) {
         this.game = game
         this.card = action.card
@@ -18,6 +15,9 @@ class CardTaker : ActionPerformer() {
         var requiredGold = required2(game, player, action.card.cost)
 
         if (player.hasFreeSymbol(action.card.freeSymbol)) {
+            if (game.doesCurrentPlayerHaveScience(ScienceToken.CITY_PLANNING)) {
+                player.gold += 4
+            }
             requiredGold = 0
         }
 
