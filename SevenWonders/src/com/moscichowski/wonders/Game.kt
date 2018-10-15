@@ -153,7 +153,9 @@ data class Card(val name: String,
                 val freeSymbol: CardFreeSymbol? = null)
 
 enum class CardColor {
-    BROWN, SILVER, GOLD, BLUE
+    BROWN, SILVER, GOLD, BLUE,
+
+    RED
 }
 
 enum class WarehouseType {
@@ -183,6 +185,7 @@ data class Military(val points: Int) : CardFeature()
 data class FreeSymbol(val symbol: CardFreeSymbol) : CardFeature()
 data class Science(val science: ScienceSymbol) : CardFeature()
 data class Warehouse(val type: WarehouseType) : CardFeature()
+data class GoldForColor(val color: CardColor) : CardFeature()
 object Customs : CardFeature()
 object DestroyBrownCard : CardFeature()
 object DestroySilverCard : CardFeature()

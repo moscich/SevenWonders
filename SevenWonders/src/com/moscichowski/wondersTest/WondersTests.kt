@@ -743,6 +743,43 @@ class WondersTests {
     }
 
     @Test
+    fun goldForSilverColor() {
+        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(GoldForColor(CardColor.SILVER))))
+        player.cards.add(Card("Silver 1", color = CardColor.SILVER))
+        player.cards.add(Card("Silver 2", color = CardColor.SILVER))
+        player.cards.add(Card("Something else", color = CardColor.BROWN))
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(12, player.gold)
+    }
+
+    @Test
+    fun goldForBrownColor() {
+        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(GoldForColor(CardColor.BROWN))))
+        player.cards.add(Card("Brown 1", color = CardColor.BROWN))
+        player.cards.add(Card("Brown 2", color = CardColor.BROWN))
+        player.cards.add(Card("Something else", color = CardColor.SILVER))
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(10, player.gold)
+    }
+
+    @Test
+    fun goldForRedColor() {
+        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(GoldForColor(CardColor.RED))))
+        player.cards.add(Card("Red 1", color = CardColor.RED))
+        player.cards.add(Card("Red 2", color = CardColor.RED))
+        player.cards.add(Card("Red 3", color = CardColor.RED))
+        player.cards.add(Card("Something else", color = CardColor.SILVER))
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(9, player.gold)
+    }
+
+    @Test
     fun goldCantGetNegative() {
         val player = Player(6)
         player.gold -= 7
@@ -759,15 +796,6 @@ class WondersTests {
         val expected = listOf(Resource(wood = 1, clay = 1, glass = 1), Resource(wood = 1, clay = 1, papyrus = 1))
         val filtered = expected.filter { !combined.contains(it) }
         assertEquals(0, filtered.count())
-    }
-
-    @Test
-    fun testing() {
-        val one = Resource(wood = 1, clay = 1, stone = 1, glass = 1, papyrus = 1)
-        val two = Resource(wood = 1)
-
-        val combined = one.combine(two)
-        println(combined)
     }
 }
 

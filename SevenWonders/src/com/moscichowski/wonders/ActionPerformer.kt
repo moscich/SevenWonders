@@ -24,6 +24,11 @@ abstract class ActionPerformer {
             activatedThresholds.forEach { game.opponent.gold -= it.gold }
             game.militaryThresholds.removeAll(activatedThresholds)
         }
+
+        val goldForColorFeature = features.find { it is GoldForColor }
+        if (goldForColorFeature is GoldForColor) {
+            player.gold += goldForColorFeature.colorValue * player.cards.count { it.color == goldForColorFeature.color }
+        }
     }
 
     open fun additionalMilitaryPoints(): Int {
@@ -157,5 +162,14 @@ abstract class ActionPerformer {
     fun doesOpponentHaveEconomy(game: Game): Boolean {
         val opponentIndex = if (game.currentPlayer == 0) { 1 } else { 0 }
         return game.scienceTokens.find { it.first == opponentIndex && it.second == ScienceToken.ECONOMY } != null
+    }
+
+    private val GoldForColor.colorValue: Int get() {
+        return when(color) {
+            CardColor.RED -> 1
+            CardColor.BROWN -> 2
+            CardColor.SILVER -> 3
+            else -> 0
+        }
     }
 }
