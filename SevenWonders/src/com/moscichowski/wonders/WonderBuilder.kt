@@ -66,7 +66,8 @@ class WonderBuilder : ActionPerformer() {
 
         resolveCommonFeatures(game, action.wonder.features, player)
 
-        if (action.wonder.features.find { it is ExtraTurn } == null) {
+        if (action.wonder.features.find { it is ExtraTurn } == null &&
+                game.scienceTokens.find { it.first == game.currentPlayer && it.second == ScienceToken.THEOLOGY } == null ) {
             game.currentPlayer = (game.currentPlayer + 1) % 2
         }
 

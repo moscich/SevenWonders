@@ -200,7 +200,7 @@ class WondersTests {
         try {
             wonders.takeAction(BuildWonder(card, wonder))
             fail()
-        } catch (err : WonderBuildFailed) {
+        } catch (err: WonderBuildFailed) {
             assertEquals("Test", err.something)
         }
         assertEquals(game.currentPlayer, 0)
@@ -219,7 +219,7 @@ class WondersTests {
         try {
             wonders.takeAction(BuildWonder(card, wonder))
             fail()
-        } catch (err : WonderBuildFailed) {
+        } catch (err: WonderBuildFailed) {
             assertEquals("Test", err.something)
         }
         assertEquals(game.currentPlayer, 0)
@@ -238,7 +238,7 @@ class WondersTests {
         try {
             wonders.takeAction(BuildWonder(card, wonder))
             fail()
-        } catch (err : Error) {
+        } catch (err: Error) {
         }
         assertEquals(game.currentPlayer, 0)
     }
@@ -296,7 +296,7 @@ class WondersTests {
         try {
             wonders.takeAction(BuildWonder(card, wonder, nonBrownCard))
             fail()
-        } catch (err : WonderBuildFailed) {
+        } catch (err: WonderBuildFailed) {
             assertEquals("Test", err.something)
         }
 
@@ -323,7 +323,7 @@ class WondersTests {
         try {
             wonders.takeAction(BuildWonder(card, wonder, nonSilverCard))
             fail()
-        } catch (err : WonderBuildFailed) {
+        } catch (err: WonderBuildFailed) {
             assertEquals("Test", err.something)
         }
 
@@ -641,7 +641,7 @@ class WondersTests {
         wonders.game.scienceTokens.add(Pair(0, ScienceToken.CONSTRUCTION))
         wonders.game.player1.gold = 16
 
-        assertFails{ wonders.takeAction(TakeCard(card)) }
+        assertFails { wonders.takeAction(TakeCard(card)) }
     }
 
     @Test
@@ -684,6 +684,18 @@ class WondersTests {
         wonders.takeAction(TakeCard(card))
 
         assertEquals(3, wonders.game.military)
+    }
+
+    @Test
+    fun theology() {
+        val (wonders, card) = game()
+        val wonder = Wonder("")
+        wonders.game.player1.wonders = listOf(Pair(false, wonder))
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.THEOLOGY))
+
+        wonders.takeAction(BuildWonder(card, wonder))
+
+        assertEquals(0, wonders.game.currentPlayer)
     }
 
     @Test
