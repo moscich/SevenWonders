@@ -81,6 +81,22 @@ abstract class ActionPerformer {
         }
     }
 
+    fun List<CardFeature>.glassCost(opponentResource: Resource): Int {
+        return if (find { it is Customs } != null) {
+            1
+        } else {
+            opponentResource.glass + 2
+        }
+    }
+
+    fun List<CardFeature>.papyrusCost(opponentResource: Resource): Int {
+        return if (find { it is Customs } != null) {
+            1
+        } else {
+            opponentResource.papyrus + 2
+        }
+    }
+
     fun discountBy2Combine(): MutableList<Resource> {
         val toCombine = mutableListOf<Resource>()
         toCombine.add(Resource(1, 1, 1, 1, 1))
@@ -125,12 +141,14 @@ abstract class ActionPerformer {
         val woodCost = playerFeatures.cost(WarehouseType.WOOD, opponentResource)
         val clayCost = playerFeatures.cost(WarehouseType.CLAY, opponentResource)
         val stoneCost = playerFeatures.cost(WarehouseType.STONE, opponentResource)
+        val papyrusCost = playerFeatures.papyrusCost(opponentResource)
+        val glassCost = playerFeatures.glassCost(opponentResource)
         val requiredGold = providedResourcesPossibilities.asSequence().map { providedResources ->
             max(0, cost.clay - providedResources.clay) * clayCost +
                     max(0, cost.wood - providedResources.wood) * woodCost +
                     max(0, cost.stone - providedResources.stone) * stoneCost +
-                    max(0, cost.papyrus - providedResources.papyrus) * (opponentResource.papyrus + 2) +
-                    max(0, cost.glass - providedResources.glass) * (opponentResource.glass + 2) +
+                    max(0, cost.papyrus - providedResources.papyrus) * papyrusCost +
+                    max(0, cost.glass - providedResources.glass) * glassCost +
                     cost.gold
         }.min() ?: throw Error()
         return requiredGold

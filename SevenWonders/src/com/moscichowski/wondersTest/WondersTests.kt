@@ -188,6 +188,17 @@ class WondersTests {
     }
 
     @Test
+    fun hasCustoms() {
+        val (wonders, card) = gameWithCard(Card("", Resource(glass = 2, papyrus = 3)))
+        wonders.game.player1.cards.add(Card("Customs", features = mutableListOf(Customs)))
+        wonders.game.player2.cards.add(Card("Papyrus and Glass", features = mutableListOf(ProvideResource(Resource(papyrus = 2, glass = 3)))))
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(1, wonders.game.player1.gold)
+    }
+
+    @Test
     fun buildUnavailableWonder() {
         val card = Card("Stone Card", Resource(stone = 4))
         val node = BoardNode(card)
