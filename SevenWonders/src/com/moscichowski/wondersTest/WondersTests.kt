@@ -805,6 +805,7 @@ class WondersTests {
         wonders.takeAction(TakeCard(card))
 
         assertEquals(13, player.gold)
+        assertEquals(7, wonders.game.victoryPointsForCard(card))
     }
 
     @Test
@@ -885,5 +886,4 @@ fun game(): Triple<Wonders, Card, Player> {
     return Triple(wonders, card, player1)
 }
 
-//@SuppressWarnings("lowercase")
 fun Card(name: String, cost: Resource = Resource(), features: List<CardFeature> = mutableListOf(), freeSymbol: CardFreeSymbol? = null): Card = Card(name, CardColor.BROWN, cost, features, freeSymbol)

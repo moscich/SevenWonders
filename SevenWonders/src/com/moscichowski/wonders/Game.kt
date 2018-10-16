@@ -29,8 +29,24 @@ data class Game(val player1: Player,
             player2
         }
 
+    val player: Player
+        get() = if (currentPlayer == 0) {
+            player1
+        } else {
+            player2
+        }
+
     fun doesCurrentPlayerHaveScience(science: ScienceToken): Boolean {
         return scienceTokens.find { it.first == currentPlayer && it.second == science } != null
+    }
+
+    fun victoryPointsForCard(card: Card): Int {
+        if (card.features.find { it is Guild } != null) {
+            val playersResourceCards = player.cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
+            val opponentResourceCards = opponent.cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
+            return max(playersResourceCards, opponentResourceCards)
+        }
+        return 0
     }
 }
 
