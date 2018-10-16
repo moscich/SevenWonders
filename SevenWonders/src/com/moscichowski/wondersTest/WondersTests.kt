@@ -781,6 +781,33 @@ class WondersTests {
     }
 
     @Test
+    fun guildBrownSilver() {
+        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(Guild(1))))
+
+        player.cards.add(Card("", CardColor.BROWN))
+        player.cards.add(Card("", CardColor.BROWN))
+        player.cards.add(Card("", CardColor.BROWN))
+        player.cards.add(Card("", CardColor.SILVER))
+        player.cards.add(Card("", CardColor.SILVER))
+        player.cards.add(Card("", CardColor.RED))
+        player.cards.add(Card("", CardColor.BLUE))
+
+        wonders.game.player2.cards.add(Card("", CardColor.BROWN))
+        wonders.game.player2.cards.add(Card("", CardColor.BROWN))
+        wonders.game.player2.cards.add(Card("", CardColor.BROWN))
+        wonders.game.player2.cards.add(Card("", CardColor.BROWN))
+        wonders.game.player2.cards.add(Card("", CardColor.SILVER))
+        wonders.game.player2.cards.add(Card("", CardColor.SILVER))
+        wonders.game.player2.cards.add(Card("", CardColor.SILVER))
+        wonders.game.player2.cards.add(Card("", CardColor.RED))
+        wonders.game.player2.cards.add(Card("", CardColor.BLUE))
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(13, player.gold)
+    }
+
+    @Test
     fun goldCantGetNegative() {
         val player = Player(6)
         player.gold -= 7

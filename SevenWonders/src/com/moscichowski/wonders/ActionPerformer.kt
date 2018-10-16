@@ -34,6 +34,13 @@ abstract class ActionPerformer {
         if (goldForWondersFeature is GoldForWonder) {
             player.gold += 2 * player.wonders.count { it.first }
         }
+
+        val guild = features.find { it is Guild }
+        if (guild is Guild) {
+            val playersResourceCards = player.cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
+            val opponentResourceCards = opponent(game).cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
+            player.gold += max(playersResourceCards, opponentResourceCards)
+        }
     }
 
     open fun additionalMilitaryPoints(): Int {
@@ -126,7 +133,7 @@ abstract class ActionPerformer {
     }
 
     fun required2(game: Game, player: Player, cost: Resource): Int {
-        val opponent = if (game.currentPlayer == 1) game.player1 else game.player2
+        val opponent = opponent(game)
         val opponentResource = opponent.resources()
         var providedResourcesPossibilities = player.providedResources()
 
@@ -135,6 +142,11 @@ abstract class ActionPerformer {
         }
 
         return resourceCost(player, opponentResource, providedResourcesPossibilities, cost)
+    }
+
+    fun opponent(game: Game): Player {
+        val opponent = if (game.currentPlayer == 1) game.player1 else game.player2
+        return opponent
     }
 
     abstract fun hasPromo(): Boolean
