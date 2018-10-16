@@ -29,6 +29,11 @@ abstract class ActionPerformer {
         if (goldForColorFeature is GoldForColor) {
             player.gold += goldForColorFeature.colorValue * player.cards.count { it.color == goldForColorFeature.color }
         }
+
+        val goldForWondersFeature = features.find { it is GoldForWonder }
+        if (goldForWondersFeature is GoldForWonder) {
+            player.gold += 2 * player.wonders.count { it.first }
+        }
     }
 
     open fun additionalMilitaryPoints(): Int {

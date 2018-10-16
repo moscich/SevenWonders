@@ -766,6 +766,21 @@ class WondersTests {
     }
 
     @Test
+    fun goldForWonders() {
+        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(GoldForWonder)))
+
+        player.wonders = listOf(Pair(true, Wonder("")),
+                Pair(true, Wonder("")),
+                Pair(true, Wonder("")),
+                Pair(true, Wonder(""))
+                )
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(14, player.gold)
+    }
+
+    @Test
     fun goldCantGetNegative() {
         val player = Player(6)
         player.gold -= 7
