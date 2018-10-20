@@ -16,6 +16,9 @@ class GuildFeatureResolver {
                 val player2Wonders = game.player2.wonders.count { it.first }
                 2 * max(player1Wonders, player2Wonders)
             }
+            GuildType.GOLD -> {
+                max(game.player1.gold, game.player2.gold) / 3
+            }
             else -> {
                 val playersResourceCards = game.player1.cards.count { it.color == guild.cardColor() }
                 val opponentResourceCards = game.player2.cards.count { it.color == guild.cardColor() }
