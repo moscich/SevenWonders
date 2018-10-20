@@ -52,6 +52,9 @@ data class Game(val player1: Player,
         val sciencePoints = scienceTokens.filter { it.first == playerNo }.fold(0) { res, token ->
             val points = when (token.second) {
                 ScienceToken.AGRICULTURE -> 4
+                ScienceToken.PHILOSOPHY -> 7
+                ScienceToken.MATHEMATICS ->
+                    3 * scienceTokens.count { it.first == playerNo }
                 else -> {
                     0
                 }
@@ -197,7 +200,7 @@ enum class ScienceSymbol {
 }
 
 enum class ScienceToken {
-    ENGINEERING, ARCHITECTURE, CONSTRUCTION, ECONOMY, STRATEGY, THEOLOGY, CITY_PLANNING, AGRICULTURE
+    ENGINEERING, ARCHITECTURE, CONSTRUCTION, ECONOMY, STRATEGY, THEOLOGY, CITY_PLANNING, AGRICULTURE, MATHEMATICS, PHILOSOPHY
 }
 
 data class Card(val name: String,

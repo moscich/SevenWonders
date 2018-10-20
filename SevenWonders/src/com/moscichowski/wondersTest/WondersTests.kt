@@ -722,7 +722,7 @@ class WondersTests {
     }
 
     @Test
-    fun cityPlanning() {
+    fun cityPlanningFreeSymbolsAddGold() {
         val (wonders, card, player) = gameWithCard(Card("Test", cost = Resource(wood = 2, gold = 1), freeSymbol = CardFreeSymbol.SWORD))
         wonders.game.scienceTokens.add(Pair(0, ScienceToken.CITY_PLANNING))
         player.cards.add(Card("Free symbol", features = listOf(FreeSymbol(CardFreeSymbol.SWORD))))
@@ -730,6 +730,23 @@ class WondersTests {
         wonders.takeAction(TakeCard(card))
 
         assertEquals(10, player.gold)
+    }
+
+    @Test
+    fun choosingCityPlanningGivesGold() {
+        val (wonders) = gameNoGold()
+        wonders.game.scienceTokens.add(Pair(null, ScienceToken.CITY_PLANNING))
+        wonders.game.state = GameState.CHOOSE_SCIENCE
+
+        wonders.takeAction(ChooseScience(ScienceToken.CITY_PLANNING))
+        assertEquals(6, wonders.game.player1.gold)
+    }
+
+    @Test
+    fun philosophy() {
+        val (wonders) = gameNoGold()
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.PHILOSOPHY))
+        assertEquals(7, wonders.game.victoryPointsForPlayer(0))
     }
 
     @Test
@@ -753,6 +770,18 @@ class WondersTests {
         assertEquals(6, player.gold)
         player.gold = 0
         assertEquals(4, wonders.game.victoryPointsForPlayer(0))
+    }
+
+    @Test
+    fun mathematics() {
+        val (wonders) = gameNoGold()
+        assertEquals(0, wonders.game.victoryPointsForPlayer(0))
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.MATHEMATICS))
+        assertEquals(3, wonders.game.victoryPointsForPlayer(0))
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.STRATEGY))
+        assertEquals(6, wonders.game.victoryPointsForPlayer(0))
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.STRATEGY))
+        assertEquals(9, wonders.game.victoryPointsForPlayer(0))
     }
 
     @Test
@@ -885,11 +914,6 @@ class WondersTests {
         val (wonders) = gameNoGold()
 
         wonders.game.scienceTokens.add(Pair(0, ScienceToken.ARCHITECTURE))
-    }
-
-    @Test
-    fun mathematics() {
-
     }
 
     @Test
