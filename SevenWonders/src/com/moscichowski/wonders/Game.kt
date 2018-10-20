@@ -40,15 +40,6 @@ data class Game(val player1: Player,
         return scienceTokens.find { it.first == currentPlayer && it.second == science } != null
     }
 
-    fun victoryPointsForCard(card: Card): Int {
-        if (card.features.find { it is Guild } != null) {
-            val playersResourceCards = player.cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
-            val opponentResourceCards = opponent.cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
-            return max(playersResourceCards, opponentResourceCards)
-        }
-        return 0
-    }
-
     fun victoryPointsForPlayer(playerNo: Int): Int {
         val player = if (playerNo == 0) {
             player1
@@ -58,10 +49,20 @@ data class Game(val player1: Player,
 
         val pointsForGold = player.gold / 3
 
+        val sciencePoints = scienceTokens.filter { it.first == playerNo }.fold(0) { res, token ->
+            val points = when (token.second) {
+                ScienceToken.AGRICULTURE -> 4
+                else -> {
+                    0
+                }
+            }
+            res + points
+        }
+
         val pointsForFeatures = player.features.fold(0) { res, feature ->
             res + victoryPointsForFeature(feature)
         }
-        return pointsForFeatures + pointsForGold
+        return pointsForFeatures + pointsForGold + sciencePoints
     }
 
     private fun victoryPointsForFeature(feature: CardFeature): Int {
@@ -196,7 +197,7 @@ enum class ScienceSymbol {
 }
 
 enum class ScienceToken {
-    ENGINEERING, ARCHITECTURE, CONSTRUCTION, ECONOMY, STRATEGY, THEOLOGY, CITY_PLANNING
+    ENGINEERING, ARCHITECTURE, CONSTRUCTION, ECONOMY, STRATEGY, THEOLOGY, CITY_PLANNING, AGRICULTURE
 }
 
 data class Card(val name: String,

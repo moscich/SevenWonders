@@ -743,6 +743,24 @@ class WondersTests {
     }
 
     @Test
+    fun agriculture() {
+        val (wonders, _, player) = gameNoGold()
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.AGRICULTURE))
+        wonders.game.state = GameState.CHOOSE_SCIENCE
+
+        wonders.takeAction(ChooseScience(ScienceToken.AGRICULTURE))
+
+        assertEquals(6, player.gold)
+        player.gold = 0
+        assertEquals(4, wonders.game.victoryPointsForPlayer(0))
+    }
+
+    @Test
+    fun cantTakeScienceTokenTwice() {
+
+    }
+
+    @Test
     fun goldForCardColor() {
         val cases = listOf(
                 Pair(CardColor.SILVER, 3),
@@ -805,7 +823,10 @@ class WondersTests {
         wonders.takeAction(TakeCard(card))
 
         assertEquals(13, player.gold)
-        assertEquals(7, wonders.game.victoryPointsForCard(card))
+
+        player.gold = 0
+
+        assertEquals(7, wonders.game.victoryPointsForPlayer(0))
     }
 
     @Test
@@ -850,6 +871,18 @@ class WondersTests {
             wonders.game.player1.gold = it.second
             assertEquals(it.first, wonders.game.victoryPointsForPlayer(0), "gold: ${it.second}")
         }
+    }
+
+    @Test
+    fun victoryPointsFromScience() {
+        val (wonders) = gameNoGold()
+
+        wonders.game.scienceTokens.add(Pair(0, ScienceToken.ARCHITECTURE))
+    }
+
+    @Test
+    fun mathematics() {
+
     }
 
     @Test
