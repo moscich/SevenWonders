@@ -745,7 +745,7 @@ class WondersTests {
     @Test
     fun agriculture() {
         val (wonders, _, player) = gameNoGold()
-        wonders.game.scienceTokens.add(Pair(0, ScienceToken.AGRICULTURE))
+        wonders.game.scienceTokens.add(Pair(null, ScienceToken.AGRICULTURE))
         wonders.game.state = GameState.CHOOSE_SCIENCE
 
         wonders.takeAction(ChooseScience(ScienceToken.AGRICULTURE))
@@ -757,7 +757,14 @@ class WondersTests {
 
     @Test
     fun cantTakeScienceTokenTwice() {
+        val (wonders) = gameNoGold()
+        wonders.game.scienceTokens.add(Pair(null, ScienceToken.AGRICULTURE))
+        wonders.game.state = GameState.CHOOSE_SCIENCE
 
+        wonders.takeAction(ChooseScience(ScienceToken.AGRICULTURE))
+        wonders.game.state = GameState.CHOOSE_SCIENCE
+
+        assertFails { wonders.takeAction(ChooseScience(ScienceToken.AGRICULTURE)) }
     }
 
     @Test
