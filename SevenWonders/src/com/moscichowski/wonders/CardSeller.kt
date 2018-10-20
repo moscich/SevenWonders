@@ -16,6 +16,6 @@ class CardSeller: ActionPerformer() {
             node.descendants.remove(wantedNode.card)
         }
 
-        player.gold += 2 + player.goldCardsCount()
+        player.gold += 2 + player.yellowCardsCount()
     }
 }

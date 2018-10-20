@@ -37,9 +37,7 @@ abstract class ActionPerformer {
 
         val guild = features.find { it is Guild }
         if (guild is Guild) {
-            val playersResourceCards = player.cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
-            val opponentResourceCards = opponent(game).cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
-            player.gold += max(playersResourceCards, opponentResourceCards)
+            player.gold += GuildFeatureResolver().pointsForGuild(guild, game)
         }
     }
 
@@ -145,8 +143,7 @@ abstract class ActionPerformer {
     }
 
     fun opponent(game: Game): Player {
-        val opponent = if (game.currentPlayer == 1) game.player1 else game.player2
-        return opponent
+        return if (game.currentPlayer == 1) game.player1 else game.player2
     }
 
     abstract fun hasPromo(): Boolean
@@ -188,7 +185,7 @@ abstract class ActionPerformer {
             CardColor.SILVER -> 3
             CardColor.GREEN -> 1
             CardColor.BLUE -> 1
-            CardColor.GOLD -> 1
+            CardColor.YELLOW -> 1
         }
     }
 }

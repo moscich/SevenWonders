@@ -88,11 +88,7 @@ data class Game(val player1: Player,
     private fun victoryPointsForFeature(feature: CardFeature): Int {
         when (feature) {
             is VictoryPoints -> return feature.points
-            is Guild -> {
-                val playersResourceCards = player.cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
-                val opponentResourceCards = opponent.cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
-                return max(playersResourceCards, opponentResourceCards)
-            }
+            is Guild -> return GuildFeatureResolver().pointsForGuild(feature, this)
         }
         return 0
     }
@@ -145,8 +141,8 @@ data class Player internal constructor(var gold_: Int) {
         }
     }
 
-    fun goldCardsCount(): Int {
-        return cards.filter { it.color == CardColor.GOLD }.count()
+    fun yellowCardsCount(): Int {
+        return cards.filter { it.color == CardColor.YELLOW }.count()
     }
 
     fun hasFreeSymbol(symbol: CardFreeSymbol?): Boolean {
@@ -227,7 +223,7 @@ data class Card(val name: String,
                 val freeSymbol: CardFreeSymbol? = null)
 
 enum class CardColor {
-    BROWN, SILVER, GOLD, BLUE,
+    BROWN, SILVER, YELLOW, BLUE,
 
     RED,
 
@@ -262,7 +258,7 @@ data class FreeSymbol(val symbol: CardFreeSymbol) : CardFeature()
 data class Science(val science: ScienceSymbol) : CardFeature()
 data class Warehouse(val type: WarehouseType) : CardFeature()
 data class GoldForColor(val color: CardColor) : CardFeature()
-data class Guild(val temp: Int) : CardFeature()
+data class Guild(val type: GuildType) : CardFeature()
 data class VictoryPoints(val points: Int) : CardFeature()
 object GoldForWonder : CardFeature()
 object Customs : CardFeature()
@@ -272,5 +268,9 @@ object ExtraTurn : CardFeature()
 object RemoveGold : CardFeature()
 object ProvideSilverResource : CardFeature()
 object ProvideBrownResource : CardFeature()
+
+enum class GuildType {
+    YELLOW, BROWN_SILVER, WONDERS, BLUE, GREEN, GOLD, RED
+}
 
 data class Wonder(val name: String, val cost: Resource = Resource(), val features: List<CardFeature> = mutableListOf())

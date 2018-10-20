@@ -558,8 +558,8 @@ class WondersTests {
     fun sellCardGoldCards() {
         val (wonders, card, player) = game()
 
-        player.cards.add(cardWithColor(CardColor.GOLD))
-        player.cards.add(cardWithColor(CardColor.GOLD))
+        player.cards.add(cardWithColor(CardColor.YELLOW))
+        player.cards.add(cardWithColor(CardColor.YELLOW))
 
         wonders.takeAction(SellCard(card))
 
@@ -804,7 +804,7 @@ class WondersTests {
                 Pair(CardColor.RED, 1),
                 Pair(CardColor.GREEN, 1),
                 Pair(CardColor.BLUE, 1),
-                Pair(CardColor.GOLD, 1)
+                Pair(CardColor.YELLOW, 1)
         )
         cases.forEach {
             for (i in 0..2) {
@@ -836,25 +836,9 @@ class WondersTests {
 
     @Test
     fun guildBrownSilver() {
-        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(Guild(1))))
-
-        player.cards.add(Card("", CardColor.BROWN))
-        player.cards.add(Card("", CardColor.BROWN))
-        player.cards.add(Card("", CardColor.BROWN))
-        player.cards.add(Card("", CardColor.SILVER))
-        player.cards.add(Card("", CardColor.SILVER))
-        player.cards.add(Card("", CardColor.RED))
-        player.cards.add(Card("", CardColor.BLUE))
-
-        wonders.game.player2.cards.add(Card("", CardColor.BROWN))
-        wonders.game.player2.cards.add(Card("", CardColor.BROWN))
-        wonders.game.player2.cards.add(Card("", CardColor.BROWN))
-        wonders.game.player2.cards.add(Card("", CardColor.BROWN))
-        wonders.game.player2.cards.add(Card("", CardColor.SILVER))
-        wonders.game.player2.cards.add(Card("", CardColor.SILVER))
-        wonders.game.player2.cards.add(Card("", CardColor.SILVER))
-        wonders.game.player2.cards.add(Card("", CardColor.RED))
-        wonders.game.player2.cards.add(Card("", CardColor.BLUE))
+        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(Guild(GuildType.BROWN_SILVER))))
+        player.cards.addColors(3,2,1,2,3)
+        wonders.game.player2.cards.addColors(4,3,3,2,1)
 
         wonders.takeAction(TakeCard(card))
 
@@ -863,6 +847,21 @@ class WondersTests {
         player.gold = 0
 
         assertEquals(7, wonders.game.victoryPointsForPlayer(0))
+    }
+
+    @Test
+    fun guildYellow() {
+        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(Guild(GuildType.YELLOW))))
+        player.cards.addColors(3,2,4,2,3)
+        wonders.game.player2.cards.addColors(4,3,3,2,1)
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(10, player.gold)
+
+        player.gold = 0
+
+        assertEquals(4, wonders.game.victoryPointsForPlayer(0))
     }
 
     @Test
@@ -913,7 +912,7 @@ class WondersTests {
     fun victoryPointsFromMilitary() {
         val (wonders) = gameNoGold()
 
-        val player1Cases = listOf(
+        listOf(
                 Pair(0, 0),
                 Pair(1, 2),
                 Pair(2, 2),
@@ -924,13 +923,12 @@ class WondersTests {
                 Pair(7, 10),
                 Pair(8, 10),
                 Pair(9, 10)
-                )
-        player1Cases.forEach {
+        ).forEach {
             wonders.game.military = it.first
             assertEquals(it.second, wonders.game.victoryPointsForPlayer(0))
             assertEquals(0, wonders.game.victoryPointsForPlayer(1))
         }
-        val player2Cases = listOf(
+        listOf(
                 Pair(0, 0),
                 Pair(-1, 2),
                 Pair(-2, 2),
@@ -941,13 +939,13 @@ class WondersTests {
                 Pair(-7, 10),
                 Pair(-8, 10),
                 Pair(-9, 10)
-        )
-        player2Cases.forEach {
+        ).forEach {
             wonders.game.military = it.first
             assertEquals(it.second, wonders.game.victoryPointsForPlayer(1))
             assertEquals(0, wonders.game.victoryPointsForPlayer(0))
         }
     }
+
 
     @Test
     fun goldCantGetNegative() {
@@ -1032,6 +1030,14 @@ fun gameNoGold(): Triple<Wonders, Card, Player> {
     res.first.game.player1.gold = 0
     res.first.game.player2.gold = 0
     return res
+}
+
+fun MutableList<Card>.addColors(brown: Int, silver: Int, yellow: Int, blue: Int, red: Int) {
+    (1..brown).forEach { add(Card("", CardColor.BROWN)) }
+    (1..silver).forEach { add(Card("", CardColor.SILVER)) }
+    (1..yellow).forEach { add(Card("", CardColor.YELLOW)) }
+    (1..blue).forEach { add(Card("", CardColor.BLUE)) }
+    (1..red).forEach { add(Card("", CardColor.RED)) }
 }
 
 fun Card(name: String, cost: Resource = Resource(), features: List<CardFeature> = mutableListOf(), freeSymbol: CardFreeSymbol? = null): Card = Card(name, CardColor.BROWN, cost, features, freeSymbol)
