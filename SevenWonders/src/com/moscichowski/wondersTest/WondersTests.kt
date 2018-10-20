@@ -857,6 +857,23 @@ class WondersTests {
     }
 
     @Test
+    fun guildWonders() {
+        val (wonders) = gameNoGold()
+
+        wonders.game.player1.wonders = listOf(
+                Pair(true, Wonder("")),
+                Pair(false, Wonder("")))
+        wonders.game.player1.cards.add(Card("", features = listOf(Guild(GuildType.WONDERS))))
+
+        assertEquals(2, wonders.game.victoryPointsForPlayer(0))
+
+        wonders.game.player2.wonders = listOf(
+                Pair(true, Wonder("")),
+                Pair(true, Wonder("")))
+        assertEquals(4, wonders.game.victoryPointsForPlayer(0))
+    }
+
+    @Test
     fun playersHaveNoPointsAtStart() {
         val (wonders) = gameNoGold()
 

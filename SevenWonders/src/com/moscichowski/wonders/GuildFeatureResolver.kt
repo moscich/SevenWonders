@@ -7,20 +7,21 @@ class GuildFeatureResolver {
     fun pointsForGuild(guild: Guild, game: Game): Int {
         return when (guild.type) {
             GuildType.BROWN_SILVER -> {
-                val playersResourceCards = game.player.cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
-                val opponentResourceCards = opponent(game).cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
+                val playersResourceCards = game.player1.cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
+                val opponentResourceCards = game.player2.cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
                 max(playersResourceCards, opponentResourceCards)
             }
+            GuildType.WONDERS -> {
+                val player1Wonders = game.player1.wonders.count { it.first }
+                val player2Wonders = game.player2.wonders.count { it.first }
+                2 * max(player1Wonders, player2Wonders)
+            }
             else -> {
-                val playersResourceCards = game.player.cards.count { it.color == guild.cardColor() }
-                val opponentResourceCards = opponent(game).cards.count { it.color == guild.cardColor() }
+                val playersResourceCards = game.player1.cards.count { it.color == guild.cardColor() }
+                val opponentResourceCards = game.player2.cards.count { it.color == guild.cardColor() }
                 max(playersResourceCards, opponentResourceCards)
             }
         }
-    }
-
-    private fun opponent(game: Game): Player {
-        return if (game.currentPlayer == 1) game.player1 else game.player2
     }
 
     private fun Guild.cardColor(): CardColor? {
