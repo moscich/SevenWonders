@@ -835,33 +835,25 @@ class WondersTests {
     }
 
     @Test
-    fun guildBrownSilver() {
-        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(Guild(GuildType.BROWN_SILVER))))
-        player.cards.addColors(3,2,1,2,3)
-        wonders.game.player2.cards.addColors(4,3,3,2,1)
+    fun guildColor() {
+        listOf(
+                Pair(GuildType.BROWN_SILVER, 11),
+                Pair(GuildType.YELLOW, 4),
+                Pair(GuildType.BLUE, 4),
+                Pair(GuildType.GREEN, 6),
+                Pair(GuildType.RED, 5)
+        ).forEach {
+            val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(Guild(it.first))))
+            player.cards.addColors(1, 2, 3, 4, 5, 6)
+            wonders.game.player2.cards.addColors(6, 5, 4, 3, 2, 1)
+            player.gold = 0
 
-        wonders.takeAction(TakeCard(card))
+            wonders.takeAction(TakeCard(card))
 
-        assertEquals(13, player.gold)
-
-        player.gold = 0
-
-        assertEquals(7, wonders.game.victoryPointsForPlayer(0))
-    }
-
-    @Test
-    fun guildYellow() {
-        val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(Guild(GuildType.YELLOW))))
-        player.cards.addColors(3,2,4,2,3)
-        wonders.game.player2.cards.addColors(4,3,3,2,1)
-
-        wonders.takeAction(TakeCard(card))
-
-        assertEquals(10, player.gold)
-
-        player.gold = 0
-
-        assertEquals(4, wonders.game.victoryPointsForPlayer(0))
+            assertEquals(it.second, player.gold, "${it.first}")
+            player.gold = 0
+            assertEquals(it.second, wonders.game.victoryPointsForPlayer(0), "${it.first}")
+        }
     }
 
     @Test
@@ -1032,12 +1024,13 @@ fun gameNoGold(): Triple<Wonders, Card, Player> {
     return res
 }
 
-fun MutableList<Card>.addColors(brown: Int, silver: Int, yellow: Int, blue: Int, red: Int) {
+fun MutableList<Card>.addColors(brown: Int, silver: Int, yellow: Int, blue: Int, red: Int, green: Int) {
     (1..brown).forEach { add(Card("", CardColor.BROWN)) }
     (1..silver).forEach { add(Card("", CardColor.SILVER)) }
     (1..yellow).forEach { add(Card("", CardColor.YELLOW)) }
     (1..blue).forEach { add(Card("", CardColor.BLUE)) }
     (1..red).forEach { add(Card("", CardColor.RED)) }
+    (1..green).forEach { add(Card("", CardColor.GREEN)) }
 }
 
 fun Card(name: String, cost: Resource = Resource(), features: List<CardFeature> = mutableListOf(), freeSymbol: CardFreeSymbol? = null): Card = Card(name, CardColor.BROWN, cost, features, freeSymbol)
