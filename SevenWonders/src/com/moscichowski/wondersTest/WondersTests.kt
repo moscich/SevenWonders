@@ -809,6 +809,24 @@ class WondersTests {
     }
 
     @Test
+    // Eventually it will break and needs to be updated
+    fun playersHaveNoPointsAtStart() {
+        val (wonders) = game()
+
+        assertEquals(0, wonders.game.victoryPointsForPlayer(0))
+        assertEquals(0, wonders.game.victoryPointsForPlayer(1))
+    }
+
+    @Test
+    fun basicPointsFeature() {
+        val (wonders, card) = gameWithCard(Card("Test", features = listOf(VictoryPoints(3))))
+
+        wonders.takeAction(TakeCard(card))
+
+        assertEquals(3, wonders.game.victoryPointsForPlayer(0))
+    }
+
+    @Test
     fun goldCantGetNegative() {
         val player = Player(6)
         player.gold -= 7

@@ -48,6 +48,29 @@ data class Game(val player1: Player,
         }
         return 0
     }
+
+    fun victoryPointsForPlayer(playerNo: Int): Int {
+        val player = if (playerNo == 0) {
+            player1
+        } else {
+            player2
+        }
+        return player.cards.flatMap { it.features }.fold(0) { res, feature ->
+            res + victoryPointsForFeature(feature)
+        }
+    }
+
+    private fun victoryPointsForFeature(feature: CardFeature): Int {
+        when (feature) {
+            is VictoryPoints -> return feature.points
+            is Guild -> {
+                val playersResourceCards = player.cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
+                val opponentResourceCards = opponent.cards.count { it.color == CardColor.SILVER || it.color == CardColor.BROWN }
+                return max(playersResourceCards, opponentResourceCards)
+            }
+        }
+        return 0
+    }
 }
 
 enum class GameState {
@@ -205,6 +228,7 @@ data class Science(val science: ScienceSymbol) : CardFeature()
 data class Warehouse(val type: WarehouseType) : CardFeature()
 data class GoldForColor(val color: CardColor) : CardFeature()
 data class Guild(val temp: Int) : CardFeature()
+data class VictoryPoints(val points: Int) : CardFeature()
 object GoldForWonder : CardFeature()
 object Customs : CardFeature()
 object DestroyBrownCard : CardFeature()
