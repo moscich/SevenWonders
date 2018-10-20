@@ -4,9 +4,9 @@ import kotlin.math.max
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
 
-data class MilitaryThreashold(val player: Int,
-                              val position: Int,
-                              val gold: Int)
+data class MilitaryThreshold(val player: Int,
+                             val position: Int,
+                             val gold: Int)
 
 data class Game(val player1: Player,
                 val player2: Player,
@@ -15,11 +15,11 @@ data class Game(val player1: Player,
                 var military: Int = 0,
                 var state: GameState = GameState.REGULAR,
                 val scienceTokens: MutableList<Pair<Int?, ScienceToken>> = mutableListOf(),
-                val militaryThresholds: MutableList<MilitaryThreashold> = mutableListOf(
-                        MilitaryThreashold(0, 3, 2),
-                        MilitaryThreashold(0, 6, 5),
-                        MilitaryThreashold(1, 3, 2),
-                        MilitaryThreashold(1, 6, 5)
+                val militaryThresholds: MutableList<MilitaryThreshold> = mutableListOf(
+                        MilitaryThreshold(0, 3, 2),
+                        MilitaryThreshold(0, 6, 5),
+                        MilitaryThreshold(1, 3, 2),
+                        MilitaryThreshold(1, 6, 5)
                 )
 ) {
     val opponent: Player
