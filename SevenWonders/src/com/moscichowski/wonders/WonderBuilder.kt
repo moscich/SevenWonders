@@ -14,6 +14,8 @@ class WonderBuilder : ActionPerformer() {
         this.game = game
         val (player, wantedNode) = boardCheck(game, action.card)
 
+        if (are7WondersBuilt(game)) { throw Error() }
+
         val opponent = if (game.currentPlayer == 1) game.player1 else game.player2
 
         val requiredGold = required2(game, player, action.wonder.cost)
@@ -80,4 +82,7 @@ class WonderBuilder : ActionPerformer() {
             }
         }
     }
+
+    private fun are7WondersBuilt(game: Game) =
+            game.player1.wonders.count { it.first } + game.player2.wonders.count { it.first } == 7
 }

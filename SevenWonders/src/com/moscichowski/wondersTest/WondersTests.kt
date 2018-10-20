@@ -382,6 +382,27 @@ class WondersTests {
     }
 
     @Test
+    fun cannotBuild8Wonders() {
+        val (wonders, card) = game()
+
+        val eightWonder = Wonder("")
+        wonders.game.player1.wonders = listOf(
+                Pair(true, Wonder("")),
+                Pair(true, Wonder("")),
+                Pair(true, Wonder("")),
+                Pair(false, eightWonder)
+        )
+        wonders.game.player2.wonders = listOf(
+                Pair(true, Wonder("")),
+                Pair(true, Wonder("")),
+                Pair(true, Wonder("")),
+                Pair(true, Wonder(""))
+        )
+
+        assertFails { wonders.takeAction(BuildWonder(card, eightWonder)) }
+    }
+
+    @Test
     fun properCardCostWhenPlayerHasProvideOneSilverResource() {
         val card = Card("Some card", Resource(papyrus = 1, glass = 1))
         val node = BoardNode(card)
