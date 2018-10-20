@@ -65,7 +65,24 @@ data class Game(val player1: Player,
         val pointsForFeatures = player.features.fold(0) { res, feature ->
             res + victoryPointsForFeature(feature)
         }
-        return pointsForFeatures + pointsForGold + sciencePoints
+
+        return pointsForFeatures + pointsForGold + sciencePoints + pointsForMilitary(playerNo)
+    }
+
+    private fun pointsForMilitary(player: Int): Int {
+        val multiplier = if (player == 0) {
+            1
+        } else {
+            -1
+        }
+        return when (military * multiplier) {
+            in 1..2 -> 2
+            in 3..5 -> 5
+            in 5..10 -> 10
+            else -> {
+                0
+            }
+        }
     }
 
     private fun victoryPointsForFeature(feature: CardFeature): Int {

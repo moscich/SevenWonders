@@ -910,10 +910,43 @@ class WondersTests {
     }
 
     @Test
-    fun victoryPointsFromScience() {
+    fun victoryPointsFromMilitary() {
         val (wonders) = gameNoGold()
 
-        wonders.game.scienceTokens.add(Pair(0, ScienceToken.ARCHITECTURE))
+        val player1Cases = listOf(
+                Pair(0, 0),
+                Pair(1, 2),
+                Pair(2, 2),
+                Pair(3, 5),
+                Pair(4, 5),
+                Pair(5, 5),
+                Pair(6, 10),
+                Pair(7, 10),
+                Pair(8, 10),
+                Pair(9, 10)
+                )
+        player1Cases.forEach {
+            wonders.game.military = it.first
+            assertEquals(it.second, wonders.game.victoryPointsForPlayer(0))
+            assertEquals(0, wonders.game.victoryPointsForPlayer(1))
+        }
+        val player2Cases = listOf(
+                Pair(0, 0),
+                Pair(-1, 2),
+                Pair(-2, 2),
+                Pair(-3, 5),
+                Pair(-4, 5),
+                Pair(-5, 5),
+                Pair(-6, 10),
+                Pair(-7, 10),
+                Pair(-8, 10),
+                Pair(-9, 10)
+        )
+        player2Cases.forEach {
+            wonders.game.military = it.first
+            assertEquals(it.second, wonders.game.victoryPointsForPlayer(1))
+            assertEquals(0, wonders.game.victoryPointsForPlayer(0))
+        }
     }
 
     @Test
