@@ -56,9 +56,12 @@ data class Game(val player1: Player,
             player2
         }
 
-        return player.features.fold(0) { res, feature ->
+        val pointsForGold = player.gold / 3
+
+        val pointsForFeatures = player.features.fold(0) { res, feature ->
             res + victoryPointsForFeature(feature)
         }
+        return pointsForFeatures + pointsForGold
     }
 
     private fun victoryPointsForFeature(feature: CardFeature): Int {

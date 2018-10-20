@@ -751,7 +751,7 @@ class WondersTests {
                 Pair(CardColor.GREEN, 1),
                 Pair(CardColor.BLUE, 1),
                 Pair(CardColor.GOLD, 1)
-                )
+        )
         cases.forEach {
             for (i in 0..2) {
                 val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(GoldForColor(it.first))))
@@ -760,7 +760,7 @@ class WondersTests {
                 }
                 wonders.takeAction(TakeCard(card))
 
-                assertEquals(6 + it.second*i, player.gold, "${it.first}")
+                assertEquals(6 + it.second * i, player.gold, "${it.first}")
             }
         }
     }
@@ -773,7 +773,7 @@ class WondersTests {
                 Pair(true, Wonder("")),
                 Pair(true, Wonder("")),
                 Pair(true, Wonder(""))
-                )
+        )
 
         wonders.takeAction(TakeCard(card))
 
@@ -809,9 +809,8 @@ class WondersTests {
     }
 
     @Test
-    // Eventually it will break and needs to be updated
     fun playersHaveNoPointsAtStart() {
-        val (wonders) = game()
+        val (wonders) = gameNoGold()
 
         assertEquals(0, wonders.game.victoryPointsForPlayer(0))
         assertEquals(0, wonders.game.victoryPointsForPlayer(1))
@@ -822,17 +821,35 @@ class WondersTests {
         val (wonders, card) = gameWithCard(Card("Test", features = listOf(VictoryPoints(3))))
 
         wonders.takeAction(TakeCard(card))
+        wonders.game.player1.gold = 0
 
         assertEquals(3, wonders.game.victoryPointsForPlayer(0))
     }
 
     @Test
     fun countWondersVictoryPoints() {
-        val (wonders, card) = gameWithCard(Card("Test", features = listOf(VictoryPoints(3))))
+        val (wonders) = gameNoGold()
 
-        wonders.game.player1.wonders = listOf(Pair(true, Wonder("", features = listOf(VictoryPoints(3)))))
+        wonders.game.player1.wonders = listOf(
+                Pair(true, Wonder("", features = listOf(VictoryPoints(3)))),
+                Pair(false, Wonder("", features = listOf(VictoryPoints(3)))))
+        wonders.game.player2.wonders = listOf(Pair(true, Wonder("", features = listOf(VictoryPoints(3)))))
 
         assertEquals(3, wonders.game.victoryPointsForPlayer(0))
+    }
+
+    @Test
+    fun pointsForGold() {
+        val (wonders) = game()
+
+        listOf(
+                Pair(0, 0),
+                Pair(0, 2),
+                Pair(1, 3),
+                Pair(2, 7)).forEach {
+            wonders.game.player1.gold = it.second
+            assertEquals(it.first, wonders.game.victoryPointsForPlayer(0), "gold: ${it.second}")
+        }
     }
 
     @Test
@@ -911,6 +928,13 @@ fun game(): Triple<Wonders, Card, Player> {
     val game = Game(player1, Player(6), board)
     val wonders = Wonders(game)
     return Triple(wonders, card, player1)
+}
+
+fun gameNoGold(): Triple<Wonders, Card, Player> {
+    val res = game()
+    res.first.game.player1.gold = 0
+    res.first.game.player2.gold = 0
+    return res
 }
 
 fun Card(name: String, cost: Resource = Resource(), features: List<CardFeature> = mutableListOf(), freeSymbol: CardFreeSymbol? = null): Card = Card(name, CardColor.BROWN, cost, features, freeSymbol)
