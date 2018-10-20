@@ -55,7 +55,8 @@ data class Game(val player1: Player,
         } else {
             player2
         }
-        return player.cards.flatMap { it.features }.fold(0) { res, feature ->
+
+        return player.features.fold(0) { res, feature ->
             res + victoryPointsForFeature(feature)
         }
     }
@@ -99,6 +100,16 @@ data class Player internal constructor(var gold_: Int) {
 
     val cards: MutableList<Card> = mutableListOf()
     var wonders: List<Pair<Boolean, Wonder>> = listOf()
+
+    val features: List<CardFeature>
+        get() {
+            val features = mutableListOf<CardFeature>()
+            val wonderFeatures = wonders.filter { it.first }.flatMap { it.second.features }.toMutableList()
+            val cardFeatures = cards.flatMap { it.features }
+            features.addAll(cardFeatures)
+            features.addAll(wonderFeatures)
+            return features
+    }
 
     fun resources(): Resource {
         return cards.flatMap { card -> card.features }.fold(Resource()) { sum, feature ->
