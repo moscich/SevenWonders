@@ -2,17 +2,17 @@ group = "com.moscichowski"
 version = "0.0.1"
 
 plugins {
-	`build-scan`
 	`maven-publish`
-    kotlin("jvm") version "1.2.31" 
+    kotlin("jvm") version "1.2.31"
 }
 
 repositories {
-    jcenter() 
+    jcenter()
 }
 
 dependencies {
     implementation(kotlin("stdlib", "1.2.31"))
+    compile(project(":Wonders"))
     testImplementation("junit:junit:4.12")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.1.51")
 }
