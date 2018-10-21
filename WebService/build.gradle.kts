@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib", "1.2.31"))
-    compile(project(":Wonders"))
+    compile(project(":wonders"))
     testImplementation("junit:junit:4.12")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.1.51")
 }
