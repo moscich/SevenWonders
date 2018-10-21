@@ -1,4 +1,4 @@
-package com.moscichowski.wondersTest
+package test.kotlin.com.moscichowski.wondersTest
 
 import com.moscichowski.wonders.*
 import org.junit.Test
