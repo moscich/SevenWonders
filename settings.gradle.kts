@@ -1,6 +1,6 @@
 rootProject.name = "SevenWonders"
 
 include(
-        ":Wonders",
-        ":WebService"
+        ":wonders",
+        ":webService"
 )
