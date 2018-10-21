@@ -941,7 +941,7 @@ class WondersTests {
         val (wonders) = game()
 
         listOf(
-                Pair(10, 0),
+                Pair(0, 0),
                 Pair(0, 2),
                 Pair(1, 3),
                 Pair(2, 7)).forEach {
