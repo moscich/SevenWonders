@@ -33,7 +33,7 @@ class HelloController {
 //        val payload = Gson().fromJson(query.first().action, Payload::class.java)
 
 
-        val takeCard = TakeCard(Card("Test card", CardColor.BLUE, Resource(1, 2), listOf(Warehouse(WarehouseType.CLAY), GoldForWonder)))
+//        val takeCard = TakeCard(Card("Test cardName", CardColor.BLUE, Resource(1, 2), listOf(Warehouse(WarehouseType.CLAY), GoldForWonder)))
 //        val gson = GsonBuilder().registerTypeAdapter(List::class.java, ActionAdapter2()).create()
 //        val json = gson.toJson(takeCard)
 
@@ -64,8 +64,8 @@ class ActionJsonModule internal constructor() : SimpleModule() {
 
 class ActionDeserializer : JsonDeserializer<Action>() {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Action {
-        val takeCard = TakeCard(Card("Name", CardColor.RED, features = listOf(Warehouse(WarehouseType.STONE))))
-        return takeCard
+//        val takeCard = TakeCard(Card("Name", CardColor.RED, features = listOf(Warehouse(WarehouseType.STONE))))
+        return TakeCard("Jozin z bazin")
     }
 }
 

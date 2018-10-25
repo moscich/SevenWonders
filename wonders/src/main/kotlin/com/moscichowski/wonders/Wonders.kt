@@ -18,7 +18,7 @@ data class BuildWonder(val card: Card, val wonder: Wonder, var param: Any? = nul
     }
 }
 
-data class TakeCard(val card: Card) : Action() {
+data class TakeCard(val cardName: String) : Action() {
     override fun performOn(game: Game) {
         CardTaker().takeCard(game, this)
     }

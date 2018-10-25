@@ -13,12 +13,12 @@ class CardTaker : ActionPerformer() {
 
     fun takeCard(game: Game, action: TakeCard) {
         this.game = game
-        this.card = action.card
-        val (player, wantedNode) = boardCheck(game, action.card)
+        this.card = game.board.cards.find { action.cardName == it.card?.name }?.card!!
+        val (player, wantedNode) = boardCheck(game, card)
 
-        var requiredGold = required2(game, player, action.card.cost)
+        var requiredGold = required2(game, player, card.cost)
 
-        if (player.hasFreeSymbol(action.card.freeSymbol)) {
+        if (player.hasFreeSymbol(card.freeSymbol)) {
             if (game.doesCurrentPlayerHaveScience(ScienceToken.CITY_PLANNING)) {
                 player.gold += 4
             }
@@ -37,16 +37,16 @@ class CardTaker : ActionPerformer() {
         player.gold -= requiredGold
 
         if (doesOpponentHaveEconomy(game)) {
-            game.opponent.gold += (requiredGold - action.card.cost.gold)
+            game.opponent.gold += (requiredGold - card.cost.gold)
         }
 
-        resolveCommonFeatures(game, action.card.features, player)
+        resolveCommonFeatures(game, card.features, player)
 
-        if (player.alreadyHasThisScienceSymbol(action.card.features)) {
+        if (player.alreadyHasThisScienceSymbol(card.features)) {
             game.state = GameState.CHOOSE_SCIENCE
         }
 
-        player.cards.add(action.card)
+        player.cards.add(card)
         game.currentPlayer = (game.currentPlayer + 1) % 2
     }
 
