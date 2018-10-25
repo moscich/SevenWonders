@@ -13,11 +13,22 @@ buildscript {
 	}
 }
 
+plugins {
+	id "org.flywaydb.flyway" version "5.2.1"
+}
+
+flyway {
+	url = 'jdbc:postgresql://localhost:5432/wonders'
+	user = 'wonders'
+	password = 'wonders'
+}
+
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-spring'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+
 
 group = 'com.moscichowski'
 version = '0.0.1-SNAPSHOT'

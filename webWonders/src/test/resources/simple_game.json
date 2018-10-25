@@ -1,0 +1,51 @@
+{
+  "player1" : {
+    "cards" : [ {
+      "name" : "Take Me",
+      "color" : "BLUE",
+      "cost" : {
+        "wood" : 0,
+        "clay" : 0,
+        "stone" : 0,
+        "glass" : 0,
+        "papyrus" : 0,
+        "gold" : 0
+      },
+      "features" : [ ],
+      "freeSymbol" : null
+    } ],
+    "wonders" : [ ],
+    "features" : [ ],
+    "gold" : 6
+  },
+  "player2" : {
+    "cards" : [ ],
+    "wonders" : [ ],
+    "features" : [ ],
+    "gold" : 6
+  },
+  "board" : {
+    "cards" : [ ]
+  },
+  "currentPlayer" : 1,
+  "military" : 0,
+  "state" : "REGULAR",
+  "scienceTokens" : [ ],
+  "militaryThresholds" : [ {
+    "player" : 0,
+    "position" : 3,
+    "gold" : 2
+  }, {
+    "player" : 0,
+    "position" : 6,
+    "gold" : 5
+  }, {
+    "player" : 1,
+    "position" : 3,
+    "gold" : 2
+  }, {
+    "player" : 1,
+    "position" : 6,
+    "gold" : 5
+  } ]
+}

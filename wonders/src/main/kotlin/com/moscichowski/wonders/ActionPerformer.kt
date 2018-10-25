@@ -178,6 +178,20 @@ abstract class ActionPerformer {
         return game.scienceTokens.find { it.first == opponentIndex && it.second == ScienceToken.ECONOMY } != null
     }
 
+    internal val Game.opponent: Player
+        get() = if (currentPlayer == 1) {
+            player1
+        } else {
+            player2
+        }
+
+    internal val Game.player: Player
+        get() = if (currentPlayer == 0) {
+            player1
+        } else {
+            player2
+        }
+
     private val GoldForColor.colorValue: Int get() {
         return when(color) {
             CardColor.RED -> 1

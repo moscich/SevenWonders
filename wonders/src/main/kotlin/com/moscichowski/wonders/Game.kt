@@ -22,19 +22,6 @@ data class Game(val player1: Player,
                         MilitaryThreshold(1, 6, 5)
                 )
 ) {
-    val opponent: Player
-        get() = if (currentPlayer == 1) {
-            player1
-        } else {
-            player2
-        }
-
-    val player: Player
-        get() = if (currentPlayer == 0) {
-            player1
-        } else {
-            player2
-        }
 
     fun doesCurrentPlayerHaveScience(science: ScienceToken): Boolean {
         return scienceTokens.find { it.first == currentPlayer && it.second == science } != null
@@ -86,11 +73,11 @@ data class Game(val player1: Player,
     }
 
     private fun victoryPointsForFeature(feature: CardFeature): Int {
-        when (feature) {
-            is VictoryPoints -> return feature.points
-            is Guild -> return GuildFeatureResolver().pointsForGuild(feature, this)
+        return when (feature) {
+            is VictoryPoints -> feature.points
+            is Guild -> GuildFeatureResolver().pointsForGuild(feature, this)
+            else -> 0
         }
-        return 0
     }
 }
 
@@ -109,7 +96,7 @@ enum class GameState {
     abstract fun canPerform(action: Action): Boolean
 }
 
-data class Player internal constructor(var gold_: Int) {
+data class Player (private var gold_: Int) {
 
     var gold: Int by object : ObservableProperty<Int>(gold_) {
         override fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) {
@@ -155,7 +142,7 @@ data class Player internal constructor(var gold_: Int) {
     }
 }
 
-data class Board(val cards_: List<BoardNode>) {
+data class Board(private val cards_: List<BoardNode>) {
     val cards = cards_.toMutableList()
 }
 

@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
+import com.fasterxml.jackson.core.ObjectCodec
+import com.fasterxml.jackson.core.TreeNode
+import com.fasterxml.jackson.databind.node.TextNode
 
 
 @RestController
@@ -26,23 +29,20 @@ class HelloController {
 
     @RequestMapping(method = [RequestMethod.GET])
     fun index(): Any {
-//        val query = jdbcTemplate.query("select * from actions", ActionMapper())
-////        val mapper = ObjectMapper()
-////        val value = mapper.readValue(query.first().action, Payload::class.java)
-//
-//        val payload = Gson().fromJson(query.first().action, Payload::class.java)
-
-
-//        val takeCard = TakeCard(Card("Test cardName", CardColor.BLUE, Resource(1, 2), listOf(Warehouse(WarehouseType.CLAY), GoldForWonder)))
-//        val gson = GsonBuilder().registerTypeAdapter(List::class.java, ActionAdapter2()).create()
-//        val json = gson.toJson(takeCard)
-
-        return ""//json
+        return "kupa"//json
     }
 
     @RequestMapping(value = ["actions"], method = [RequestMethod.POST])
-    fun postAction(@RequestBody load: Action): Action {
-        return load
+    fun postAction(@RequestBody action: Action): Game {
+
+        val node = BoardNode(Card("Take Me", CardColor.BLUE))
+        val board = Board(listOf(node))
+        val game = Game(Player(6), Player(6), board)
+        val wonders = Wonders(game)
+
+        wonders.takeAction(action)
+
+        return game
     }
 
     @RequestMapping(method = [RequestMethod.POST])
@@ -64,8 +64,12 @@ class ActionJsonModule internal constructor() : SimpleModule() {
 
 class ActionDeserializer : JsonDeserializer<Action>() {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Action {
+        val objectCodec = p.codec
+        val jsonNode = objectCodec.readTree<TreeNode>(p)
+        val actionType = jsonNode.get("action")
+        val name = (jsonNode.get("name") as TextNode).asText()
 //        val takeCard = TakeCard(Card("Name", CardColor.RED, features = listOf(Warehouse(WarehouseType.STONE))))
-        return TakeCard("Jozin z bazin")
+        return TakeCard(name)
     }
 }
 
