@@ -81,24 +81,31 @@ class ActionSerializer : JsonSerializer<Action>() {
 
 class CardFeatureSerializer : JsonSerializer<CardFeature>() {
     override fun serialize(value: CardFeature?, gen: JsonGenerator, serializers: SerializerProvider?) {
+        gen.writeStartObject()
         when (value) {
             is ProvideResource -> {
-                gen.writeStartObject()
                 gen.writeObjectField("type", "PROVIDE_RESOURCE")
                 gen.writeObjectField("resource", value.resource)
-                gen.writeEndObject()
             }
             is Warehouse -> {
-                gen.writeStartObject()
-                when(value.type){
+                when (value.type) {
                     WarehouseType.WOOD -> gen.writeObjectField("type", "WOOD_WAREHOUSE")
                     WarehouseType.CLAY -> gen.writeObjectField("type", "CLAY_WAREHOUSE")
                     WarehouseType.STONE -> gen.writeObjectField("type", "STONE_WAREHOUSE")
 
                 }
-                gen.writeEndObject()
             }
+            is Customs -> gen.writeObjectField("type", "CUSTOMS")
+            is GoldForWonder -> gen.writeObjectField("type", "GOLD_FOR_WONDER")
+            is DestroyBrownCard -> gen.writeObjectField("type", "DESTROY_BROWN_CARD")
+            is DestroySilverCard -> gen.writeObjectField("type", "DESTROY_SILVER_CARD")
+            is ExtraTurn -> gen.writeObjectField("type", "EXTRA_TURN")
+            is RemoveGold -> gen.writeObjectField("type", "REMOVE_GOLD")
+            is ProvideSilverResource -> gen.writeObjectField("type", "PROVIDE_SILVER_RESOURCE")
+            is ProvideBrownResource -> gen.writeObjectField("type", "PROVIDE_BROWN_RESOURCE")
         }
+
+        gen.writeEndObject()
     }
 }
 
