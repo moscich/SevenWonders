@@ -32,20 +32,20 @@ class CardFeatureMapperTests {
         assertEquals("{\"type\":\"PROVIDE_SILVER_RESOURCE\"}", json(ProvideSilverResource))
         assertEquals("{\"type\":\"PROVIDE_BROWN_RESOURCE\"}", json(ProvideBrownResource))
 
+        assertEquals("{\"type\":\"ADD_GOLD\",\"gold\":42}", json(AddGold(42)))
+        assertEquals("{\"type\":\"MILITARY\",\"points\":24}", json(Military(24)))
+        assertEquals("{\"type\":\"FREE_SYMBOL\",\"symbol\":\"SWORD\"}", json(FreeSymbol(CardFreeSymbol.SWORD)))
+        assertEquals("{\"type\":\"SCIENCE\",\"symbol\":\"WHEEL\"}", json(Science(ScienceSymbol.WHEEL)))
+        assertEquals("{\"type\":\"WAREHOUSE\",\"kind\":\"WOOD\"}", json(Warehouse(WarehouseType.WOOD)))
+        assertEquals("{\"type\":\"WAREHOUSE\",\"kind\":\"CLAY\"}", json(Warehouse(WarehouseType.CLAY)))
+        assertEquals("{\"type\":\"WAREHOUSE\",\"kind\":\"STONE\"}", json(Warehouse(WarehouseType.STONE)))
+        assertEquals("{\"type\":\"GOLD_FOR_COLOR\",\"color\":\"RED\"}", json(GoldForColor(CardColor.RED)))
+        assertEquals("{\"type\":\"GUILD\",\"kind\":\"WONDERS\"}", json(Guild(GuildType.WONDERS)))
+        assertEquals("{\"type\":\"VICTORY_POINTS\",\"points\":12}", json(VictoryPoints(12)))
         assertEquals(
                 "{\"type\":\"PROVIDE_RESOURCE\",\"resource\":{\"wood\":1,\"clay\":2,\"stone\":3,\"glass\":4,\"papyrus\":5,\"gold\":6}}",
                 json(ProvideResource(Resource(1,2,3,4,5,6)))
         )
-        assertEquals("{\"type\":\"ADD_GOLD\",\"gold\":42}", json(AddGold(42)))
-        assertEquals("{\"type\":\"MILITARY\",\"points\":24}", json(Military(24)))
-        assertEquals("{\"type\":\"FREE_SYMBOL\",\"symbol\":\"SWORD\"}", json(FreeSymbol(CardFreeSymbol.SWORD)))
-
-//        FreeSymbol(val symbol: CardFreeSymbol) : CardFeature()
-//        Science(val science: ScienceSymbol) : CardFeature()
-//        Warehouse(val type: WarehouseType) : CardFeature()
-//        GoldForColor(val color: CardColor) : CardFeature()
-//        Guild(val type: GuildType) : CardFeature()
-//        VictoryPoints(val points: Int) : CardFeature()
     }
 
     private fun json(value: Any): String {
@@ -53,14 +53,3 @@ class CardFeatureMapperTests {
     }
 
 }
-
-
-
-
-
-
-
-
-//{
-//    "type": "CUSTOMS"
-//}

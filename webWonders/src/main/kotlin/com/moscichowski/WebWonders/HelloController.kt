@@ -2,11 +2,13 @@ package com.moscichowski.WebWonders
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.core.TreeNode
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.databind.node.TextNode
 import com.moscichowski.wonders.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
@@ -15,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.core.TreeNode
-import com.fasterxml.jackson.databind.node.TextNode
 
 
 @RestController
@@ -88,12 +87,8 @@ class CardFeatureSerializer : JsonSerializer<CardFeature>() {
                 gen.writeObjectField("resource", value.resource)
             }
             is Warehouse -> {
-                when (value.type) {
-                    WarehouseType.WOOD -> gen.writeObjectField("type", "WOOD_WAREHOUSE")
-                    WarehouseType.CLAY -> gen.writeObjectField("type", "CLAY_WAREHOUSE")
-                    WarehouseType.STONE -> gen.writeObjectField("type", "STONE_WAREHOUSE")
-
-                }
+                gen.writeObjectField("type", "WAREHOUSE")
+                gen.writeObjectField("kind", value.type)
             }
             is AddGold -> {
                 gen.writeObjectField("type", "ADD_GOLD")
@@ -106,6 +101,22 @@ class CardFeatureSerializer : JsonSerializer<CardFeature>() {
             is FreeSymbol -> {
                 gen.writeObjectField("type", "FREE_SYMBOL")
                 gen.writeObjectField("symbol", value.symbol)
+            }
+            is Science -> {
+                gen.writeObjectField("type", "SCIENCE")
+                gen.writeObjectField("symbol", value.science)
+            }
+            is GoldForColor -> {
+                gen.writeObjectField("type", "GOLD_FOR_COLOR")
+                gen.writeObjectField("color", value.color)
+            }
+            is Guild -> {
+                gen.writeObjectField("type", "GUILD")
+                gen.writeObjectField("kind", value.type)
+            }
+            is VictoryPoints -> {
+                gen.writeObjectField("type", "VICTORY_POINTS")
+                gen.writeObjectField("points", value.points)
             }
 
             is Customs -> gen.writeObjectField("type", "CUSTOMS")
