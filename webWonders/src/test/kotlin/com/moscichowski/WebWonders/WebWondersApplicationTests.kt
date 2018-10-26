@@ -21,16 +21,16 @@ class WebWondersApplicationTests {
         val result = testRestTemplate.getForEntity("/", String::class.java)
         println(result)
     }
-
-	@Test
-	fun simplePost() {
-        val fileContent = WebWondersApplicationTests::class.java.getResource("/simple_game.json").readText()
-        val request = HttpEntity(ActionRequest("Take Me"))
-        val foo = testRestTemplate.postForObject("/actions", request, String::class.java)
-        Assert.assertEquals(fileContent, foo)
-        println("kaszana")
-    }
-
+//
+//	@Test
+//	fun simplePost() {
+//        val fileContent = WebWondersApplicationTests::class.java.getResource("/simple_game.json").readText()
+//        val request = HttpEntity(ActionRequest("Take Me"))
+//        val foo = testRestTemplate.postForObject("/actions", request, String::class.java)
+//        Assert.assertEquals(fileContent, foo)
+//        println("kaszana")
+//    }
+//
 
 }
 

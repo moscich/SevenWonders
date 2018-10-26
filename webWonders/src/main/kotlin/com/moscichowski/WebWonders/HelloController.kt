@@ -95,6 +95,19 @@ class CardFeatureSerializer : JsonSerializer<CardFeature>() {
 
                 }
             }
+            is AddGold -> {
+                gen.writeObjectField("type", "ADD_GOLD")
+                gen.writeObjectField("gold", value.gold)
+            }
+            is Military -> {
+                gen.writeObjectField("type", "MILITARY")
+                gen.writeObjectField("points", value.points)
+            }
+            is FreeSymbol -> {
+                gen.writeObjectField("type", "FREE_SYMBOL")
+                gen.writeObjectField("symbol", value.symbol)
+            }
+
             is Customs -> gen.writeObjectField("type", "CUSTOMS")
             is GoldForWonder -> gen.writeObjectField("type", "GOLD_FOR_WONDER")
             is DestroyBrownCard -> gen.writeObjectField("type", "DESTROY_BROWN_CARD")

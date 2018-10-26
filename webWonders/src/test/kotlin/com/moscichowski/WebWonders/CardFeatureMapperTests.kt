@@ -31,6 +31,21 @@ class CardFeatureMapperTests {
         assertEquals("{\"type\":\"REMOVE_GOLD\"}", json(RemoveGold))
         assertEquals("{\"type\":\"PROVIDE_SILVER_RESOURCE\"}", json(ProvideSilverResource))
         assertEquals("{\"type\":\"PROVIDE_BROWN_RESOURCE\"}", json(ProvideBrownResource))
+
+        assertEquals(
+                "{\"type\":\"PROVIDE_RESOURCE\",\"resource\":{\"wood\":1,\"clay\":2,\"stone\":3,\"glass\":4,\"papyrus\":5,\"gold\":6}}",
+                json(ProvideResource(Resource(1,2,3,4,5,6)))
+        )
+        assertEquals("{\"type\":\"ADD_GOLD\",\"gold\":42}", json(AddGold(42)))
+        assertEquals("{\"type\":\"MILITARY\",\"points\":24}", json(Military(24)))
+        assertEquals("{\"type\":\"FREE_SYMBOL\",\"symbol\":\"SWORD\"}", json(FreeSymbol(CardFreeSymbol.SWORD)))
+
+//        FreeSymbol(val symbol: CardFreeSymbol) : CardFeature()
+//        Science(val science: ScienceSymbol) : CardFeature()
+//        Warehouse(val type: WarehouseType) : CardFeature()
+//        GoldForColor(val color: CardColor) : CardFeature()
+//        Guild(val type: GuildType) : CardFeature()
+//        VictoryPoints(val points: Int) : CardFeature()
     }
 
     private fun json(value: Any): String {
