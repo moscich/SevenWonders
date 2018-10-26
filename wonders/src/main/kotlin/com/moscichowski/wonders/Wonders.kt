@@ -12,6 +12,12 @@ sealed class Action {
     abstract fun performOn(game: Game)
 }
 
+data class ChooseWonder(val wonderName: String) : Action() {
+    override fun performOn(game: Game) {
+        InitialWondersSelecter().selectWonder(game, this)
+    }
+}
+
 data class BuildWonder(val card: Card, val wonder: Wonder, var param: Any? = null) : Action() {
     override fun performOn(game: Game) {
         WonderBuilder().buildWonder(this, game)

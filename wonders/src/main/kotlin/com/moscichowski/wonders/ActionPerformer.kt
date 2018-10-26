@@ -146,7 +146,7 @@ abstract class ActionPerformer {
         return if (game.currentPlayer == 1) game.player1 else game.player2
     }
 
-    abstract fun hasPromo(): Boolean
+    open fun hasPromo(): Boolean = false
 
     private fun appendConstructionIfExist(providedResourcesPossibilities: List<Resource>): List<Resource> {
         var providedResourcesPossibilities1 = providedResourcesPossibilities

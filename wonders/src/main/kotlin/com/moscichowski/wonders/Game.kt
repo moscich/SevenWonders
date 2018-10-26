@@ -15,7 +15,7 @@ data class Game(val board: Board,
                 val player2: Player = Player(6),
                 var currentPlayer: Int = 0,
                 var military: Int = 0,
-                var state: GameState = GameState.REGULAR,
+                var state: GameState = GameState.WONDERS_SELECT,
                 val scienceTokens: MutableList<Pair<Int?, ScienceToken>> = mutableListOf(),
                 val militaryThresholds: MutableList<MilitaryThreshold> = mutableListOf(
                         MilitaryThreshold(0, 3, 2),
@@ -24,11 +24,22 @@ data class Game(val board: Board,
                         MilitaryThreshold(1, 6, 5)
                 )
 ) {
-    private var wonders: List<Wonder>
-
     init {
         if(_wonders.count() != 8) { throw Requires8WondersError() }
-        this.wonders = _wonders
+    }
+    private val mutableWonders = _wonders.toMutableList()
+
+    val wonders: List<Wonder>
+    get() {
+        return if (mutableWonders.count() > 4) {
+            mutableWonders.subList(0, mutableWonders.count() - 4)
+        } else {
+            mutableWonders
+        }
+    }
+
+    internal fun selectWonder(wonder: Wonder) {
+        mutableWonders.remove(wonder)
     }
 
     fun doesCurrentPlayerHaveScience(science: ScienceToken): Boolean {
@@ -90,6 +101,11 @@ data class Game(val board: Board,
 }
 
 enum class GameState {
+    WONDERS_SELECT {
+        override fun canPerform(action: Action): Boolean {
+            return action is ChooseWonder
+        }
+    },
     REGULAR {
         override fun canPerform(action: Action): Boolean {
             return action !is ChooseScience

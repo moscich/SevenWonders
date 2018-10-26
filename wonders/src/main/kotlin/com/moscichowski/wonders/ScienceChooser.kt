@@ -1,9 +1,6 @@
 package com.moscichowski.wonders
 
 class ScienceChooser: ActionPerformer() {
-    override fun hasPromo(): Boolean {
-        return false
-    }
 
     fun chooseScience(game: Game, action: ChooseScience) {
         val index = game.scienceTokens.filter { it.first == null }.indexOfFirst { it.second == action.token }
