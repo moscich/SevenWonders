@@ -1085,3 +1085,7 @@ fun MutableList<Card>.addColors(brown: Int, silver: Int, yellow: Int, blue: Int,
 
 fun Card(name: String, cost: Resource = Resource(), features: List<CardFeature> = mutableListOf(), freeSymbol: CardFreeSymbol? = null): Card = Card(name, CardColor.BROWN, cost, features, freeSymbol)
 fun TakeCard(card: Card): TakeCard = TakeCard(card.name)
+fun Game(player1: Player, player2: Player, board: Board, currentPlayer: Int = 0): Game {
+    val testWonders = (0 until 8).map { Wonder("Test") }
+    return Game(board, testWonders, player1 = player1, player2 = player2, currentPlayer = currentPlayer)
+}

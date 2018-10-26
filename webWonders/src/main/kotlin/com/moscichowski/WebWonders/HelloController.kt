@@ -32,16 +32,16 @@ class HelloController {
     }
 
     @RequestMapping(value = ["actions"], method = [RequestMethod.POST])
-    fun postAction(@RequestBody action: Action): Game {
+    fun postAction(@RequestBody action: Action): Any {
 
-        val node = BoardNode(Card("Take Me", CardColor.BLUE))
-        val board = Board(listOf(node))
-        val game = Game(Player(6), Player(6), board)
-        val wonders = Wonders(game)
+//        val node = BoardNode(Card("Take Me", CardColor.BLUE))
+//        val board = Board(listOf(node))
+//        val game = Game(Player(6), Player(6), board)
+//        val wonders = Wonders(game)
+//
+//        wonders.takeAction(action)
 
-        wonders.takeAction(action)
-
-        return game
+        return ""
     }
 
     @RequestMapping(method = [RequestMethod.POST])

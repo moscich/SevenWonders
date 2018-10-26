@@ -1,5 +1,6 @@
 package com.moscichowski.wonders
 
+import java.lang.Error
 import kotlin.math.max
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
@@ -8,9 +9,10 @@ data class MilitaryThreshold(val player: Int,
                              val position: Int,
                              val gold: Int)
 
-data class Game(val player1: Player,
-                val player2: Player,
-                val board: Board,
+data class Game(val board: Board,
+                private val _wonders: List<Wonder>,
+                val player1: Player = Player(6),
+                val player2: Player = Player(6),
                 var currentPlayer: Int = 0,
                 var military: Int = 0,
                 var state: GameState = GameState.REGULAR,
@@ -22,6 +24,12 @@ data class Game(val player1: Player,
                         MilitaryThreshold(1, 6, 5)
                 )
 ) {
+    private var wonders: List<Wonder>
+
+    init {
+        if(_wonders.count() != 8) { throw Requires8WondersError() }
+        this.wonders = _wonders
+    }
 
     fun doesCurrentPlayerHaveScience(science: ScienceToken): Boolean {
         return scienceTokens.find { it.first == currentPlayer && it.second == science } != null
