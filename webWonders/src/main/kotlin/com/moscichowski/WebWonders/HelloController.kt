@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
+import java.lang.Error
 
 
 @RestController
@@ -28,9 +29,12 @@ class HelloController {
 
     @RequestMapping(method = [RequestMethod.GET])
     fun index(): Any {
+
+        throw Error("Akuku")
+
         return "kupa"//json
     }
-
+    
     @RequestMapping(value = ["actions"], method = [RequestMethod.POST])
     fun postAction(@RequestBody action: Action): Any {
 
