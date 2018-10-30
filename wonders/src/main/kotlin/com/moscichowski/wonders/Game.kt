@@ -284,4 +284,9 @@ enum class GuildType {
     YELLOW, BROWN_SILVER, WONDERS, BLUE, GREEN, GOLD, RED
 }
 
-data class Wonder(val name: String, val cost: Resource = Resource(), val features: List<CardFeature> = mutableListOf())
+data class Wonder(var name: String, var cost: Resource = Resource(), var features: List<CardFeature> = mutableListOf()) {
+    constructor() : this("") {
+
+    }
+
+}

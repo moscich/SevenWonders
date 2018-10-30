@@ -1,12 +1,15 @@
 package com.moscichowski.WebWonders
 
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.moscichowski.wonders.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
+import java.io.File
 
 
 @RestController
@@ -14,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController
 class GameController {
     @Autowired
     lateinit var jdbcTemplate: JdbcTemplate
+
+    @Autowired
+    lateinit var mapper: WondersMapper
 
     @RequestMapping(method = [RequestMethod.POST])
     fun postAction(): Any? {
@@ -24,15 +30,28 @@ class GameController {
             Wonder("Everybody dance", Resource(2,glass = 1), features = listOf(ExtraTurn))
         )
 
-        val objectMapper = ObjectMapper()
-        val writeValueAsString = objectMapper.writeValueAsString(wonderList)
+        val writeValueAsString = mapper.writeValueAsString(wonderList)
 
         return jdbcTemplate.query("insert into games (initial) values ('$writeValueAsString') RETURNING id") { rs, _ ->
-            println(rs)
-            rs.getInt(1
-            )
+            rs.getInt(1)
         }.first()
     }
 
+    @RequestMapping("/{id}", method = [RequestMethod.GET])
+    fun getGame(@PathVariable(value="id") id: Int): Any {
+        val first = jdbcTemplate.query("select * from games where id = $id") { rs, _ ->
+            rs.getString(2)
+        }.first()
+//        val type: Type = object : TypeToken<ServiceCall<SurveyListModel>>() {}.type
+
+//        val actuallyFoos: List<Wonder> = mapper.readValue(
+//                File("/your/path/test.json"), object : TypeReference<List<Wonder>>() {
+//
+//        })
+//
+        val readValue: List<Wonder> = mapper.readValue(first, object: TypeReference<List<Wonder>>() {})
+//        val convertValue = mapper.convertValue(first, List::class.java)
+        return first
+    }
 
 }

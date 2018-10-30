@@ -1,5 +1,6 @@
 package com.moscichowski.WebWonders
 
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.moscichowski.wonders.*
 import org.junit.Assert.*
@@ -12,12 +13,11 @@ import org.springframework.test.context.junit4.SpringRunner
 class CardFeatureMapperTests {
 
     companion object {
-        val objectMapper = ObjectMapper()
+        val objectMapper = WondersMapper()
 
         @BeforeClass
         @JvmStatic
         fun setup() {
-            objectMapper.registerModule(ActionJsonModule())
         }
     }
 
@@ -46,6 +46,41 @@ class CardFeatureMapperTests {
                 "{\"type\":\"PROVIDE_RESOURCE\",\"resource\":{\"wood\":1,\"clay\":2,\"stone\":3,\"glass\":4,\"papyrus\":5,\"gold\":6}}",
                 json(ProvideResource(Resource(1,2,3,4,5,6)))
         )
+    }
+
+    val featureMap = mapOf(Pair(ProvideResource::class.java, "PROVIDE_RESOURCE"))
+
+    @Test
+    fun cardFeatures() {
+        val provide = ProvideResource(Resource())
+        assertEquals("PROVIDE_RESOURCE", featureMap[provide::class.java])
+        assertEquals(GoldForWonder, feature(json(GoldForWonder)))
+    }
+
+    @Test
+    fun cardFeaturesFromJson() {
+        assertEquals(Customs, feature("{\"type\":\"CUSTOMS\"}"))
+        assertEquals(AddGold(42), feature("{\"type\":\"ADD_GOLD\",\"gold\":42}"))
+    }
+
+//    @Test
+//    fun parseWonders() {
+//        val wonder = Wonder("Via Appia", Resource(1, 2, 3), features = listOf(AddGold(3), RemoveGold, ExtraTurn, VictoryPoints(3)))
+//        val wonderList = listOf(
+////                Wonder("Test")
+//                wonder
+////                Wonder("Second wonder", Resource(3), features = listOf(DestroyBrownCard)),
+////                Wonder("Third shieeet", Resource(1,2), features = listOf(DestroySilverCard)),
+////                Wonder("Everybody dance", Resource(2,glass = 1), features = listOf(ExtraTurn))
+//        )
+//
+//        val writeValueAsString = objectMapper.writeValueAsString(wonderList)
+//        val readValue: List<Wonder> = objectMapper.readValue(writeValueAsString, object: TypeReference<List<Wonder>>() {})
+//        assertEquals(wonder, readValue.first())
+//    }
+
+    private fun feature(json: String): CardFeature {
+        return objectMapper.readValue(json, CardFeature::class.java)
     }
 
     private fun json(value: Any): String {
