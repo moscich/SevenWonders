@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.databind.node.IntNode
 import com.fasterxml.jackson.databind.node.TextNode
 import com.moscichowski.wonders.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -88,17 +87,16 @@ class CardFeatureDeserializer : JsonDeserializer<CardFeature>() {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): CardFeature {
         val objectCodec = p.codec
         val jsonNode = objectCodec.readTree<TreeNode>(p)
-        val asText = (jsonNode.get("type") as TextNode).asText()
-        val first = featureMap.filter { it.value == asText }.keys.first()
-        val param = featureParamMap[first]
-        val paramType = featureTypeMap[first]
-        if (param != null) {
-            val paramNode = jsonNode.get(param).traverse()
+        val featureString = (jsonNode.get("type") as TextNode).asText()
+        val paramName = featureMapString[featureString]?.second
+        if (paramName != null) {
+            val paramType = featureMapString[featureString]!!.third
+            val paramNode = jsonNode.get(paramName).traverse()
             paramNode.codec = objectCodec
             val paramData = paramNode.readValueAs(paramType)
-            return asText.cardFeature(paramData)!!
+            return featureString.cardFeature(paramData)!!
         }
-        return asText.cardFeature()!!
+        return featureString.cardFeature()!!
     }
 }
 
@@ -133,63 +131,52 @@ class CardFeatureSerializer : JsonSerializer<CardFeature>() {
 }
 
 val featureMap = mapOf(
-        Pair(ProvideResource::class.java, "PROVIDE_RESOURCE"),
-        Pair(ProvideResource::class.java, "PROVIDE_RESOURCE"),
-        Pair(Warehouse::class.java, "WAREHOUSE"),
-        Pair(AddGold::class.java, "ADD_GOLD"),
-        Pair(Military::class.java, "MILITARY"),
-        Pair(FreeSymbol::class.java, "FREE_SYMBOL"),
-        Pair(Science::class.java, "SCIENCE"),
-        Pair(GoldForColor::class.java, "GOLD_FOR_COLOR"),
-        Pair(Guild::class.java, "GUILD"),
-        Pair(VictoryPoints::class.java, "VICTORY_POINTS"),
-        Pair(Customs::class.java, "CUSTOMS"),
-        Pair(GoldForWonder::class.java, "GOLD_FOR_WONDER"),
-        Pair(DestroyBrownCard::class.java, "DESTROY_BROWN_CARD"),
-        Pair(DestroySilverCard::class.java, "DESTROY_SILVER_CARD"),
-        Pair(ExtraTurn::class.java, "EXTRA_TURN"),
-        Pair(RemoveGold::class.java, "REMOVE_GOLD"),
-        Pair(ProvideSilverResource::class.java, "PROVIDE_SILVER_RESOURCE"),
-        Pair(ProvideBrownResource::class.java, "PROVIDE_BROWN_RESOURCE")
+        Pair(ProvideResource::class.java, Triple("PROVIDE_RESOURCE", "resource", Resource::class.java)),
+        Pair(Warehouse::class.java, Triple("WAREHOUSE", "kind", WarehouseType::class.java)),
+        Pair(AddGold::class.java, Triple("ADD_GOLD", "gold", Int::class.java)),
+        Pair(Military::class.java, Triple("MILITARY", "points", Int::class.java)),
+        Pair(FreeSymbol::class.java, Triple("FREE_SYMBOL", "symbol", CardFreeSymbol::class.java)),
+        Pair(Science::class.java, Triple("SCIENCE", "symbol", ScienceSymbol::class.java)),
+        Pair(GoldForColor::class.java, Triple("GOLD_FOR_COLOR", "color", CardColor::class.java)),
+        Pair(Guild::class.java, Triple("GUILD", "kind", GuildType::class.java)),
+        Pair(VictoryPoints::class.java, Triple("VICTORY_POINTS", "points", Int::class.java)),
+        Pair(Customs::class.java, Triple("CUSTOMS", null, null)),
+        Pair(GoldForWonder::class.java, Triple("GOLD_FOR_WONDER", null, null)),
+        Pair(DestroyBrownCard::class.java, Triple("DESTROY_BROWN_CARD", null, null)),
+        Pair(DestroySilverCard::class.java, Triple("DESTROY_SILVER_CARD", null, null)),
+        Pair(ExtraTurn::class.java, Triple("EXTRA_TURN", null, null)),
+        Pair(RemoveGold::class.java, Triple("REMOVE_GOLD", null, null)),
+        Pair(ProvideSilverResource::class.java, Triple("PROVIDE_SILVER_RESOURCE", null, null)),
+        Pair(ProvideBrownResource::class.java, Triple("PROVIDE_BROWN_RESOURCE", null, null))
 )
 
-val featureParamMap = mapOf(
-        Pair(ProvideResource::class.java, "resource"),
-        Pair(Warehouse::class.java, "kind"),
-        Pair(AddGold::class.java, "gold"),
-        Pair(Military::class.java, "points"),
-        Pair(FreeSymbol::class.java, "symbol"),
-        Pair(Science::class.java, "symbol"),
-        Pair(GoldForColor::class.java, "color"),
-        Pair(Guild::class.java, "kind"),
-        Pair(VictoryPoints::class.java, "points")
-)
-
-val featureTypeMap = mapOf(
-        Pair(ProvideResource::class.java, Resource::class.java),
-        Pair(Warehouse::class.java, WarehouseType::class.java),
-        Pair(AddGold::class.java, Int::class.java),
-        Pair(Military::class.java, Int::class.java),
-        Pair(FreeSymbol::class.java, CardFreeSymbol::class.java),
-        Pair(Science::class.java, ScienceSymbol::class.java),
-        Pair(GoldForColor::class.java, CardColor::class.java),
-        Pair(Guild::class.java, GuildType::class.java),
-        Pair(VictoryPoints::class.java, Int::class.java)
+val featureMapString = mapOf(
+        Pair("PROVIDE_RESOURCE", Triple(ProvideResource::class.java, "resource", Resource::class.java)),
+        Pair("WAREHOUSE", Triple(Warehouse::class.java, "kind", WarehouseType::class.java)),
+        Pair("ADD_GOLD", Triple(AddGold::class.java, "gold", Int::class.java)),
+        Pair("MILITARY", Triple(Military::class.java, "points", Int::class.java)),
+        Pair("FREE_SYMBOL", Triple(FreeSymbol::class.java, "symbol", CardFreeSymbol::class.java)),
+        Pair("SCIENCE", Triple(Science::class.java, "symbol", ScienceSymbol::class.java)),
+        Pair("GOLD_FOR_COLOR", Triple(GoldForColor::class.java, "color", CardColor::class.java)),
+        Pair("GUILD", Triple(Guild::class.java, "kind", GuildType::class.java)),
+        Pair("VICTORY_POINTS", Triple(VictoryPoints::class.java, "points", Int::class.java)),
+        Pair("CUSTOMS", Triple(Customs::class.java, null, null)),
+        Pair("GOLD_FOR_WONDER", Triple(GoldForWonder::class.java, null, null)),
+        Pair("DESTROY_BROWN_CARD", Triple(DestroyBrownCard::class.java, null, null)),
+        Pair("DESTROY_SILVER_CARD", Triple(DestroySilverCard::class.java, null, null)),
+        Pair("EXTRA_TURN", Triple(ExtraTurn::class.java, null, null)),
+        Pair("REMOVE_GOLD", Triple(RemoveGold::class.java, null, null)),
+        Pair("PROVIDE_SILVER_RESOURCE", Triple(ProvideSilverResource::class.java, null, null)),
+        Pair("PROVIDE_BROWN_RESOURCE", Triple(ProvideBrownResource::class.java, null, null))
 )
 
 fun CardFeature.type(): String {
-    return featureMap[this::class.java]!!
+    return featureMap[this::class.java]!!.first
 }
 
-fun String.cardFeature(xD: Any? = null): CardFeature? {
-    val first = featureMap.filter { it.value == this }.keys.first()
-    println(first.kotlin)
-    val objectInstance = first.kotlin.objectInstance
-    if (objectInstance != null)
-        return first.kotlin.objectInstance
-    else {
-        return first.kotlin.primaryConstructor?.call(xD)
-    }
+fun String.cardFeature(param: Any? = null): CardFeature? {
+    val featureType = featureMapString[this]!!.first
+    return featureType.kotlin.objectInstance ?: featureType.kotlin.primaryConstructor?.call(param)
 }
 
 fun CardFeature.extras(): Pair<String, Any>? {

@@ -1,9 +1,7 @@
 package com.moscichowski.WebWonders
 
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.moscichowski.wonders.*
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,14 +46,8 @@ class CardFeatureMapperTests {
         )
     }
 
-    val featureMap = mapOf(Pair(ProvideResource::class.java, "PROVIDE_RESOURCE"))
-
     @Test
     fun cardFeatures() {
-
-        val provide = ProvideResource(Resource())
-        assertEquals("PROVIDE_RESOURCE", featureMap[provide::class.java])
-        assertEquals(GoldForWonder, feature(json(GoldForWonder)))
 
         assertEquals(Customs, feature(json(Customs)))
         assertEquals(GoldForWonder, feature(json(GoldForWonder)))
