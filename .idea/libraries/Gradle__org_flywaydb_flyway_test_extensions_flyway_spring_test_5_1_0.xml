@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.flywaydb.flyway-test-extensions:flyway-spring-test:5.1.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.flywaydb.flyway-test-extensions/flyway-spring-test/5.1.0/711787a15de22e335dee5166c5692ff9fff465f1/flyway-spring-test-5.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.flywaydb.flyway-test-extensions/flyway-spring-test/5.1.0/b565a6c615bac172b3a36c15c43cad20987c72e8/flyway-spring-test-5.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

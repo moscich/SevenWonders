@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/games")
 class GameController {
+
+    constructor() {
+        println("Im being made!")
+    }
+
     @Autowired
     lateinit var jdbcTemplate: JdbcTemplate
 

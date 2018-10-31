@@ -67,6 +67,7 @@ class HelloController {
     fun postTest(@RequestBody load: Payload): String {
 
         jdbcTemplate.batchUpdate("insert into actions (action) values ('{\"test1\": \"Test2\", \"howmuch\": 42}')")
+
         return "Greetings ${load.test1} == ${load.howmuch}"
     }
 }
