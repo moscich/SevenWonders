@@ -91,20 +91,12 @@ class CardFeatureDeserializer : JsonDeserializer<CardFeature>() {
         val asText = (jsonNode.get("type") as TextNode).asText()
         val first = featureMap.filter { it.value == asText }.keys.first()
         val param = featureParamMap[first]
+        val paramType = featureTypeMap[first]
         if (param != null) {
             val paramNode = jsonNode.get(param).traverse()
             paramNode.codec = objectCodec
-            val listOf = listOf(Resource::class.java, Int::class.java, GuildType::class.java, CardColor::class.java)
-            for (type in listOf) {
-                try {
-                    val paramData = paramNode.readValueAs(type)
-                    return asText.cardFeature(paramData)!!
-
-                } catch (e: Exception) {
-                    println("javaClass = ${e}")
-                }
-            }
-//            val paramData: Int = paramNode.readValueAs(object : TypeReference<Int>() {})
+            val paramData = paramNode.readValueAs(paramType)
+            return asText.cardFeature(paramData)!!
         }
         return asText.cardFeature()!!
     }
@@ -171,6 +163,18 @@ val featureParamMap = mapOf(
         Pair(GoldForColor::class.java, "color"),
         Pair(Guild::class.java, "kind"),
         Pair(VictoryPoints::class.java, "points")
+)
+
+val featureTypeMap = mapOf(
+        Pair(ProvideResource::class.java, Resource::class.java),
+        Pair(Warehouse::class.java, WarehouseType::class.java),
+        Pair(AddGold::class.java, Int::class.java),
+        Pair(Military::class.java, Int::class.java),
+        Pair(FreeSymbol::class.java, CardFreeSymbol::class.java),
+        Pair(Science::class.java, ScienceSymbol::class.java),
+        Pair(GoldForColor::class.java, CardColor::class.java),
+        Pair(Guild::class.java, GuildType::class.java),
+        Pair(VictoryPoints::class.java, Int::class.java)
 )
 
 fun CardFeature.type(): String {

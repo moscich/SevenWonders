@@ -52,9 +52,32 @@ class CardFeatureMapperTests {
 
     @Test
     fun cardFeatures() {
+
         val provide = ProvideResource(Resource())
         assertEquals("PROVIDE_RESOURCE", featureMap[provide::class.java])
         assertEquals(GoldForWonder, feature(json(GoldForWonder)))
+
+        assertEquals(Customs, feature(json(Customs)))
+        assertEquals(GoldForWonder, feature(json(GoldForWonder)))
+        assertEquals(DestroyBrownCard, feature(json(DestroyBrownCard)))
+        assertEquals(DestroySilverCard, feature(json(DestroySilverCard)))
+        assertEquals(ExtraTurn, feature(json(ExtraTurn)))
+        assertEquals(RemoveGold, feature(json(RemoveGold)))
+        assertEquals(ProvideSilverResource, feature(json(ProvideSilverResource)))
+        assertEquals(ProvideBrownResource, feature(json(ProvideBrownResource)))
+
+        assertEquals(AddGold(42), feature(json(AddGold(42))))
+        assertEquals(Military(24), feature(json(Military(24))))
+        assertEquals(Science(ScienceSymbol.WHEEL), feature(json(Science(ScienceSymbol.WHEEL))))
+        assertEquals(Warehouse(WarehouseType.WOOD), feature(json(Warehouse(WarehouseType.WOOD))))
+        assertEquals(Warehouse(WarehouseType.CLAY), feature(json(Warehouse(WarehouseType.CLAY))))
+        assertEquals(Warehouse(WarehouseType.STONE), feature(json(Warehouse(WarehouseType.STONE))))
+        assertEquals(GoldForColor(CardColor.RED), feature(json(GoldForColor(CardColor.RED))))
+        assertEquals(Guild(GuildType.WONDERS), feature(json(Guild(GuildType.WONDERS))))
+        assertEquals(VictoryPoints(12), feature(json(VictoryPoints(12))))
+        assertEquals(FreeSymbol(CardFreeSymbol.SWORD), feature(json(FreeSymbol(CardFreeSymbol.SWORD))))
+        assertEquals(ProvideResource(Resource(1,2,3,4,5,6)),
+                feature(json(ProvideResource(Resource(1,2,3,4,5,6)))))
     }
 
     @Test
@@ -62,22 +85,6 @@ class CardFeatureMapperTests {
         assertEquals(Customs, feature("{\"type\":\"CUSTOMS\"}"))
         assertEquals(AddGold(42), feature("{\"type\":\"ADD_GOLD\",\"gold\":42}"))
     }
-
-//    @Test
-//    fun parseWonders() {
-//        val wonder = Wonder("Via Appia", Resource(1, 2, 3), features = listOf(AddGold(3), RemoveGold, ExtraTurn, VictoryPoints(3)))
-//        val wonderList = listOf(
-////                Wonder("Test")
-//                wonder
-////                Wonder("Second wonder", Resource(3), features = listOf(DestroyBrownCard)),
-////                Wonder("Third shieeet", Resource(1,2), features = listOf(DestroySilverCard)),
-////                Wonder("Everybody dance", Resource(2,glass = 1), features = listOf(ExtraTurn))
-//        )
-//
-//        val writeValueAsString = objectMapper.writeValueAsString(wonderList)
-//        val readValue: List<Wonder> = objectMapper.readValue(writeValueAsString, object: TypeReference<List<Wonder>>() {})
-//        assertEquals(wonder, readValue.first())
-//    }
 
     private fun feature(json: String): CardFeature {
         return objectMapper.readValue(json, CardFeature::class.java)
