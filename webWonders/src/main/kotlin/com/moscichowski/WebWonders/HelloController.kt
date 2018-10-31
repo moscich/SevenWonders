@@ -118,16 +118,28 @@ class ActionDeserializer : JsonDeserializer<Action>() {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Action {
         val objectCodec = p.codec
         val jsonNode = objectCodec.readTree<TreeNode>(p)
-        val actionType = jsonNode.get("action")
-        val name = (jsonNode.get("name") as TextNode).asText()
-//        val takeCard = TakeCard(Card("Name", CardColor.RED, features = listOf(Warehouse(WarehouseType.STONE))))
-        return TakeCard(name)
+        val typeString = (jsonNode.get("type") as TextNode).asText()
+        val paramName = actionMap[typeString]?.second
+        val paramType = actionMap[typeString]?.first
+        val paramNode = jsonNode.get(paramName).traverse()
+        paramNode.codec = objectCodec
+        val paramData = paramNode.readValueAs(paramType)
+
+        return paramData
     }
 }
 
 class ActionSerializer : JsonSerializer<Action>() {
-    override fun serialize(value: Action?, gen: JsonGenerator, serializers: SerializerProvider?) {
-        gen.writeObject(Card("Name", CardColor.RED, features = listOf(Warehouse(WarehouseType.STONE), ProvideResource(Resource(1, 2, 3)))))
+    override fun serialize(value: Action, gen: JsonGenerator, serializers: SerializerProvider?) {
+        gen.writeStartObject()
+        when (value) {
+            is ChooseWonder -> {
+                gen.writeObjectField("type", "CHOOSE_WONDER")
+                gen.writeObjectField("name", value.wonderName)
+            }
+        }
+
+        gen.writeEndObject()
     }
 }
 
@@ -184,6 +196,10 @@ val featureMapString = mapOf(
         Pair("PROVIDE_BROWN_RESOURCE", Triple(ProvideBrownResource::class.java, null, null))
 )
 
+val actionMap = mapOf(
+        Pair("CHOOSE_WONDER", Pair(ChooseWonder::class.java, "name"))
+)
+
 fun CardFeature.type(): String {
     return featureMap[this::class.java]!!.first
 }
@@ -191,6 +207,11 @@ fun CardFeature.type(): String {
 fun String.cardFeature(param: Any? = null): CardFeature? {
     val featureType = featureMapString[this]!!.first
     return featureType.kotlin.objectInstance ?: featureType.kotlin.primaryConstructor?.call(param)
+}
+
+fun String.action(param: Any): Action? {
+    val actionType = actionMap[this]!!.first
+    return actionType.kotlin.primaryConstructor?.call(param)
 }
 
 fun CardFeature.extras(): Pair<String, Any>? {

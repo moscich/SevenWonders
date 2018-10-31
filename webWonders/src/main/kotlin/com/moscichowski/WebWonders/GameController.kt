@@ -1,16 +1,10 @@
 package com.moscichowski.WebWonders
 
 import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.moscichowski.wonders.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
-import java.io.File
-
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/games")
@@ -46,17 +40,42 @@ class GameController {
         val first = jdbcTemplate.query("select * from games where id = $id") { rs, _ ->
             rs.getString(2)
         }.first()
-//        val type: Type = object : TypeToken<ServiceCall<SurveyListModel>>() {}.type
 
-//        val actuallyFoos: List<Wonder> = mapper.readValue(
-//                File("/your/path/test.json"), object : TypeReference<List<Wonder>>() {
-//
-//        })
-//
         val readValue: List<Wonder> = mapper.readValue(first, object: TypeReference<List<Wonder>>() {})
         val game = Game(Board(listOf()), readValue)
-        Wonders(game)
-//        val convertValue = mapper.convertValue(first, List::class.java)
+        val wonders = Wonders(game)
+
+        val actions = jdbcTemplate.query("select action from actions where game_id = $id") { rs, _ ->
+            rs.getString(1)
+        }.map { mapper.readValue(it, Action::class.java) }
+
+        println("actions = ${actions}")
+        actions.forEach { wonders.takeAction(it) }
+
+        return game
+    }
+
+    @RequestMapping(value = ["/{gameId}/actions"], method = [RequestMethod.POST])
+    fun postAction(@PathVariable(value="gameId") gameId: Int, @RequestBody action: Action): Any {
+        val first = jdbcTemplate.query("select * from games where id = $gameId") { rs, _ ->
+            rs.getString(2)
+        }.first()
+        val readValue: List<Wonder> = mapper.readValue(first, object: TypeReference<List<Wonder>>() {})
+        val game = Game(Board(listOf()), readValue)
+        val wonders = Wonders(game)
+
+
+        val actions = jdbcTemplate.query("select action from actions where game_id = $gameId") { rs, _ ->
+            rs.getString(1)
+        }.map { mapper.readValue(it, Action::class.java) }
+
+        println("actions = ${actions}")
+        actions.forEach { wonders.takeAction(it) }
+        wonders.takeAction(action)
+
+        val deserializedAction = mapper.writeValueAsString(action)
+        jdbcTemplate.execute("insert into actions (game_id, action) values ('$gameId', '$deserializedAction')")
+
         return game
     }
 
