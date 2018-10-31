@@ -50,6 +50,19 @@ class HelloController {
         return ""
     }
 
+    @RequestMapping(value = ["test"], method = [RequestMethod.GET])
+    fun xd(): Game {
+
+        val node = BoardNode(Card("Take Me", CardColor.BLUE))
+        val board = Board(listOf(node))
+        val game = Game(board, (0 until 8).map { Wonder("Test") })
+        val wonders = Wonders(game)
+//
+//        wonders.takeAction(action)
+
+        return game
+    }
+
     @RequestMapping(method = [RequestMethod.POST])
     fun postTest(@RequestBody load: Payload): String {
 
@@ -59,12 +72,13 @@ class HelloController {
 }
 
 @Service
-class ActionJsonModule internal constructor() : SimpleModule() {
+class ActionJsonModule : SimpleModule() {
     init {
-        this.addDeserializer(Action::class.java, ActionDeserializer())
         this.addSerializer(Action::class.java, ActionSerializer())
         this.addSerializer(CardFeature::class.java, CardFeatureSerializer())
+
         this.addDeserializer(Wonder::class.java, WonderDeserializer())
+        this.addDeserializer(Action::class.java, ActionDeserializer())
         this.addDeserializer(CardFeature::class.java, CardFeatureDeserializer())
     }
 }

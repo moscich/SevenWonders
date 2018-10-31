@@ -3,7 +3,15 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SevenWonders.iml" filepath="$PROJECT_DIR$/SevenWonders.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/webService/webService.iml" filepath="$PROJECT_DIR$/.idea/modules/webService/webService.iml" group="webService" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/webService/webService_main.iml" filepath="$PROJECT_DIR$/.idea/modules/webService/webService_main.iml" group="webService" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/webService/webService_test.iml" filepath="$PROJECT_DIR$/.idea/modules/webService/webService_test.iml" group="webService" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/webWonders/webWonders.iml" filepath="$PROJECT_DIR$/.idea/modules/webWonders/webWonders.iml" group="webWonders" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/webWonders/webWonders_main.iml" filepath="$PROJECT_DIR$/.idea/modules/webWonders/webWonders_main.iml" group="webWonders" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/webWonders/webWonders_test.iml" filepath="$PROJECT_DIR$/.idea/modules/webWonders/webWonders_test.iml" group="webWonders" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wonders/wonders.iml" filepath="$PROJECT_DIR$/.idea/modules/wonders/wonders.iml" group="wonders" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wonders/wonders_main.iml" filepath="$PROJECT_DIR$/.idea/modules/wonders/wonders_main.iml" group="wonders" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wonders/wonders_test.iml" filepath="$PROJECT_DIR$/.idea/modules/wonders/wonders_test.iml" group="wonders" />
     </modules>
   </component>
 </project>

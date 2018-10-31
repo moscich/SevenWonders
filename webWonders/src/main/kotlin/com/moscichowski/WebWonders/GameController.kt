@@ -27,7 +27,11 @@ class GameController {
             Wonder("Via Appia", Resource(1,2,3), features = listOf(AddGold(3), RemoveGold, ExtraTurn, VictoryPoints(3))),
             Wonder("Second wonder", Resource(3), features = listOf(DestroyBrownCard)),
             Wonder("Third shieeet", Resource(1,2), features = listOf(DestroySilverCard)),
-            Wonder("Everybody dance", Resource(2,glass = 1), features = listOf(ExtraTurn))
+            Wonder("Everybody dance", Resource(2,glass = 1), features = listOf(ExtraTurn)),
+            Wonder("Via Appia 2", Resource(1,2,3), features = listOf(AddGold(3), RemoveGold, ExtraTurn, VictoryPoints(3))),
+            Wonder("Second wonder 2", Resource(3), features = listOf(DestroyBrownCard)),
+            Wonder("Third shieeet 2", Resource(1,2), features = listOf(DestroySilverCard)),
+            Wonder("Everybody dance 2", Resource(2,glass = 1), features = listOf(ExtraTurn))
         )
 
         val writeValueAsString = mapper.writeValueAsString(wonderList)
@@ -50,8 +54,10 @@ class GameController {
 //        })
 //
         val readValue: List<Wonder> = mapper.readValue(first, object: TypeReference<List<Wonder>>() {})
+        val game = Game(Board(listOf()), readValue)
+        Wonders(game)
 //        val convertValue = mapper.convertValue(first, List::class.java)
-        return first
+        return game
     }
 
 }
