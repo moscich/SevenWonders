@@ -109,7 +109,7 @@ enum class GameState {
     abstract fun canPerform(action: Action): Boolean
 }
 
-data class Player internal constructor(var gold_: Int) {
+data class Player constructor(var gold_: Int) {
 
     var gold: Int by object : ObservableProperty<Int>(gold_) {
         override fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) {
