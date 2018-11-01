@@ -12,20 +12,20 @@ import com.opentable.db.postgres.embedded.FlywayPreparer
 import com.opentable.db.postgres.junit.EmbeddedPostgresRules
 
 
-@Configuration
-@ComponentScan("com.moscichowski.jdbc")
-class SpringJdbcConfig {
-    @Bean
-    fun postgresDataSource(): DataSource {
-
-        val dataSource = DriverManagerDataSource()
-        dataSource.url = "jdbc:postgresql://localhost:5432/wonders"
-        dataSource.username = "wonders"
-        dataSource.password = "wonders"
-
-        return dataSource
-    }
-}
+//@Configuration
+//@ComponentScan("com.moscichowski.jdbc")
+//class SpringJdbcConfig {
+//    @Bean
+//    fun postgresDataSource(): DataSource {
+//
+//        val dataSource = DriverManagerDataSource()
+//        dataSource.url = "jdbc:postgresql://localhost:5432/wonders"
+//        dataSource.username = "wonders"
+//        dataSource.password = "wonders"
+//
+//        return dataSource
+//    }
+//}
 
 //@Bean
 //fun embeddedDataSource(): DataSource {
