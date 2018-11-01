@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController
 import java.lang.Error
 import kotlin.reflect.full.primaryConstructor
 import com.moscichowski.wonders.model.*
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.stereotype.Component
 
 
 @RestController
@@ -77,11 +80,9 @@ class HelloController {
 class ActionJsonModule : SimpleModule() {
     init {
         this.addSerializer(Action::class.java, ActionSerializer())
-        this.addSerializer(CardFeature::class.java, CardFeatureSerializer())
 
         this.addDeserializer(Wonder::class.java, WonderDeserializer())
         this.addDeserializer(Action::class.java, ActionDeserializer())
-        this.addDeserializer(CardFeature::class.java, CardFeatureDeserializer())
     }
 }
 

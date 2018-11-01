@@ -1,14 +1,61 @@
-package com.moscichowski.wonders.model
+package com.moscichowski.wonders.builder
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.core.TreeNode
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.databind.node.TextNode
+import com.moscichowski.wonders.model.*
 import kotlin.reflect.full.primaryConstructor
+
+open class CardJsonModule : SimpleModule() {
+    init {
+        this.addSerializer(CardFeature::class.java, CardFeatureSerializer())
+        this.addDeserializer(CardFeature::class.java, CardFeatureDeserializer())
+
+        this.addDeserializer(Card::class.java, CardDeserializer())
+    }
+}
+
+class CardDeserializer : JsonDeserializer<Card>() {
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Card {
+        val objectCodec = p.codec
+        val jsonNode = objectCodec.readTree<TreeNode>(p)
+        val cost = cost(jsonNode, objectCodec)
+        val features: List<CardFeature> = features(jsonNode, objectCodec)
+        val color = TEMPORARYSOLUTION(jsonNode, objectCodec)
+
+        return Card((jsonNode.get("name") as TextNode).asText(), color, cost, features)
+    }
+
+    fun TEMPORARYSOLUTION(jsonNode: TreeNode, objectCodec: ObjectCodec?): CardColor {
+        val get = jsonNode.get("color") ?: return CardColor.RED
+        val colorNode = get.traverse()
+        colorNode.codec = objectCodec
+        val color = colorNode.readValueAs(CardColor::class.java)
+        return color
+    }
+
+    fun features(jsonNode: TreeNode, objectCodec: ObjectCodec?): List<CardFeature> {
+        val featureJson = jsonNode.get("features") ?: return listOf()
+        val featuresNode = featureJson.traverse()
+        featuresNode.codec = objectCodec
+        return featuresNode.readValueAs(object : TypeReference<List<CardFeature>>() {})
+    }
+
+    fun cost(jsonNode: TreeNode, objectCodec: ObjectCodec?): Resource {
+        val costJson = jsonNode.get("cost") ?: return Resource()
+        val costNode = costJson.traverse()
+        costNode.codec = objectCodec
+        return costNode.readValueAs<Resource>(Resource::class.java)
+    }
+}
 
 class CardFeatureDeserializer : JsonDeserializer<CardFeature>() {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): CardFeature {
@@ -26,7 +73,6 @@ class CardFeatureDeserializer : JsonDeserializer<CardFeature>() {
         return featureString.cardFeature()!!
     }
 }
-
 
 class CardFeatureSerializer : JsonSerializer<CardFeature>() {
     override fun serialize(value: CardFeature, gen: JsonGenerator, serializers: SerializerProvider?) {

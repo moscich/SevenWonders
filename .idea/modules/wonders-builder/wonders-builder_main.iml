@@ -28,6 +28,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../wonders-builder/src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../../wonders-builder/src/main/kotlin" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../wonders-builder/src/main/resources" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

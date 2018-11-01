@@ -1,0 +1,95 @@
+[
+  [
+    {
+      "name": "wycinka",
+      "color": "BROWN",
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "wood": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "skład drewna",
+      "color": "BROWN",
+      "cost": {
+        "gold": 1
+      },
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "wood": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "glinianka"
+    },
+    {
+      "name": "złoża gliny"
+    },
+    {
+      "name": "kamieniołom"
+    },
+    {
+      "name": "skladowisko kamienia"
+    },
+    {
+      "name": "huta szkła"
+    },
+    {
+      "name": "wytwórnia papirusu"
+    },
+    {
+      "name": "wieża strażnicza"
+    },
+    {
+      "name": "warsztat"
+    },
+    {
+      "name": "apteka"
+    },
+    {
+      "name": "magazyn kamienia"
+    },
+    {
+      "name": "magazyn gliny"
+    },
+    {
+      "name": "magazyn drewna"
+    },
+    {
+      "name": "stajnie"
+    },
+    {
+      "name": "garnizon"
+    },
+    {
+      "name": "palisada"
+    },
+    {
+      "name": "skryptorium"
+    },
+    {
+      "name": "zielarnia"
+    },
+    {
+      "name": "teatr"
+    },
+    {
+      "name": "ołtarz"
+    },
+    {
+      "name": "łaźnie"
+    },
+    {
+      "name": "tawerna"
+    }
+  ]
+]
+
