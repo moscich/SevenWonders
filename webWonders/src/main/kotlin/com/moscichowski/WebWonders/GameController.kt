@@ -47,7 +47,7 @@ class GameController {
         }.first()
 
         val readValue: List<Wonder> = mapper.readValue(first, object: TypeReference<List<Wonder>>() {})
-        val game = Game(Board(listOf()), readValue)
+        val game = Game(readValue)
         val wonders = Wonders(game)
 
         val actions = jdbcTemplate.query("select action from actions where game_id = $id") { rs, _ ->
@@ -66,7 +66,7 @@ class GameController {
             rs.getString(2)
         }.first()
         val readValue: List<Wonder> = mapper.readValue(first, object: TypeReference<List<Wonder>>() {})
-        val game = Game(Board(listOf()), readValue)
+        val game = Game(readValue)
         val wonders = Wonders(game)
 
 

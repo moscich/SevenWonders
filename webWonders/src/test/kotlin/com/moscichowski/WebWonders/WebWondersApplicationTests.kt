@@ -1,15 +1,11 @@
 package com.moscichowski.WebWonders
 
-import com.fasterxml.jackson.databind.JsonNode
-import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import com.fasterxml.jackson.databind.ObjectMapper
-
+import org.springframework.test.context.junit4.SpringRunner
 
 
 @RunWith(SpringRunner::class)

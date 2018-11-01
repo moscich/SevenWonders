@@ -1,6 +1,5 @@
 package com.moscichowski.wonders
 
-import java.lang.Error
 import kotlin.math.max
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
@@ -9,8 +8,20 @@ data class MilitaryThreshold(val player: Int,
                              val position: Int,
                              val gold: Int)
 
-data class Game(val board: Board,
-                private val _wonders: List<Wonder>,
+interface BoardBuilder {
+    fun build1Board(): Board
+    fun build2Board(): Board
+    fun build3Board(): Board
+}
+
+class EmptyBoardBuilder: BoardBuilder {
+    override fun build1Board(): Board { return Board(listOf()) }
+    override fun build2Board(): Board { return Board(listOf()) }
+    override fun build3Board(): Board { return Board(listOf()) }
+}
+
+data class Game(private val _wonders: List<Wonder>,
+                private val boardBuilder: BoardBuilder = EmptyBoardBuilder(),
                 val player1: Player = Player(6),
                 val player2: Player = Player(6),
                 var currentPlayer: Int = 0,
@@ -24,9 +35,15 @@ data class Game(val board: Board,
                         MilitaryThreshold(1, 6, 5)
                 )
 ) {
+    var board = Board(listOf())
+
     init {
         if(_wonders.count() != 8) { throw Requires8WondersError() }
+        if (state == GameState.REGULAR ) {
+            board = boardBuilder.build1Board()
+        }
     }
+
     private val mutableWonders = _wonders.toMutableList()
 
     val wonders: List<Wonder>

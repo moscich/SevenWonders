@@ -8,26 +8,26 @@ class GameBeginTests {
     @Test
     fun `game should be initialized with 8 wonders to choose from`() {
         val wonders = (0 until 7).map { Wonder("Test") }
-        assertFails({ it is Requires8WondersError }) { val game = Game(Board(listOf()), wonders) }
+        assertFails({ it is Requires8WondersError }) { val game = Game(wonders) }
     }
 
     @Test
     fun `game should be set to choose wonders phase`() {
-        val game = Game(Board(listOf()))
+        val game = Game()
 
         assertEquals(GameState.WONDERS_SELECT, game.state)
     }
 
     @Test
     fun `game should allow to select 4 wonders at the beginning`() {
-        val game = Game(Board(listOf()))
+        val game = Game()
 
         assertEquals(4, game.wonders.count())
     }
 
     @Test
     fun `wonders should enable possibility to choose wonders`() {
-        val wonders = Wonders(Game(Board(listOf())))
+        val wonders = Wonders(Game())
         wonders.takeAction(ChooseWonder("Test 0"))
         assertEquals(1, wonders.game.currentPlayer)
         assertEquals(3, wonders.game.wonders.count())

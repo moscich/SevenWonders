@@ -22,13 +22,13 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 
 
-@RunWith(SpringRunner::class)
 @FlywayTest
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 //@TestExecutionListeners(DependencyInjectionTestExecutionListener::class, FlywayTestExecutionListener.class)
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class )
 //@TestExecutionListeners({DependencyInjectionTestExecutionListener.ja,
 //    FlywayTestExecutionListener.class }
+@RunWith(SpringRunner::class)
 public class XdTests {
 
     @Autowired

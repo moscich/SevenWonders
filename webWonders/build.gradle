@@ -64,4 +64,5 @@ dependencies {
 	testCompile group: 'org.flywaydb.flyway-test-extensions', name: 'flyway-spring-test', version: '5.1.0'
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testCompile group: 'com.opentable.components', name: 'otj-pg-embedded', version: '0.12.4'
+	testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
 }

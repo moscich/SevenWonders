@@ -42,7 +42,7 @@ class HelloController {
 
         val node = BoardNode(Card("Take Me", CardColor.BLUE))
         val board = Board(listOf(node))
-        val game = Game(board, (0 until 8).map { Wonder("Test") })
+        val game = Game((0 until 8).map { Wonder("Test") })
         val wonders = Wonders(game)
 //
 //        wonders.takeAction(action)
@@ -55,7 +55,7 @@ class HelloController {
 
         val node = BoardNode(Card("Take Me", CardColor.BLUE))
         val board = Board(listOf(node))
-        val game = Game(board, (0 until 8).map { Wonder("Test") })
+        val game = Game((0 until 8).map { Wonder("Test") })
         val wonders = Wonders(game)
 //
 //        wonders.takeAction(action)
