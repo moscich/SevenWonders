@@ -63,6 +63,7 @@ dependencies {
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.0.6.RELEASE'
 	testCompile group: 'org.flywaydb.flyway-test-extensions', name: 'flyway-spring-test', version: '5.1.0'
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
-	testCompile group: 'com.opentable.components', name: 'otj-pg-embedded', version: '0.12.4'
+	compile group: 'com.opentable.components', name: 'otj-pg-embedded', version: '0.12.4'
+	compile group: 'ru.yandex.qatools.embed', name: 'postgresql-embedded', version: '2.9'
 	testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
 }

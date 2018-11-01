@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: ru.yandex.qatools.embed:postgresql-embedded:2.9">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ru.yandex.qatools.embed/postgresql-embedded/2.9/c75fea80a538508d240ab67d62bb7c16b534b1df/postgresql-embedded-2.9.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ru.yandex.qatools.embed/postgresql-embedded/2.9/5cee8a7e4f0493f6e0c3ebdc3cdcb790a6f75860/postgresql-embedded-2.9-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

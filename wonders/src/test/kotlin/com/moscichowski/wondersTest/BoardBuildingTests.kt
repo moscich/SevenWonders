@@ -14,7 +14,7 @@ class TestBoardBuilder: BoardBuilder {
 class BoardBuildingTests {
     @Test
     fun `build first board after game changes state from select wonders`() {
-        Game(listOf(), TestBoardBuilder())
+//        Game(listOf(), TestBoardBuilder())
 //        Game(Board(listOf()), EmptyBoardBuilder())
 
 //        val game = Game(Board(listOf()))

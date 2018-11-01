@@ -34,41 +34,41 @@ public class XdTests {
     @Autowired
     lateinit var testRestTemplate: TestRestTemplate
 
-    public companion object {
-        @BeforeClass
-                @JvmStatic
-        fun setup() {
-            println("Akuku")
-        }
-    }
+//    public companion object {
+//        @BeforeClass
+//                @JvmStatic
+//        fun setup() {
+//            println("Akuku")
+//        }
+//    }
+//
+//    @get:Rule
+//    var db = EmbeddedPostgresRules.preparedDatabase(
+//            FlywayPreparer.forClasspathLocation("db/migration"))
+//
+//
+//
+//    var jdbcTemplate: JdbcTemplate? = null
 
-    @get:Rule
-    var db = EmbeddedPostgresRules.preparedDatabase(
-            FlywayPreparer.forClasspathLocation("db/migration"))
-
-
-
-    var jdbcTemplate: JdbcTemplate? = null
-
-    @Test
-    fun hey() {
-        this.jdbcTemplate = NamedParameterJdbcTemplate(db.testDatabase).jdbcTemplate
-        val forClasspathLocation = FlywayPreparer.forClasspathLocation("db/migration")
-        val preparedDatabase = EmbeddedPostgresRules.preparedDatabase(forClasspathLocation)
-
-        this.jdbcTemplate?.batchUpdate("insert into actions (action) values ('{\"test1\": \"Test2\", \"howmuch\": 42}')")
-        val actions = this.jdbcTemplate?.query("select * from actions") { rs, _ ->
-            rs.getString(1)
-        }
-        println("javaClass = ${actions}")
-    }
+//    @Test
+//    fun hey() {
+//        this.jdbcTemplate = NamedParameterJdbcTemplate(db.testDatabase).jdbcTemplate
+//        val forClasspathLocation = FlywayPreparer.forClasspathLocation("db/migration")
+//        val preparedDatabase = EmbeddedPostgresRules.preparedDatabase(forClasspathLocation)
+//
+//        this.jdbcTemplate?.batchUpdate("insert into actions (action) values ('{\"test1\": \"Test2\", \"howmuch\": 42}')")
+//        val actions = this.jdbcTemplate?.query("select * from actions") { rs, _ ->
+//            rs.getString(1)
+//        }
+//        println("javaClass = ${actions}")
+//    }
 
     @Autowired
     lateinit var controller: GameController
 
     @Test
     fun playGame() {
-        controller.jdbcTemplate = NamedParameterJdbcTemplate(db.testDatabase).jdbcTemplate
+//        controller.jdbcTemplate = NamedParameterJdbcTemplate(db.testDatabase).jdbcTemplate
         val mapper = ObjectMapper()
 
         val gameNumber = testRestTemplate.postForEntity("/games", null, Int::class.java).body
@@ -100,6 +100,7 @@ public class XdTests {
     @Throws(Exception::class)
     fun testEmbeddedPg() {
         try {
+
             EmbeddedPostgres.start().use { pg ->
                 pg.postgresDatabase.connection.use { c ->
                     val s = c.createStatement()
