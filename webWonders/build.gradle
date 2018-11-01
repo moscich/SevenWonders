@@ -66,4 +66,5 @@ dependencies {
 	compile group: 'com.opentable.components', name: 'otj-pg-embedded', version: '0.12.4'
 	compile group: 'ru.yandex.qatools.embed', name: 'postgresql-embedded', version: '2.9'
 	testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
+	compile group: 'org.flywaydb', name: 'flyway-core', version: '5.2.1'
 }
