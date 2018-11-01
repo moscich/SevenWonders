@@ -3,5 +3,7 @@ rootProject.name = "SevenWonders"
 include(
         ":wonders",
         ":webService",
-        ":webWonders"
+        ":webWonders",
+        ":wonders-model",
+        ":wonders-builder"
 )

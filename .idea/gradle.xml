@@ -11,6 +11,8 @@
             <option value="$PROJECT_DIR$/webService" />
             <option value="$PROJECT_DIR$/webWonders" />
             <option value="$PROJECT_DIR$/wonders" />
+            <option value="$PROJECT_DIR$/wonders-builder" />
+            <option value="$PROJECT_DIR$/wonders-model" />
           </set>
         </option>
         <option name="useAutoImport" value="true" />

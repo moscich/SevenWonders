@@ -1,6 +1,7 @@
 package com.moscichowski.wonders
 
 import kotlin.math.max
+import com.moscichowski.wonders.model.*
 
 
 class WonderBuilder : ActionPerformer() {

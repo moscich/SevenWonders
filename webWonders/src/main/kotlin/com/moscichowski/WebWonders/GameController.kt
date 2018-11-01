@@ -2,6 +2,7 @@ package com.moscichowski.WebWonders
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.moscichowski.wonders.*
+import com.moscichowski.wonders.model.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.web.bind.annotation.*
@@ -9,10 +10,6 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/games")
 class GameController {
-
-    constructor() {
-        println("Im being made!")
-    }
 
     @Autowired
     lateinit var jdbcTemplate: JdbcTemplate
@@ -24,11 +21,11 @@ class GameController {
     fun postAction(): Any? {
         val wonderList = listOf(
             Wonder("Via Appia", Resource(1,2,3), features = listOf(AddGold(3), RemoveGold, ExtraTurn, VictoryPoints(3))),
-            Wonder("Second wonder", Resource(3), features = listOf(DestroyBrownCard)),
+            Wonder("Second wonders", Resource(3), features = listOf(DestroyBrownCard)),
             Wonder("Third shieeet", Resource(1,2), features = listOf(DestroySilverCard)),
             Wonder("Everybody dance", Resource(2,glass = 1), features = listOf(ExtraTurn)),
             Wonder("Via Appia 2", Resource(1,2,3), features = listOf(AddGold(3), RemoveGold, ExtraTurn, VictoryPoints(3))),
-            Wonder("Second wonder 2", Resource(3), features = listOf(DestroyBrownCard)),
+            Wonder("Second wonders 2", Resource(3), features = listOf(DestroyBrownCard)),
             Wonder("Third shieeet 2", Resource(1,2), features = listOf(DestroySilverCard)),
             Wonder("Everybody dance 2", Resource(2,glass = 1), features = listOf(ExtraTurn))
         )

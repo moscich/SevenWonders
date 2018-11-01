@@ -1,5 +1,6 @@
 package com.moscichowski.wonders
 
+import com.moscichowski.wonders.model.*
 import kotlin.math.max
 
 abstract class ActionPerformer {
@@ -46,7 +47,7 @@ abstract class ActionPerformer {
     }
 
     fun Player.providedResources(): List<Resource> {
-        val providedFromCards = listOf(cards.flatMap { it.features }.fold(Resource(), operation = { sum, element ->
+        val providedFromCards = listOf(cards.flatMap { it.features }.fold(Resource(), operation = { sum: Resource, element: CardFeature ->
             return@fold if (element is ProvideResource) {
                 element.resource + sum
             } else {

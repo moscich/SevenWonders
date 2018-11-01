@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 import java.lang.Error
 import kotlin.reflect.full.primaryConstructor
+import com.moscichowski.wonders.model.*
 
 
 @RestController

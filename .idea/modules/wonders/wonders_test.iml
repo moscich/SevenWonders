@@ -32,6 +32,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="wonders_main" />
+    <orderEntry type="module" module-name="wonders-model_main" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-test:1.1.51" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.31" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />

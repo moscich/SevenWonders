@@ -1,5 +1,7 @@
 package com.moscichowski.wonders
 
+import com.moscichowski.wonders.model.*
+
 class CardTaker : ActionPerformer() {
     private lateinit var game: Game
     private lateinit var card: Card

@@ -1,4 +1,5 @@
 package com.moscichowski.wonders
+import com.moscichowski.wonders.model.*
 
 class Wonders(val game: Game) {
 

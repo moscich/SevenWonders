@@ -1,6 +1,7 @@
 package com.moscichowski.wondersTest
 
 import com.moscichowski.wonders.*
+import com.moscichowski.wonders.model.*
 import org.junit.Test
 import kotlin.test.*
 
@@ -203,7 +204,7 @@ class WondersTests {
         val card = Card("Stone Card", Resource(stone = 4))
         val node = BoardNode(card)
         val board = Board(mutableListOf(node))
-        val wonder = Wonder("Some wonder")
+        val wonder = Wonder("Some wonders")
         val player1 = Player(6)
         player1.wonders = mutableListOf(Pair(false, Wonder("Different Wonder")))
         val game = Game(player1, Player(6), board)
@@ -222,7 +223,7 @@ class WondersTests {
         val card = Card("Stone Card", Resource(stone = 4))
         val node = BoardNode(card)
         val board = Board(mutableListOf(node))
-        val wonder = Wonder("Some wonder")
+        val wonder = Wonder("Some wonders")
         val player1 = Player(6)
         player1.wonders = mutableListOf(Pair(true, wonder))
         val game = Game(player1, Player(6), board)
@@ -241,7 +242,7 @@ class WondersTests {
         val card = Card("Stone Card", Resource(stone = 4))
         val node = BoardNode(card)
         val board = Board(mutableListOf(node))
-        val wonder = Wonder("Some wonder", Resource(gold = 7))
+        val wonder = Wonder("Some wonders", Resource(gold = 7))
         val player1 = Player(6)
         player1.wonders = mutableListOf(Pair(false, wonder))
         val game = Game(player1, Player(6), board)
@@ -259,7 +260,7 @@ class WondersTests {
         val card = Card("Stone Card", Resource(stone = 4))
         val node = BoardNode(card)
         val board = Board(mutableListOf(node))
-        val wonder = Wonder("Some wonder", Resource(gold = 2))
+        val wonder = Wonder("Some wonders", Resource(gold = 2))
         val player1 = Player(6)
         player1.wonders = mutableListOf(Pair(false, wonder))
         val game = Game(player1, Player(6), board)
@@ -275,7 +276,7 @@ class WondersTests {
         val card = Card("Some card", Resource())
         val node = BoardNode(card)
         val board = Board(mutableListOf(node))
-        val wonder = Wonder("Some wonder", Resource(gold = 2), listOf(DestroyBrownCard))
+        val wonder = Wonder("Some wonders", Resource(gold = 2), listOf(DestroyBrownCard))
         val player1 = Player(6)
         player1.wonders = mutableListOf(Pair(false, wonder))
         val opponent = Player(6)
@@ -296,7 +297,7 @@ class WondersTests {
         val card = Card("Some card", Resource())
         val node = BoardNode(card)
         val board = Board(mutableListOf(node))
-        val wonder = Wonder("Some wonder", Resource(gold = 2), listOf(DestroyBrownCard))
+        val wonder = Wonder("Some wonders", Resource(gold = 2), listOf(DestroyBrownCard))
         val player1 = Player(6)
         player1.wonders = mutableListOf(Pair(false, wonder))
         val opponent = Player(6)
@@ -323,7 +324,7 @@ class WondersTests {
         val card = Card("Some card", Resource())
         val node = BoardNode(card)
         val board = Board(mutableListOf(node))
-        val wonder = Wonder("Some wonder", Resource(gold = 2), listOf(DestroySilverCard))
+        val wonder = Wonder("Some wonders", Resource(gold = 2), listOf(DestroySilverCard))
         val player1 = Player(6)
         player1.wonders = mutableListOf(Pair(false, wonder))
         val opponent = Player(6)
@@ -349,7 +350,7 @@ class WondersTests {
         val card = Card("Some card", Resource())
         val node = BoardNode(card)
         val board = Board(mutableListOf(node))
-        val wonder = Wonder("Some wonder", Resource(gold = 2), listOf(DestroySilverCard))
+        val wonder = Wonder("Some wonders", Resource(gold = 2), listOf(DestroySilverCard))
         val player1 = Player(6)
         player1.wonders = mutableListOf(Pair(false, wonder))
         val opponent = Player(6)
@@ -369,7 +370,7 @@ class WondersTests {
         val card = Card("Some card", Resource())
         val node = BoardNode(card)
         val board = Board(mutableListOf(node))
-        val wonder = Wonder("Some wonder", Resource(gold = 2), listOf(ExtraTurn))
+        val wonder = Wonder("Some wonders", Resource(gold = 2), listOf(ExtraTurn))
         val player1 = Player(6)
         player1.wonders = mutableListOf(Pair(false, wonder))
         val game = Game(player1, Player(6), board)
@@ -407,7 +408,7 @@ class WondersTests {
         val card = Card("Some card", Resource(papyrus = 1, glass = 1))
         val node = BoardNode(card)
         val board = Board(mutableListOf(node))
-        val wonder = Wonder("Some wonder", features = listOf(ProvideSilverResource))
+        val wonder = Wonder("Some wonders", features = listOf(ProvideSilverResource))
         val player1 = Player(8)
         player1.wonders = mutableListOf(Pair(true, wonder))
         val opponent = Player(6)
@@ -424,7 +425,7 @@ class WondersTests {
         val card = Card("Some card", Resource(wood = 1, clay = 1, stone = 1))
         val node = BoardNode(card)
         val board = Board(mutableListOf(node))
-        val wonder = Wonder("Some wonder", features = listOf(ProvideBrownResource))
+        val wonder = Wonder("Some wonders", features = listOf(ProvideBrownResource))
         val player1 = Player(8)
         player1.wonders = mutableListOf(Pair(true, wonder))
         val opponent = Player(6)
@@ -445,8 +446,8 @@ class WondersTests {
         val card = Card("Some card", Resource(wood = 1, clay = 1, stone = 1, glass = 1, papyrus = 1))
         val node = BoardNode(card)
         val board = Board(mutableListOf(node))
-        val provideBrownWonder = Wonder("Some wonder", features = listOf(ProvideBrownResource))
-        val provideSilverWonder = Wonder("Some wonder", features = listOf(ProvideSilverResource))
+        val provideBrownWonder = Wonder("Some wonders", features = listOf(ProvideBrownResource))
+        val provideSilverWonder = Wonder("Some wonders", features = listOf(ProvideSilverResource))
         val player1 = Player(6)
         player1.wonders = mutableListOf(Pair(true, provideBrownWonder), Pair(true, provideSilverWonder))
         player1.cards.add(Card("Brown Card", features = listOf(ProvideBrownResource)))
@@ -630,7 +631,7 @@ class WondersTests {
     @Test
     fun architecture() {
         val (wonders, card, player) = game()
-        val wonder = Wonder("Some wonder", Resource(1, 1, 1, 1, 1))
+        val wonder = Wonder("Some wonders", Resource(1, 1, 1, 1, 1))
         wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 2, 3, 4, 5)))))
         wonders.game.scienceTokens.add(Pair(0, ScienceToken.ARCHITECTURE))
         player.wonders = listOf(Pair(false, wonder))
@@ -644,7 +645,7 @@ class WondersTests {
     @Test
     fun architectureBug() {
         val (wonders, card, player) = game()
-        val wonder = Wonder("Some wonder", Resource(1, 1, 1, 1, 1))
+        val wonder = Wonder("Some wonders", Resource(1, 1, 1, 1, 1))
         wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 2, 3, 4, 5)))))
         player.wonders = listOf(Pair(false, wonder))
         player.gold = 25
@@ -1024,7 +1025,7 @@ fun player(wonder: Wonder): Pair<Player, Wonder> {
 }
 
 fun wonderWithFeature(feature: CardFeature): Wonder {
-    return Wonder("Fixture wonder", features = listOf(feature))
+    return Wonder("Fixture wonders", features = listOf(feature))
 }
 
 fun game(features: List<CardFeature>, opponent: Player = Player(6)): Triple<Wonders, List<Card>, Player> {

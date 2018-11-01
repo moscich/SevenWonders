@@ -1,6 +1,6 @@
 package com.moscichowski.WebWonders
 
-import com.moscichowski.wonders.*
+import com.moscichowski.wonders.model.*
 import org.junit.Assert.assertEquals
 import org.junit.BeforeClass
 import org.junit.Test

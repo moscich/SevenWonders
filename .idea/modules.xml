@@ -10,6 +10,12 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/webWonders/webWonders_main.iml" filepath="$PROJECT_DIR$/.idea/modules/webWonders/webWonders_main.iml" group="webWonders" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/webWonders/webWonders_test.iml" filepath="$PROJECT_DIR$/.idea/modules/webWonders/webWonders_test.iml" group="webWonders" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/wonders/wonders.iml" filepath="$PROJECT_DIR$/.idea/modules/wonders/wonders.iml" group="wonders" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wonders-builder/wonders-builder.iml" filepath="$PROJECT_DIR$/.idea/modules/wonders-builder/wonders-builder.iml" group="wonders-builder" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wonders-builder/wonders-builder_main.iml" filepath="$PROJECT_DIR$/.idea/modules/wonders-builder/wonders-builder_main.iml" group="wonders-builder" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wonders-builder/wonders-builder_test.iml" filepath="$PROJECT_DIR$/.idea/modules/wonders-builder/wonders-builder_test.iml" group="wonders-builder" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wonders-model/wonders-model.iml" filepath="$PROJECT_DIR$/.idea/modules/wonders-model/wonders-model.iml" group="wonders-model" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wonders-model/wonders-model_main.iml" filepath="$PROJECT_DIR$/.idea/modules/wonders-model/wonders-model_main.iml" group="wonders-model" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wonders-model/wonders-model_test.iml" filepath="$PROJECT_DIR$/.idea/modules/wonders-model/wonders-model_test.iml" group="wonders-model" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/wonders/wonders_main.iml" filepath="$PROJECT_DIR$/.idea/modules/wonders/wonders_main.iml" group="wonders" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/wonders/wonders_test.iml" filepath="$PROJECT_DIR$/.idea/modules/wonders/wonders_test.iml" group="wonders" />
     </modules>
