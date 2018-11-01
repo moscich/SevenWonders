@@ -2,37 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="813b7685-0f9c-409c-834e-03ba1d4abeb0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/modules/wonders-builder/wonders-builder.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/wonders-model/wonders-model.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wonders-builder/src/main/kotlin/com/moscichowski/wonders/model/CardBuilder.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wonders-builder/src/test/kotlin/com/moscichowski/wonders/model/CardBuildingTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/webService/webService.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/webService/webService.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/webService/webService_main.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/webService/webService_test.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/webWonders/webWonders.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/webWonders/webWonders.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/webWonders/webWonders_main.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/webWonders/webWonders_test.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/wonders/wonders.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/wonders/wonders.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/wonders/wonders_main.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/wonders/wonders_test.iml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_module_jackson_module_kotlin_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wonders-builder/src/main/kotlin/com/moscichowski/wonders/model/CardSerializer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/wonders-builder/wonders-builder_main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/wonders-builder/wonders-builder_main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/wonders-builder/wonders-builder_test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/wonders-builder/wonders-builder_test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/wonders-model/wonders-model_main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/wonders-model/wonders-model_main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SevenWonders.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SevenWonders.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/GameController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/GameController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webWonders/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/webWonders/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/HelloController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/HelloController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webWonders/src/test/kotlin/com/moscichowski/WebWonders/CardFeatureMapperTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/webWonders/src/test/kotlin/com/moscichowski/WebWonders/CardFeatureMapperTests.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wonders/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/wonders/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/ActionPerformer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/ActionPerformer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/CardTaker.kt" beforeDir="false" afterPath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/CardTaker.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/Game.kt" beforeDir="false" afterPath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/Game.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/GuildFeatureResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/GuildFeatureResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/ScienceChooser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/ScienceChooser.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/WonderBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/WonderBuilder.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/Wonders.kt" beforeDir="false" afterPath="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/Wonders.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wonders/src/test/kotlin/com/moscichowski/wondersTest/WondersTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/wonders/src/test/kotlin/com/moscichowski/wondersTest/WondersTests.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wonders-builder/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/wonders-builder/build.gradle.kts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -147,6 +125,17 @@
                 <item name=":wonders" type="2d1252cf:ModuleNode" />
                 <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
               </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SevenWonders" type="f1a62948:ProjectNode" />
+                <item name=":wonders-builder" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SevenWonders" type="f1a62948:ProjectNode" />
+                <item name=":wonders-builder" type="2d1252cf:ModuleNode" />
+                <item name="Source Sets" type="e897c970:GradleViewContributor$SourceSetsNode" />
+              </path>
             </expand>
             <select />
           </tree_state>
@@ -165,11 +154,11 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="db" value="2" />
-          <entry key="gradle" value="4" />
-          <entry key="java" value="14" />
-          <entry key="json" value="1" />
-          <entry key="kt" value="52" />
-          <entry key="kts" value="9" />
+          <entry key="gradle" value="5" />
+          <entry key="java" value="15" />
+          <entry key="json" value="2" />
+          <entry key="kt" value="58" />
+          <entry key="kts" value="10" />
           <entry key="properties" value="2" />
           <entry key="sql" value="2" />
         </counts>
@@ -177,28 +166,28 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="DBN-SQL" value="2" />
-          <entry key="Groovy" value="4" />
-          <entry key="JAVA" value="14" />
-          <entry key="JSON" value="1" />
-          <entry key="Kotlin" value="61" />
+          <entry key="Groovy" value="5" />
+          <entry key="JAVA" value="15" />
+          <entry key="JSON" value="2" />
+          <entry key="Kotlin" value="68" />
           <entry key="PLAIN_TEXT" value="2" />
           <entry key="Properties" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Groovy" value="35" />
+          <entry key="Groovy" value="44" />
           <entry key="JAVA" value="1" />
-          <entry key="Kotlin" value="3298" />
+          <entry key="Kotlin" value="3326" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="gradle" value="35" />
+          <entry key="gradle" value="44" />
           <entry key="java" value="1" />
-          <entry key="kt" value="3044" />
-          <entry key="kts" value="254" />
+          <entry key="kt" value="3057" />
+          <entry key="kts" value="269" />
         </counts>
       </usages-collector>
     </session>
@@ -206,10 +195,34 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/settings.gradle.kts">
+        <entry file="file://$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/HelloController.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+            <state relative-caret-position="418">
+              <caret line="22" column="39" lean-forward="true" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
+              <folding>
+                <element signature="e#37#1106#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.9.7/26d2e8a615ae6d766bbaed952a9cc286f6860faf/jackson-databind-2.9.7-sources.jar!/com/fasterxml/jackson/databind/JsonDeserializer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="322">
+              <caret line="45" column="22" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wonders-builder/src/main/kotlin/com/moscichowski/wonders/model/CardSerializer.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1121">
+              <caret line="59" selection-start-line="59" selection-end-line="59" />
+              <folding>
+                <element signature="e#40#499#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -217,27 +230,40 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webWonders/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="59" column="31" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
+            <state relative-caret-position="313">
+              <caret line="60" column="8" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wonders/build.gradle.kts">
+        <entry file="file://$PROJECT_DIR$/wonders-builder/build.gradle.kts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+            <state relative-caret-position="323">
+              <caret line="17" column="64" selection-start-line="17" selection-start-column="64" selection-end-line="17" selection-end-column="64" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wonders-model/build.gradle.kts">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/wonders-builder/src/main/kotlin/com/moscichowski/wonders/model/CardBuilder.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="38">
+              <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/WondersMapper.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="95">
+              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wonders-model/src/main/kotlin/com/moscichowski/wonders/model/Card.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="19">
@@ -247,52 +273,15 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wonders/src/test/kotlin/com/moscichowski/wondersTest/WondersTests.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="3" column="39" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/WebWondersApplication.kt">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wonders/src/test/kotlin/com/moscichowski/wondersTest/BoardBuildingTests.kt">
+        <entry file="file://$PROJECT_DIR$/wonders-model/src/main/resources/cards.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wonders/src/test/kotlin/com/moscichowski/wondersTest/Fixtures.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wonders/src/test/kotlin/com/moscichowski/wondersTest/GameBeginTests.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
-              <caret line="29" column="31" selection-start-line="29" selection-start-column="31" selection-end-line="29" selection-end-column="31" />
-              <folding>
-                <element signature="e#38#114#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/GameController.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="13" selection-start-line="13" selection-end-line="13" />
-              <folding>
-                <element signature="e#37#324#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="486">
+              <caret line="151" selection-start-line="151" selection-end-line="151" />
             </state>
           </provider>
         </entry>
@@ -311,6 +300,7 @@
     <findStrings>
       <find>fly</find>
       <find>flywa</find>
+      <find>jack</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -2169,15 +2159,15 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="13867921081000" />
+        <entry key="$PROJECT_DIR$" value="13867925818000" />
         <entry key="$PROJECT_DIR$/.gradle" value="0" />
         <entry key="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" value="2371942159" />
         <entry key="$PROJECT_DIR$/settings.gradle.kts" value="3219261024" />
         <entry key="$PROJECT_DIR$/webService/build.gradle.kts" value="1420218276" />
-        <entry key="$PROJECT_DIR$/webWonders/build.gradle" value="2494722321" />
+        <entry key="$PROJECT_DIR$/webWonders/build.gradle" value="772000703" />
         <entry key="$PROJECT_DIR$/wonder-builder/build.gradle.kts" value="4284783652" />
         <entry key="$PROJECT_DIR$/wonder-model/build.gradle.kts" value="386725730" />
-        <entry key="$PROJECT_DIR$/wonders-builder/build.gradle.kts" value="2497439894" />
+        <entry key="$PROJECT_DIR$/wonders-builder/build.gradle.kts" value="2835145803" />
         <entry key="$PROJECT_DIR$/wonders-model/build.gradle.kts" value="386725730" />
         <entry key="$PROJECT_DIR$/wonders/.gradle" value="0" />
         <entry key="$PROJECT_DIR$/wonders/build.gradle.kts" value="2497439894" />
@@ -2675,7 +2665,6 @@
         <option value="$PROJECT_DIR$/wonder-model/src/test/kotlin/com/moscichowski/wonder/builder/CardBuildingTest.kt" />
         <option value="$PROJECT_DIR$/settings.gradle.kts" />
         <option value="$PROJECT_DIR$/wonder-builder/src/main/kotlin/com/moscichowski/wonder/model/CardBuilder.kt" />
-        <option value="$PROJECT_DIR$/webWonders/build.gradle" />
         <option value="$PROJECT_DIR$/wonders/build.gradle.kts" />
         <option value="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/ActionPerformer.kt" />
         <option value="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/Game.kt" />
@@ -2684,12 +2673,15 @@
         <option value="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/ScienceChooser.kt" />
         <option value="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/WonderBuilder.kt" />
         <option value="$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/Wonders.kt" />
-        <option value="$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/HelloController.kt" />
         <option value="$PROJECT_DIR$/webWonders/src/test/kotlin/com/moscichowski/WebWonders/CardFeatureMapperTests.kt" />
         <option value="$PROJECT_DIR$/wonder-builder/build.gradle.kts" />
         <option value="$PROJECT_DIR$/wonder-builder/src/test/kotlin/com/moscichowski/wonder/model/CardBuildingTest.kt" />
         <option value="$PROJECT_DIR$/wonders/src/test/kotlin/com/moscichowski/wondersTest/WondersTests.kt" />
         <option value="$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/GameController.kt" />
+        <option value="$PROJECT_DIR$/wonders-builder/src/main/kotlin/com/moscichowski/wonders/model/CardSerializer.kt" />
+        <option value="$PROJECT_DIR$/webWonders/build.gradle" />
+        <option value="$PROJECT_DIR$/wonders-builder/build.gradle.kts" />
+        <option value="$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/HelloController.kt" />
       </list>
     </option>
   </component>
@@ -2756,7 +2748,58 @@
             <path>
               <item name="SevenWonders" type="b2602c69:ProjectViewProjectNode" />
               <item name="SevenWonders" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="wonders" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SevenWonders" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SevenWonders" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="wonders" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="SevenWonders" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SevenWonders" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="wonders" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SevenWonders" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SevenWonders" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="wonders-builder" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="SevenWonders" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SevenWonders" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="wonders-builder" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SevenWonders" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SevenWonders" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="wonders-builder" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="SevenWonders" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SevenWonders" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="wonders-builder" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SevenWonders" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SevenWonders" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="wonders-builder" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SevenWonders" type="b2602c69:ProjectViewProjectNode" />
@@ -2793,6 +2836,14 @@
               <item name="kotlin" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="SevenWonders" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SevenWonders" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="wonders-model" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -2803,7 +2854,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SearchEverywhereHistoryKey" value="CardFe&#9;null&#9;null&#10;Resou&#9;null&#9;null&#10;card&#9;null&#9;null&#10;gam&#9;FILE&#9;file:///Users/marekmoscichowski/Documents/Development/SevenWonders/wonders/src/main/kotlin/com/moscichowski/wonders/Game.kt&#10;game&#9;FILE&#9;file:///Users/marekmoscichowski/Documents/Development/SevenWonders/wonders/src/main/kotlin/com/moscichowski/wonders/Game.kt&#10;contextLoads&#9;null&#9;null&#10;choose&#9;null&#9;null" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541099524572" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541101277950" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/settings.gradle.kts" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -3022,15 +3073,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="SevenWonders_[check] - 2018.11.01 at 18h 46m 22s.xml">
-      <configuration name="SevenWonders [check]" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="SevenWonders_[check] - 2018.11.01 at 18h 46m 52s.xml">
-      <configuration name="SevenWonders [check]" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="SevenWonders_[check] - 2018.11.01 at 18h 49m 39s.xml">
-      <configuration name="SevenWonders [check]" configurationId="GradleRunConfiguration" />
-    </history-entry>
     <history-entry file="SevenWonders_[check] - 2018.11.01 at 19h 03m 42s.xml">
       <configuration name="SevenWonders [check]" configurationId="GradleRunConfiguration" />
     </history-entry>
@@ -3050,6 +3092,15 @@
       <configuration name="SevenWonders [check]" configurationId="GradleRunConfiguration" />
     </history-entry>
     <history-entry file="SevenWonders_[check] - 2018.11.01 at 20h 17m 07s.xml">
+      <configuration name="SevenWonders [check]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="SevenWonders_[check] - 2018.11.01 at 20h 44m 05s.xml">
+      <configuration name="SevenWonders [check]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="SevenWonders_[check] - 2018.11.01 at 20h 44m 41s.xml">
+      <configuration name="SevenWonders [check]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="SevenWonders_[check] - 2018.11.01 at 20h 45m 35s.xml">
       <configuration name="SevenWonders [check]" configurationId="GradleRunConfiguration" />
     </history-entry>
   </component>
@@ -3076,7 +3127,7 @@
       <window_info anchor="bottom" id="DB Execution Console" order="6" />
       <window_info anchor="bottom" id="Message" order="7" />
       <window_info anchor="bottom" id="Find" order="8" weight="0.32953367" />
-      <window_info anchor="bottom" id="Run" order="9" visible="true" weight="0.32953367" />
+      <window_info anchor="bottom" id="Run" order="9" weight="0.32953367" />
       <window_info anchor="bottom" id="Debug" order="10" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="11" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="12" weight="0.4" />
@@ -3157,30 +3208,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/WondersMapper.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/RestResponseEntityExceptionHandler.kt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wonders/src/main/kotlin/com/moscichowski/wonders/InitialWondersSelecter.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" column="8" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/5.0.10.RELEASE/f6fd4b97e5c2b6cbe4e5ac3d6ebc984cb299a5e0/spring-web-5.0.10.RELEASE-sources.jar!/org/springframework/web/method/support/InvocableHandlerMethod.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="209" column="9" selection-start-line="209" selection-start-column="9" selection-end-line="209" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/target/foobar.mv.db">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -3408,16 +3435,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/HelloController.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
-          <folding>
-            <element signature="e#37#1105#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/webWonders/src/test/kotlin/com/moscichowski/WebWonders/CardFeatureMapperTests.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="38">
@@ -3425,20 +3442,6 @@
           <folding>
             <element signature="e#37#255#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wonders-builder/build.gradle.kts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wonders-builder/src/main/kotlin/com/moscichowski/wonders/model/CardBuilder.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
@@ -3462,24 +3465,10 @@
     <entry file="file://$PROJECT_DIR$/wonders-model/build.gradle.kts">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/webWonders/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="59" column="31" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wonders/build.gradle.kts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
           <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wonders-model/src/main/kotlin/com/moscichowski/wonders/model/Card.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
@@ -3521,6 +3510,78 @@
           <folding>
             <element signature="e#37#324#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wonders-model/src/main/resources/cards.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="151" selection-start-line="151" selection-end-line="151" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/WebWondersApplication.kt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/WondersMapper.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.9.7/26d2e8a615ae6d766bbaed952a9cc286f6860faf/jackson-databind-2.9.7-sources.jar!/com/fasterxml/jackson/databind/JsonDeserializer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="45" column="22" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webWonders/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="60" column="8" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wonders-builder/src/main/kotlin/com/moscichowski/wonders/model/CardBuilder.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wonders-builder/build.gradle.kts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="64" selection-start-line="17" selection-start-column="64" selection-end-line="17" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wonders-builder/src/main/kotlin/com/moscichowski/wonders/model/CardSerializer.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1121">
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
+          <folding>
+            <element signature="e#40#499#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webWonders/src/main/kotlin/com/moscichowski/WebWonders/HelloController.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="22" column="39" lean-forward="true" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
+          <folding>
+            <element signature="e#37#1106#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wonders-model/src/main/kotlin/com/moscichowski/wonders/model/Card.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
@@ -3576,7 +3637,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>wonder-builder_main|wonder-builder</last-edited>
+          <last-edited>wonders-model_main|wonders-model</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
