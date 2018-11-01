@@ -8,20 +8,9 @@ data class MilitaryThreshold(val player: Int,
                              val position: Int,
                              val gold: Int)
 
-interface BoardBuilder {
-    fun build1Board(): Board
-    fun build2Board(): Board
-    fun build3Board(): Board
-}
-
-class EmptyBoardBuilder: BoardBuilder {
-    override fun build1Board(): Board { return Board(listOf()) }
-    override fun build2Board(): Board { return Board(listOf()) }
-    override fun build3Board(): Board { return Board(listOf()) }
-}
-
 data class Game(private val _wonders: List<Wonder>,
-                private val boardBuilder: BoardBuilder = EmptyBoardBuilder(),
+                val cards: List<List<Card>>,
+                private val _board: Board = Board(listOf()),
                 val player1: Player = Player(6),
                 val player2: Player = Player(6),
                 var currentPlayer: Int = 0,
@@ -35,12 +24,12 @@ data class Game(private val _wonders: List<Wonder>,
                         MilitaryThreshold(1, 6, 5)
                 )
 ) {
-    var board = Board(listOf())
+    var board = _board
 
     init {
         if(_wonders.count() != 8) { throw Requires8WondersError() }
         if (state == GameState.REGULAR ) {
-            board = boardBuilder.build1Board()
+            board = _board
         }
     }
 

@@ -8,7 +8,7 @@ class GameBeginTests {
     @Test
     fun `game should be initialized with 8 wonders to choose from`() {
         val wonders = (0 until 7).map { Wonder("Test") }
-        assertFails({ it is Requires8WondersError }) { val game = Game(wonders) }
+        assertFails({ it is Requires8WondersError }) { Game(wonders, listOf()) }
     }
 
     @Test
@@ -68,6 +68,11 @@ class GameBeginTests {
         assertNull(wonders.game.player2.wonders.find { it.first })
     }
 
+    @Test
+    fun `game should be initialized with 3 boards 20 cards each`() {
+
+    }
+
     private fun assertFails(error: (Error) -> Boolean, block: () -> Unit) {
         var errorEmited = false
         try {
@@ -81,7 +86,4 @@ class GameBeginTests {
         }
     }
 
-    private fun assertFails(error: Error) {
-
-    }
 }

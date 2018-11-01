@@ -13,7 +13,5 @@ class SpringJdbcConfig {
     fun postgresDataSource(): DataSource {
         val start = EmbeddedPostgres.start()
         return start.postgresDatabase
-
-
     }
 }
