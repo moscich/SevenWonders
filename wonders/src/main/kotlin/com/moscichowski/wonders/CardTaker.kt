@@ -15,7 +15,7 @@ class CardTaker : ActionPerformer() {
 
     fun takeCard(game: Game, action: TakeCard) {
         this.game = game
-        this.card = game.board.cards.find { action.cardName == it.card?.name }?.card!!
+        this.card = game.board.cards.find { action.cardName == it.card?.name }?.card ?: throw CardUnavailable()
         val (player, wantedNode) = boardCheck(game, card)
 
         var requiredGold = required2(game, player, card.cost)

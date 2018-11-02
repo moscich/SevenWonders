@@ -1,30 +1,508 @@
 {
-  "cards": [
-    {
-      "id": 3,
-      "descendants": [
-        1,
-        2
-      ]
-    },
-    {
-      "id": 1,
-      "card": {
-        "name": "Test 1",
-        "color": "RED",
-        "features": []
-      }
-    },
-    {
-      "id": 2,
-      "card": {
-        "name": "Test 2",
-        "color": "RED",
+  "player1": {
+    "cards": [
+      {
+        "name": "teatr",
+        "color": "BLUE",
+        "features": [
+          {
+            "type": "VICTORY_POINTS",
+            "points": 3
+          },
+          {
+            "type": "FREE_SYMBOL",
+            "symbol": "MASK"
+          }
+        ]
+      },
+      {
+        "name": "magazyn drewna",
+        "color": "YELLOW",
         "cost": {
-          "clay": 2
+          "gold": 3
         },
-        "features": []
+        "features": [
+          {
+            "type": "WAREHOUSE",
+            "kind": "WOOD"
+          }
+        ]
       }
+    ],
+    "wonders": [
+      {
+        "first": false,
+        "second": {
+          "name": "Via Appia",
+          "cost": {
+            "wood": 1,
+            "clay": 2,
+            "stone": 3
+          },
+          "features": [
+            {
+              "type": "ADD_GOLD",
+              "gold": 3
+            },
+            {
+              "type": "REMOVE_GOLD"
+            },
+            {
+              "type": "EXTRA_TURN"
+            },
+            {
+              "type": "VICTORY_POINTS",
+              "points": 3
+            }
+          ]
+        }
+      },
+      {
+        "first": false,
+        "second": {
+          "name": "Everybody dance",
+          "cost": {
+            "wood": 2,
+            "glass": 1
+          },
+          "features": [
+            {
+              "type": "EXTRA_TURN"
+            }
+          ]
+        }
+      },
+      {
+        "first": false,
+        "second": {
+          "name": "Second wonders 2",
+          "cost": {
+            "wood": 3
+          },
+          "features": [
+            {
+              "type": "DESTROY_BROWN_CARD"
+            }
+          ]
+        }
+      },
+      {
+        "first": false,
+        "second": {
+          "name": "Third shieeet 2",
+          "cost": {
+            "wood": 1,
+            "clay": 2
+          },
+          "features": [
+            {
+              "type": "DESTROY_SILVER_CARD"
+            }
+          ]
+        }
+      }
+    ],
+    "gold": 3,
+    "features": [
+      {
+        "type": "VICTORY_POINTS",
+        "points": 3
+      },
+      {
+        "type": "FREE_SYMBOL",
+        "symbol": "MASK"
+      },
+      {
+        "type": "WAREHOUSE",
+        "kind": "WOOD"
+      }
+    ]
+  },
+  "player2": {
+    "cards": [
+      {
+        "name": "zielarnia",
+        "color": "GREEN",
+        "cost": {
+          "gold": 2
+        },
+        "features": [
+          {
+            "type": "SCIENCE",
+            "symbol": "HERBS"
+          },
+          {
+            "type": "FREE_SYMBOL",
+            "symbol": "COG"
+          }
+        ]
+      }
+    ],
+    "wonders": [
+      {
+        "first": false,
+        "second": {
+          "name": "Second wonders",
+          "cost": {
+            "wood": 3
+          },
+          "features": [
+            {
+              "type": "DESTROY_BROWN_CARD"
+            }
+          ]
+        }
+      },
+      {
+        "first": false,
+        "second": {
+          "name": "Third shieeet",
+          "cost": {
+            "wood": 1,
+            "clay": 2
+          },
+          "features": [
+            {
+              "type": "DESTROY_SILVER_CARD"
+            }
+          ]
+        }
+      },
+      {
+        "first": false,
+        "second": {
+          "name": "Via Appia 2",
+          "cost": {
+            "wood": 1,
+            "clay": 2,
+            "stone": 3
+          },
+          "features": [
+            {
+              "type": "ADD_GOLD",
+              "gold": 3
+            },
+            {
+              "type": "REMOVE_GOLD"
+            },
+            {
+              "type": "EXTRA_TURN"
+            },
+            {
+              "type": "VICTORY_POINTS",
+              "points": 3
+            }
+          ]
+        }
+      },
+      {
+        "first": false,
+        "second": {
+          "name": "Everybody dance 2",
+          "cost": {
+            "wood": 2,
+            "glass": 1
+          },
+          "features": [
+            {
+              "type": "EXTRA_TURN"
+            }
+          ]
+        }
+      }
+    ],
+    "gold": 4,
+    "features": [
+      {
+        "type": "SCIENCE",
+        "symbol": "HERBS"
+      },
+      {
+        "type": "FREE_SYMBOL",
+        "symbol": "COG"
+      }
+    ]
+  },
+  "currentPlayer": 1,
+  "military": 0,
+  "state": "REGULAR",
+  "scienceTokens": [],
+  "militaryThresholds": [
+    {
+      "player": 0,
+      "position": 3,
+      "gold": 2
+    },
+    {
+      "player": 0,
+      "position": 6,
+      "gold": 5
+    },
+    {
+      "player": 1,
+      "position": 3,
+      "gold": 2
+    },
+    {
+      "player": 1,
+      "position": 6,
+      "gold": 5
     }
-  ]
+  ],
+  "wonders": [],
+  "board": {
+    "cards": [
+      {
+        "id": 0,
+        "card": {
+          "name": "wycinka",
+          "color": "BROWN",
+          "features": [
+            {
+              "type": "PROVIDE_RESOURCE",
+              "resource": {
+                "wood": 1
+              }
+            }
+          ]
+        },
+        "descendants": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": 1,
+        "card": {
+          "name": "skład drewna",
+          "color": "BROWN",
+          "cost": {
+            "gold": 1
+          },
+          "features": [
+            {
+              "type": "PROVIDE_RESOURCE",
+              "resource": {
+                "wood": 1
+              }
+            }
+          ]
+        },
+        "descendants": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": 2,
+        "descendants": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": 3,
+        "descendants": [
+          6,
+          7
+        ]
+      },
+      {
+        "id": 4,
+        "descendants": [
+          7,
+          8
+        ]
+      },
+      {
+        "id": 5,
+        "card": {
+          "name": "składowisko kamienia",
+          "color": "BROWN",
+          "cost": {
+            "gold": 1
+          },
+          "features": [
+            {
+              "type": "PROVIDE_RESOURCE",
+              "resource": {
+                "stone": 1
+              }
+            }
+          ]
+        },
+        "descendants": [
+          9,
+          10
+        ]
+      },
+      {
+        "id": 6,
+        "card": {
+          "name": "huta szkła",
+          "color": "SILVER",
+          "cost": {
+            "gold": 1
+          },
+          "features": [
+            {
+              "type": "PROVIDE_RESOURCE",
+              "resource": {
+                "glass": 1
+              }
+            }
+          ]
+        },
+        "descendants": [
+          10,
+          11
+        ]
+      },
+      {
+        "id": 7,
+        "card": {
+          "name": "wytwórnia papirusu",
+          "color": "SILVER",
+          "cost": {
+            "gold": 1
+          },
+          "features": [
+            {
+              "type": "PROVIDE_RESOURCE",
+              "resource": {
+                "papyrus": 1
+              }
+            }
+          ]
+        },
+        "descendants": [
+          11,
+          12
+        ]
+      },
+      {
+        "id": 8,
+        "card": {
+          "name": "wieża strażnicza",
+          "color": "RED",
+          "features": [
+            {
+              "type": "MILITARY",
+              "points": 1
+            }
+          ]
+        },
+        "descendants": [
+          12
+        ]
+      },
+      {
+        "id": 9,
+        "descendants": [
+          14,
+          15
+        ]
+      },
+      {
+        "id": 10,
+        "descendants": [
+          15,
+          16
+        ]
+      },
+      {
+        "id": 11,
+        "descendants": [
+          16,
+          17
+        ]
+      },
+      {
+        "id": 12,
+        "descendants": [
+          17
+        ]
+      },
+      {
+        "id": 14,
+        "card": {
+          "name": "stajnie",
+          "color": "RED",
+          "cost": {
+            "wood": 1
+          },
+          "features": [
+            {
+              "type": "MILITARY",
+              "points": 1
+            },
+            {
+              "type": "FREE_SYMBOL",
+              "symbol": "HORSESHOE"
+            }
+          ]
+        }
+      },
+      {
+        "id": 15,
+        "card": {
+          "name": "garnizon",
+          "color": "RED",
+          "cost": {
+            "clay": 1
+          },
+          "features": [
+            {
+              "type": "MILITARY",
+              "points": 1
+            },
+            {
+              "type": "FREE_SYMBOL",
+              "symbol": "SWORD"
+            }
+          ]
+        }
+      },
+      {
+        "id": 16,
+        "card": {
+          "name": "palisada",
+          "color": "RED",
+          "cost": {
+            "gold": 2
+          },
+          "features": [
+            {
+              "type": "MILITARY",
+              "points": 1
+            },
+            {
+              "type": "FREE_SYMBOL",
+              "symbol": "TOWER"
+            }
+          ]
+        }
+      },
+      {
+        "id": 17,
+        "card": {
+          "name": "skryptorium",
+          "color": "GREEN",
+          "cost": {
+            "gold": 2
+          },
+          "features": [
+            {
+              "type": "SCIENCE",
+              "symbol": "INK"
+            },
+            {
+              "type": "FREE_SYMBOL",
+              "symbol": "BOOK"
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

@@ -3,24 +3,16 @@ package com.moscichowski.WebWonders
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.opentable.db.postgres.embedded.EmbeddedPostgres
-import com.opentable.db.postgres.embedded.FlywayPreparer
-import com.opentable.db.postgres.junit.EmbeddedPostgresRules
 import junit.framework.Assert.*
 import org.flywaydb.test.annotation.FlywayTest
 import org.junit.Assert
-import org.junit.BeforeClass
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.TestExecutionListeners
+import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 
 
 @FlywayTest
@@ -31,11 +23,13 @@ class XdTests {
     @Autowired
     lateinit var testRestTemplate: TestRestTemplate
 
+    var gameNumber = 0
+
     @Test
     fun playGame() {
         val mapper = ObjectMapper()
 
-        val gameNumber = testRestTemplate.postForEntity("/games", null, Int::class.java).body
+        gameNumber = testRestTemplate.postForEntity("/games", null, Int::class.java).body ?: 0
         for (i in 0 until 8) {
             val availableWonders = jsonNode(gameNumber, mapper)
             val name = availableWonders.first().get("name").asText()
@@ -43,12 +37,29 @@ class XdTests {
             Assert.assertEquals(200, response.statusCode.value())
         }
 
-        val game = testRestTemplate.getForEntity("/games/$gameNumber", String::class.java)
+        var game = testRestTemplate.getForEntity("/games/$gameNumber", String::class.java)
         val root = mapper.readTree(game.body)
         Assert.assertEquals(4, root.path("player1").path("wonders").count())
         Assert.assertEquals(4, root.path("player2").path("wonders").count())
         Assert.assertEquals(0, root.path("wonders").count())
         Assert.assertEquals("REGULAR", root.path("state").asText())
+
+        val badRequestForWarehouse = takeCard("magazyn drewna")
+        Assert.assertEquals(400, badRequestForWarehouse?.statusCode?.value())
+        Assert.assertEquals("{\"message\":\"Card unavailable\"}", badRequestForWarehouse?.body)
+
+        Assert.assertEquals(200, takeCard("teatr")?.statusCode?.value())
+        Assert.assertEquals(200, takeCard("zielarnia")?.statusCode?.value())
+        Assert.assertEquals(200, takeCard("magazyn drewna")?.statusCode?.value())
+        Assert.assertEquals(200, takeCard("skryptorium")?.statusCode?.value())
+        Assert.assertEquals(200, takeCard("stajnie")?.statusCode?.value())
+
+        game = testRestTemplate.getForEntity("/games/$gameNumber", String::class.java)
+        game
+    }
+
+    fun takeCard(name: String): ResponseEntity<String>? {
+        return testRestTemplate.postForEntity("/games/$gameNumber/actions", ActionRequest("TAKE_CARD", name), String::class.java)
     }
 
     fun jsonNode(gameNumber: Int?, mapper: ObjectMapper): JsonNode {
@@ -57,7 +68,6 @@ class XdTests {
         val availableWonders = root.path("wonders")
         return availableWonders
     }
-
 
 
     @Test

@@ -178,6 +178,10 @@ class ActionSerializer : JsonSerializer<Action>() {
                 gen.writeObjectField("type", "CHOOSE_WONDER")
                 gen.writeObjectField("name", value.wonderName)
             }
+            is TakeCard -> {
+                gen.writeObjectField("type", "TAKE_CARD")
+                gen.writeObjectField("name", value.cardName)
+            }
         }
 
         gen.writeEndObject()
@@ -185,7 +189,8 @@ class ActionSerializer : JsonSerializer<Action>() {
 }
 
 val actionMap = mapOf(
-        Pair("CHOOSE_WONDER", Pair(ChooseWonder::class.java, "name"))
+        Pair("CHOOSE_WONDER", Pair(ChooseWonder::class.java, "name")),
+        Pair("TAKE_CARD", Pair(TakeCard::class.java, "name"))
 )
 
 fun String.action(param: Any): Action? {

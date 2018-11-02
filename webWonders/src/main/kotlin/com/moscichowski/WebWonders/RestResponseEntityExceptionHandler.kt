@@ -12,12 +12,13 @@ class AwesomeException: Exception() {
 
 }
 
-//@EnableWebMvc
-//@ControllerAdvice
-//public class RestResponseEntityExceptionHandler: ResponseEntityExceptionHandler() {
-//
-//    @ExceptionHandler(Error::class)
-//    public fun handleError(ex: Error, request: WebRequest): ResponseEntity<String> {
-//        return ResponseEntity.badRequest().body("message + ${ex.localizedMessage}")
-//    }
-//}
+data class RestError(val message: String)
+
+@ControllerAdvice
+public class RestResponseEntityExceptionHandler: ResponseEntityExceptionHandler() {
+
+    @ExceptionHandler(Error::class)
+    public fun handleError(ex: Error, request: WebRequest): ResponseEntity<RestError> {
+        return ResponseEntity.badRequest().body(RestError(ex.localizedMessage))
+    }
+}
