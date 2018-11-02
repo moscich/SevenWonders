@@ -33,7 +33,7 @@ class CardTaker : ActionPerformer() {
 
         game.board.cards.remove(wantedNode)
         game.board.cards.forEach { node: BoardNode ->
-            node.descendants.remove(wantedNode.card)
+            node.descendants.remove(wantedNode)
         }
 
         player.gold -= requiredGold
