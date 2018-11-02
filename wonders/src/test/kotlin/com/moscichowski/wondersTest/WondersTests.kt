@@ -49,7 +49,7 @@ class WondersTests {
     fun takeCardTooExpensive() {
         val card = Card("TestCard", Resource(gold = 7))
         val board = Board(mutableListOf(BoardNode(card)))
-        val game = Game(Player(6), Player(6), board)
+        val game = Game(Player(6), Player(6), board).copy()
         val startingState = game.copy()
         val wonders = Wonders(game)
         assertFails { wonders.takeAction(TakeCard(card)) }
@@ -60,7 +60,7 @@ class WondersTests {
     fun secondPlayerTakeCardTooExpensive() {
         val card = Card("TestCard", Resource(gold = 7))
         val board = Board(mutableListOf(BoardNode(card)))
-        val game = Game(Player(8), Player(6), board, currentPlayer = 1)
+        val game = Game(Player(8), Player(6), board, currentPlayer = 1).copy()
         val startingState = game.copy()
         val wonders = Wonders(game)
         assertFails { wonders.takeAction(TakeCard(card)) }
@@ -74,7 +74,7 @@ class WondersTests {
         val availableNode = BoardNode(availableCard)
         val unavailableNode = BoardNode(parentCard, mutableListOf(availableNode))
         val board = Board(mutableListOf(availableNode, unavailableNode))
-        val game = Game(Player(1), Player(2), board)
+        val game = Game(Player(1), Player(2), board).copy()
         val startingState = game.copy()
         val wonders = Wonders(game)
         assertFails { wonders.takeAction(TakeCard(Card("Parent"))) }

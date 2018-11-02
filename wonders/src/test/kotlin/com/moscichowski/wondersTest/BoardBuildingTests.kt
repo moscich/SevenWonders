@@ -21,6 +21,7 @@ class BoardBuildingTests {
         val wonders = (0 until 8).map { Wonder("Test") }
         val cards = listOf((0 until 20).map { Card("card $it") }, (0 until 20).map { Card("some") }, (0 until 20).map { Card("some") })
         val game = Game(wonders, cards)
+        game.state = GameState.REGULAR
 
         val cases = listOf(
                 Triple("card 0", 2, 3),

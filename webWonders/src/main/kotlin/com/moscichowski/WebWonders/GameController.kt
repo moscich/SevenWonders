@@ -2,6 +2,7 @@ package com.moscichowski.WebWonders
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.moscichowski.wonders.*
+import com.moscichowski.wonders.builder.CardBuilder
 import com.moscichowski.wonders.model.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
@@ -30,7 +31,16 @@ class GameController {
             Wonder("Everybody dance 2", Resource(2,glass = 1), features = listOf(ExtraTurn))
         )
 
-        val writeValueAsString = mapper.writeValueAsString(wonderList)
+        val cardBuilder = CardBuilder()
+        val cards = listOf(
+                cardBuilder.getCards().subList(0, 20),
+                cardBuilder.getCards().subList(0, 20),
+                cardBuilder.getCards().subList(0, 20))
+
+
+        //TODO shuffle
+
+        val writeValueAsString = mapper.writeValueAsString(GameInitialSettings(wonderList, cards))
 
         return jdbcTemplate.query("insert into games (initial) values ('$writeValueAsString') RETURNING id") { rs, _ ->
             rs.getInt(1)
@@ -43,10 +53,8 @@ class GameController {
             rs.getString(2)
         }.first()
 
-        val testCards = listOf((0 until 20).map { Card("some", CardColor.BROWN) }, (0 until 20).map { Card("some", CardColor.BROWN) }, (0 until 20).map { Card("some", CardColor.BROWN) })
-
-        val readValue: List<Wonder> = mapper.readValue(first, object: TypeReference<List<Wonder>>() {})
-        val game = Game(readValue, testCards)
+        val readValue: GameInitialSettings = mapper.readValue(first, GameInitialSettings::class.java)
+        val game = Game(readValue.wonders, readValue.cards)
         val wonders = Wonders(game)
 
         val actions = jdbcTemplate.query("select action from actions where game_id = $id") { rs, _ ->
@@ -65,10 +73,9 @@ class GameController {
             rs.getString(2)
         }.first()
 
-        val testCards = listOf((0 until 20).map { Card("some", CardColor.BROWN) }, (0 until 20).map { Card("some", CardColor.BROWN) }, (0 until 20).map { Card("some", CardColor.BROWN) })
 
-        val readValue: List<Wonder> = mapper.readValue(first, object: TypeReference<List<Wonder>>() {})
-        val game = Game(readValue, testCards)
+        val readValue: GameInitialSettings = mapper.readValue(first, GameInitialSettings::class.java)
+        val game = Game(readValue.wonders, readValue.cards)
         val wonders = Wonders(game)
 
         val actions = jdbcTemplate.query("select action from actions where game_id = $gameId") { rs, _ ->

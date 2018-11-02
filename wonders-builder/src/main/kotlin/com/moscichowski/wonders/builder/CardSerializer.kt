@@ -28,18 +28,17 @@ class CardDeserializer : JsonDeserializer<Card>() {
         val objectCodec = p.codec
         val jsonNode = objectCodec.readTree<TreeNode>(p)
         val cost = cost(jsonNode, objectCodec)
-        val features: List<CardFeature> = features(jsonNode, objectCodec)
-        val color = TEMPORARYSOLUTION(jsonNode, objectCodec)
+        val features = features(jsonNode, objectCodec)
+        val color = color(jsonNode, objectCodec)
 
         return Card((jsonNode.get("name") as TextNode).asText(), color, cost, features)
     }
 
-    fun TEMPORARYSOLUTION(jsonNode: TreeNode, objectCodec: ObjectCodec?): CardColor {
-        val get = jsonNode.get("color") ?: return CardColor.RED
+    fun color(jsonNode: TreeNode, objectCodec: ObjectCodec?): CardColor {
+        val get = jsonNode.get("color")
         val colorNode = get.traverse()
         colorNode.codec = objectCodec
-        val color = colorNode.readValueAs(CardColor::class.java)
-        return color
+        return colorNode.readValueAs(CardColor::class.java)
     }
 
     fun features(jsonNode: TreeNode, objectCodec: ObjectCodec?): List<CardFeature> {

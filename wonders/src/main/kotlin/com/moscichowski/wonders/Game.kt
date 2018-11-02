@@ -10,8 +10,8 @@ data class MilitaryThreshold(val player: Int,
                              val gold: Int)
 
 data class Game(private val _wonders: List<Wonder>,
-                val cards: List<List<Card>>,
-                private val _board: Board = Board(listOf()),
+                private val cards: List<List<Card>>,
+                private var _board: Board = Board(listOf()),
                 val player1: Player = Player(6),
                 val player2: Player = Player(6),
                 var currentPlayer: Int = 0,
@@ -25,7 +25,15 @@ data class Game(private val _wonders: List<Wonder>,
                         MilitaryThreshold(1, 6, 5)
                 )
 ) {
-    var board = _board
+    var board: Board
+    get() {
+        return if (state != GameState.WONDERS_SELECT) {
+            _board
+        } else {
+            Board(listOf())
+        }
+    }
+    set(value) {_board = value}
 
     init {
         if(cards.count() != 3) { throw WrongNumberOfCards(cards) }
@@ -36,7 +44,7 @@ data class Game(private val _wonders: List<Wonder>,
 
         val nodes = cards.asSequence().first().mapIndexed { index, card ->
             val hidden = hiddenIndexes.contains(index)
-            BoardNode(card, hidden = hidden)
+            BoardNode(index, card, hidden = hidden)
         }
 
         val dependencies = listOf(
@@ -63,7 +71,7 @@ data class Game(private val _wonders: List<Wonder>,
             nodes[index].descendants.add(nodes[dependency.second])
         }
 
-        board = Board(nodes)
+        _board = Board(nodes)
     }
 
     private val mutableWonders = _wonders.toMutableList()
@@ -209,7 +217,7 @@ data class Board(private val cards_: List<BoardNode>) {
     val cards = cards_.toMutableList()
 }
 
-data class BoardNode(private val innerCard: Card, val descendants: MutableList<BoardNode> = mutableListOf(), private val hidden: Boolean = false) {
+data class BoardNode(val id: Int, private val innerCard: Card, val descendants: MutableList<BoardNode> = mutableListOf(), private val hidden: Boolean = false) {
     val card: Card?
         get() {
             return if (!hidden || descendants.isEmpty()) {

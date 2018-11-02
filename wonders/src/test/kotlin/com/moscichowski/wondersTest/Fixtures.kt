@@ -1,6 +1,8 @@
 package com.moscichowski.wondersTest
 
 import com.moscichowski.wonders.*
+import com.moscichowski.wonders.BoardNode
+import com.moscichowski.wonders.model.Card
 import kotlin.test.assertTrue
 import kotlin.test.fail
 
@@ -13,6 +15,8 @@ fun Game(player1: Player, player2: Player, board: Board, currentPlayer: Int = 0)
     game.board = board
     return game
 }
+
+fun BoardNode(innerCard: Card, descendants: MutableList<BoardNode> = mutableListOf(), hidden: Boolean = false) = BoardNode(0, innerCard, descendants, hidden)
 
 val testWonders = (0 until 8).map { Wonder("Test $it") }
 val cards = listOf((0 until 20).map { Card("some") }, (0 until 20).map { Card("some") }, (0 until 20).map { Card("some") })

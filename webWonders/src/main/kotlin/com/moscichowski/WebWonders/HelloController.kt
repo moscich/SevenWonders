@@ -41,32 +41,6 @@ class HelloController {
         return "kupa"//json
     }
 
-    @RequestMapping(value = ["actions"], method = [RequestMethod.POST])
-    fun postAction(@RequestBody action: Action): Any {
-
-        val node = BoardNode(Card("Take Me", CardColor.BLUE))
-        val board = Board(listOf(node))
-        val game = Game((0 until 8).map { Wonder("Test") }, listOf())
-        val wonders = Wonders(game)
-//
-//        wonders.takeAction(action)
-
-        return ""
-    }
-
-    @RequestMapping(value = ["test"], method = [RequestMethod.GET])
-    fun xd(): Game {
-
-        val node = BoardNode(Card("Take Me", CardColor.BLUE))
-        val board = Board(listOf(node))
-        val game = Game((0 until 8).map { Wonder("Test") }, listOf())
-        val wonders = Wonders(game)
-//
-//        wonders.takeAction(action)
-
-        return game
-    }
-
     @RequestMapping(method = [RequestMethod.POST])
     fun postTest(@RequestBody load: Payload): String {
 
@@ -80,9 +54,90 @@ class HelloController {
 class ActionJsonModule : SimpleModule() {
     init {
         this.addSerializer(Action::class.java, ActionSerializer())
+        this.addSerializer(BoardNode::class.java, BoardSerializer())
+        this.addSerializer(Resource::class.java, ResourceSerializer())
+        this.addSerializer(Card::class.java, CardSerializer())
 
         this.addDeserializer(Wonder::class.java, WonderDeserializer())
         this.addDeserializer(Action::class.java, ActionDeserializer())
+        this.addDeserializer(GameInitialSettings::class.java, GameInitialSettingsDeserializer())
+    }
+}
+
+data class GameInitialSettings(val wonders: List<Wonder>, val cards: List<List<Card>>)
+
+class CardSerializer : JsonSerializer<Card>() {
+    override fun serialize(value: Card, gen: JsonGenerator, serializers: SerializerProvider?) {
+        gen.writeStartObject()
+        gen.writeObjectField("name", value.name)
+        gen.writeObjectField("color", value.color)
+        if (value.cost != Resource()) {
+            gen.writeObjectField("cost", value.cost)
+        }
+        gen.writeObjectField("features", value.features)
+        if (value.freeSymbol != null) {
+            gen.writeObjectField("features", value.freeSymbol)
+        }
+
+        gen.writeEndObject()
+    }
+}
+
+class ResourceSerializer : JsonSerializer<Resource>() {
+    override fun serialize(value: Resource, gen: JsonGenerator, serializers: SerializerProvider?) {
+        gen.writeStartObject()
+
+        if (value.wood > 0) {
+            gen.writeObjectField("wood", value.wood)
+        }
+        if (value.clay > 0) {
+            gen.writeObjectField("clay", value.clay)
+        }
+        if (value.stone > 0) {
+            gen.writeObjectField("stone", value.stone)
+        }
+        if (value.glass > 0) {
+            gen.writeObjectField("glass", value.glass)
+        }
+        if (value.papyrus > 0) {
+            gen.writeObjectField("papyrus", value.papyrus)
+        }
+        if (value.gold > 0) {
+            gen.writeObjectField("gold", value.gold)
+        }
+
+        gen.writeEndObject()
+    }
+
+}
+
+class BoardSerializer : JsonSerializer<BoardNode>() {
+    override fun serialize(value: BoardNode, gen: JsonGenerator, serializers: SerializerProvider?) {
+        gen.writeStartObject()
+        gen.writeObjectField("id", value.id)
+
+        if (value.card != null) {
+            gen.writeObjectField("card", value.card)
+        }
+        if (value.descendants.count() > 0) {
+            gen.writeObjectField("descendants", value.descendants.map { it.id })
+        }
+
+        gen.writeEndObject()
+    }
+}
+
+class GameInitialSettingsDeserializer : JsonDeserializer<GameInitialSettings>() {
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): GameInitialSettings {
+        val objectCodec = p.codec
+        val jsonNode = objectCodec.readTree<TreeNode>(p)
+        val wondersNode = jsonNode.get("wonders").traverse()
+        wondersNode.codec = objectCodec
+        val cardsNode = jsonNode.get("cards").traverse()
+        cardsNode.codec = objectCodec
+        val wonders: List<Wonder> = wondersNode.readValueAs(object : TypeReference<List<Wonder>>() {})
+        val cards: List<List<Card>> = cardsNode.readValueAs(object : TypeReference<List<List<Card>>>() {})
+        return GameInitialSettings(wonders, cards)
     }
 }
 
@@ -137,7 +192,6 @@ fun String.action(param: Any): Action? {
     val actionType = actionMap[this]!!.first
     return actionType.kotlin.primaryConstructor?.call(param)
 }
-
 
 
 data class Payload(
