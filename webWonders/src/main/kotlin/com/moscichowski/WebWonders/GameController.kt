@@ -61,7 +61,6 @@ class GameController {
             rs.getString(1)
         }.map { mapper.readValue(it, Action::class.java) }
 
-        println("actions = ${actions}")
         actions.forEach { wonders.takeAction(it) }
 
         return game
@@ -82,7 +81,6 @@ class GameController {
             rs.getString(1)
         }.map { mapper.readValue(it, Action::class.java) }
 
-        println("actions = ${actions}")
         actions.forEach { wonders.takeAction(it) }
         wonders.takeAction(action)
 
