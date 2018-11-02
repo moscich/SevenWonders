@@ -28,67 +28,315 @@
       ]
     },
     {
-      "name": "glinianka"
+      "name": "glinianka",
+      "color": "BROWN",
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "clay": 1
+          }
+        }
+      ]
     },
     {
-      "name": "złoża gliny"
+      "name": "złoża gliny",
+      "color": "BROWN",
+      "cost": {
+        "gold": 1
+      },
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "clay": 1
+          }
+        }
+      ]
     },
     {
-      "name": "kamieniołom"
+      "name": "kamieniołom",
+      "color": "BROWN",
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "stone": 1
+          }
+        }
+      ]
     },
     {
-      "name": "skladowisko kamienia"
+      "name": "składowisko kamienia",
+      "color": "BROWN",
+      "cost": {
+        "gold": 1
+      },
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "stone": 1
+          }
+        }
+      ]
     },
     {
-      "name": "huta szkła"
+      "name": "huta szkła",
+      "color": "SILVER",
+      "cost": {
+        "gold": 1
+      },
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "glass": 1
+          }
+        }
+      ]
     },
     {
-      "name": "wytwórnia papirusu"
+      "name": "wytwórnia papirusu",
+      "color": "SILVER",
+      "cost": {
+        "gold": 1
+      },
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "papyrus": 1
+          }
+        }
+      ]
     },
     {
-      "name": "wieża strażnicza"
+      "name": "wieża strażnicza",
+      "color": "RED",
+      "features": [
+        {
+          "type": "MILITARY",
+          "points": 1
+        }
+      ]
     },
     {
-      "name": "warsztat"
+      "name": "warsztat",
+      "color": "GREEN",
+      "cost": {
+        "papyrus": 1
+      },
+      "features": [
+        {
+          "type": "SCIENCE",
+          "symbol": "COMPASS"
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 1
+        }
+      ]
     },
     {
-      "name": "apteka"
+      "name": "apteka",
+      "color": "GREEN",
+      "cost": {
+        "glass": 1
+      },
+      "features": [
+        {
+          "type": "SCIENCE",
+          "symbol": "WHEEL"
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 1
+        }
+      ]
     },
     {
-      "name": "magazyn kamienia"
+      "name": "magazyn kamienia",
+      "color": "YELLOW",
+      "cost": {
+        "gold": 3
+      },
+      "features": [
+        {
+          "type": "WAREHOUSE",
+          "kind": "STONE"
+        }
+      ]
     },
     {
-      "name": "magazyn gliny"
+      "name": "magazyn gliny",
+      "color": "YELLOW",
+      "cost": {
+        "gold": 3
+      },
+      "features": [
+        {
+          "type": "WAREHOUSE",
+          "kind": "CLAY"
+        }
+      ]
     },
     {
-      "name": "magazyn drewna"
+      "name": "magazyn drewna",
+      "color": "YELLOW",
+      "cost": {
+        "gold": 3
+      },
+      "features": [
+        {
+          "type": "WAREHOUSE",
+          "kind": "WOOD"
+        }
+      ]
     },
     {
-      "name": "stajnie"
+      "name": "stajnie",
+      "color": "RED",
+      "cost": {
+        "wood": 1
+      },
+      "features": [
+        {
+          "type": "MILITARY",
+          "points": 1
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "HORSESHOE"
+        }
+      ]
     },
     {
-      "name": "garnizon"
+      "name": "garnizon",
+      "color": "RED",
+      "cost": {
+        "clay": 1
+      },
+      "features": [
+        {
+          "type": "MILITARY",
+          "points": 1
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "SWORD"
+        }
+      ]
     },
     {
-      "name": "palisada"
+      "name": "palisada",
+      "color": "RED",
+      "cost": {
+        "gold": 2
+      },
+      "features": [
+        {
+          "type": "MILITARY",
+          "points": 1
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "TOWER"
+        }
+      ]
     },
     {
-      "name": "skryptorium"
+      "name": "skryptorium",
+      "color": "GREEN",
+      "cost": {
+        "gold": 2
+      },
+      "features": [
+        {
+          "type": "SCIENCE",
+          "symbol": "INK"
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "BOOK"
+        }
+      ]
     },
     {
-      "name": "zielarnia"
+      "name": "zielarnia",
+      "color": "GREEN",
+      "cost": {
+        "gold": 2
+      },
+      "features": [
+        {
+          "type": "SCIENCE",
+          "symbol": "HERBS"
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "COG"
+        }
+      ]
     },
     {
-      "name": "teatr"
+      "name": "teatr",
+      "color": "BLUE",
+      "features": [
+        {
+          "type": "VICTORY_POINTS",
+          "points": 3
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "MASK"
+        }
+      ]
     },
     {
-      "name": "ołtarz"
+      "name": "ołtarz",
+      "color": "BLUE",
+      "features": [
+        {
+          "type": "VICTORY_POINTS",
+          "points": 3
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "MOON"
+        }
+      ]
     },
     {
-      "name": "łaźnie"
+      "name": "łaźnie",
+      "color": "BLUE",
+      "cost": {
+        "stone": 1
+      },
+      "features": [
+        {
+          "type": "VICTORY_POINTS",
+          "points": 3
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "TEARDROP"
+        }
+      ]
     },
     {
-      "name": "tawerna"
+      "name": "tawerna",
+      "color": "YELLOW",
+      "features": [
+        {
+          "type": "ADD_GOLD",
+          "gold": 4
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "BARREL"
+        }
+      ]
     }
   ]
 ]

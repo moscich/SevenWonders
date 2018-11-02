@@ -48,11 +48,23 @@ data class Resource(val wood: Int = 0,
 }
 
 enum class CardFreeSymbol {
-    SWORD
+    SWORD, HORSESHOE, TOWER, BOOK,
+
+    COG,
+
+    MASK,
+
+    MOON,
+
+    TEARDROP,
+
+    BARREL
 }
 
 enum class ScienceSymbol {
-    WHEEL
+    WHEEL, COMPASS, INK,
+
+    HERBS
 }
 
 enum class ScienceToken {
