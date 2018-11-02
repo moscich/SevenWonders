@@ -1,6 +1,5 @@
 package com.moscichowski.wonders.builder
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.moscichowski.wonders.model.*
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -36,16 +35,4 @@ class CardBuildingTest {
         assertEquals(Card("łaźnie", CardColor.BLUE, Resource(stone = 1), listOf(VictoryPoints(3), FreeSymbol(CardFreeSymbol.TEARDROP))), cards[21])
         assertEquals(Card("tawerna", CardColor.YELLOW, features = listOf(AddGold(4), FreeSymbol(CardFreeSymbol.BARREL))), cards[22])
     }
-
-    @Test
-    fun justtesting() {
-        val objectMapper = ObjectMapper()
-        objectMapper.registerModule(CardJsonModule())
-        val card = Card("Testing", CardColor.GREEN, features = listOf(ProvideResource(Resource(1))))
-        val writeValueAsString = objectMapper.writeValueAsString(card)
-        println("writeValueAsString = ${writeValueAsString}")
-
-    }
-
-
 }

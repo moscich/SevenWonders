@@ -1,6 +1,7 @@
 package com.moscichowski.wonders
 
 import com.moscichowski.wonders.model.*
+import java.lang.Error
 import kotlin.math.max
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
@@ -28,6 +29,8 @@ data class Game(private val _wonders: List<Wonder>,
     var board = _board
 
     init {
+        if(cards.count() != 3) { throw WrongNumberOfCards(cards) }
+        if(cards.find { it.count() != 20 } != null) { throw WrongNumberOfCards(cards) }
         if(_wonders.count() != 8) { throw Requires8WondersError() }
         if (state == GameState.REGULAR ) {
             board = _board
