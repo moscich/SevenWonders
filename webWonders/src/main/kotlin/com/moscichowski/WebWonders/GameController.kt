@@ -43,8 +43,10 @@ class GameController {
             rs.getString(2)
         }.first()
 
+        val testCards = listOf((0 until 20).map { Card("some", CardColor.BROWN) }, (0 until 20).map { Card("some", CardColor.BROWN) }, (0 until 20).map { Card("some", CardColor.BROWN) })
+
         val readValue: List<Wonder> = mapper.readValue(first, object: TypeReference<List<Wonder>>() {})
-        val game = Game(readValue, listOf())
+        val game = Game(readValue, testCards)
         val wonders = Wonders(game)
 
         val actions = jdbcTemplate.query("select action from actions where game_id = $id") { rs, _ ->
@@ -62,10 +64,12 @@ class GameController {
         val first = jdbcTemplate.query("select * from games where id = $gameId") { rs, _ ->
             rs.getString(2)
         }.first()
-        val readValue: List<Wonder> = mapper.readValue(first, object: TypeReference<List<Wonder>>() {})
-        val game = Game(readValue, listOf())
-        val wonders = Wonders(game)
 
+        val testCards = listOf((0 until 20).map { Card("some", CardColor.BROWN) }, (0 until 20).map { Card("some", CardColor.BROWN) }, (0 until 20).map { Card("some", CardColor.BROWN) })
+
+        val readValue: List<Wonder> = mapper.readValue(first, object: TypeReference<List<Wonder>>() {})
+        val game = Game(readValue, testCards)
+        val wonders = Wonders(game)
 
         val actions = jdbcTemplate.query("select action from actions where game_id = $gameId") { rs, _ ->
             rs.getString(1)
