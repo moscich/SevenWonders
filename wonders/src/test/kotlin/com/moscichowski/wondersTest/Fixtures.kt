@@ -10,6 +10,12 @@ fun Game(): Game {
     return Game(testWonders, cards)
 }
 
+fun Wonders(game: Game): Wonders {
+    val wonders = Wonders(testWonders, cards)
+    wonders.game = game
+    return wonders
+}
+
 fun Game(player1: Player, player2: Player, board: Board, currentPlayer: Int = 0): Game {
     val game = Game(testWonders, cards, board, player1 = player1, player2 = player2, currentPlayer = currentPlayer, state = GameState.REGULAR)
     game.board = board

@@ -65,7 +65,10 @@ class XdTests {
         takeCard200("magazyn drewna")
         takeCard200("skryptorium")
         takeCard200("stajnie")
-        assertGame(2,3,2,2,1)
+        takeCard200("palisada")
+        assertGame(2,3,0,3,0)
+        sellCard200("garnizon")
+        assertGame(5,3,0,3,1)
     }
 
     fun assertGame(player1gold: Int,
@@ -89,6 +92,11 @@ class XdTests {
 
     fun takeCard200(name: String) {
         val result = testRestTemplate.postForEntity("/games/$gameNumber/actions", ActionRequest("TAKE_CARD", name), String::class.java)
+        Assert.assertEquals(200, result.statusCode.value())
+    }
+
+    fun sellCard200(name: String) {
+        val result = testRestTemplate.postForEntity("/games/$gameNumber/actions", ActionRequest("SELL_CARD", name), String::class.java)
         Assert.assertEquals(200, result.statusCode.value())
     }
 

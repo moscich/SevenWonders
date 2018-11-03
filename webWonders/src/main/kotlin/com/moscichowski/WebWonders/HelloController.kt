@@ -21,9 +21,6 @@ import org.springframework.web.bind.annotation.RestController
 import java.lang.Error
 import kotlin.reflect.full.primaryConstructor
 import com.moscichowski.wonders.model.*
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.stereotype.Component
 
 
 @RestController
@@ -182,6 +179,10 @@ class ActionSerializer : JsonSerializer<Action>() {
                 gen.writeObjectField("type", "TAKE_CARD")
                 gen.writeObjectField("name", value.cardName)
             }
+            is SellCard -> {
+                gen.writeObjectField("type", "SELL_CARD")
+                gen.writeObjectField("name", value.card)
+            }
         }
 
         gen.writeEndObject()
@@ -190,7 +191,8 @@ class ActionSerializer : JsonSerializer<Action>() {
 
 val actionMap = mapOf(
         Pair("CHOOSE_WONDER", Pair(ChooseWonder::class.java, "name")),
-        Pair("TAKE_CARD", Pair(TakeCard::class.java, "name"))
+        Pair("TAKE_CARD", Pair(TakeCard::class.java, "name")),
+        Pair("SELL_CARD", Pair(SellCard::class.java, "name"))
 )
 
 fun String.action(param: Any): Action? {

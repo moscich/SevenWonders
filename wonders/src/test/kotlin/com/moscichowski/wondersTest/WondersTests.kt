@@ -571,9 +571,10 @@ class WondersTests {
     fun sellCard() {
         val (wonders, card, player) = game()
 
-        wonders.takeAction(SellCard(card))
+        wonders.takeAction(SellCard(card.name))
 
         assertEquals(8, player.gold)
+        assertEquals(1, wonders.game.currentPlayer)
     }
 
     @Test
@@ -583,7 +584,7 @@ class WondersTests {
         player.cards.add(cardWithColor(CardColor.YELLOW))
         player.cards.add(cardWithColor(CardColor.YELLOW))
 
-        wonders.takeAction(SellCard(card))
+        wonders.takeAction(SellCard(card.name))
 
         assertEquals(10, player.gold)
     }

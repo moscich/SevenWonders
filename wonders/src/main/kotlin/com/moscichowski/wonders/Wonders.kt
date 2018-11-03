@@ -1,7 +1,12 @@
 package com.moscichowski.wonders
 import com.moscichowski.wonders.model.*
 
-class Wonders(val game: Game) {
+class Wonders {
+
+    var game: Game
+    constructor(wonders: List<Wonder>, cards: List<List<Card>>) {
+        this.game = Game(wonders, cards)
+    }
 
     fun takeAction(action: Action) {
         if (!game.state.canPerform(action)) { throw Error() }
@@ -37,7 +42,7 @@ data class ChooseScience(val token: ScienceToken) : Action() {
     }
 }
 
-data class SellCard(val card: Card) : Action() {
+data class SellCard(val card: String) : Action() {
     override fun performOn(game: Game) {
         CardSeller().sellCard(game, this)
     }

@@ -54,8 +54,7 @@ class GameController {
         }.first()
 
         val readValue: GameInitialSettings = mapper.readValue(first, GameInitialSettings::class.java)
-        val game = Game(readValue.wonders, readValue.cards)
-        val wonders = Wonders(game)
+        val wonders = Wonders(readValue.wonders, readValue.cards)
 
         val actions = jdbcTemplate.query("select action from actions where game_id = $id") { rs, _ ->
             rs.getString(1)
@@ -63,7 +62,7 @@ class GameController {
 
         actions.forEach { wonders.takeAction(it) }
 
-        return game
+        return wonders.game
     }
 
     @RequestMapping(value = ["/{gameId}/actions"], method = [RequestMethod.POST])
@@ -74,8 +73,7 @@ class GameController {
 
 
         val readValue: GameInitialSettings = mapper.readValue(first, GameInitialSettings::class.java)
-        val game = Game(readValue.wonders, readValue.cards)
-        val wonders = Wonders(game)
+        val wonders = Wonders(readValue.wonders, readValue.cards)
 
         val actions = jdbcTemplate.query("select action from actions where game_id = $gameId") { rs, _ ->
             rs.getString(1)
@@ -87,7 +85,7 @@ class GameController {
         val deserializedAction = mapper.writeValueAsString(action)
         jdbcTemplate.execute("insert into actions (game_id, action) values ('$gameId', '$deserializedAction')")
 
-        return game
+        return wonders.game
     }
 
 }
