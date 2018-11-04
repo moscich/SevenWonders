@@ -55,7 +55,6 @@ class ActionJsonModule : SimpleModule() {
         this.addSerializer(Resource::class.java, ResourceSerializer())
         this.addSerializer(Card::class.java, CardSerializer())
 
-        this.addDeserializer(Wonder::class.java, WonderDeserializer())
         this.addDeserializer(Action::class.java, ActionDeserializer())
         this.addDeserializer(GameInitialSettings::class.java, GameInitialSettingsDeserializer())
     }
@@ -135,20 +134,6 @@ class GameInitialSettingsDeserializer : JsonDeserializer<GameInitialSettings>() 
         val wonders: List<Wonder> = wondersNode.readValueAs(object : TypeReference<List<Wonder>>() {})
         val cards: List<List<Card>> = cardsNode.readValueAs(object : TypeReference<List<List<Card>>>() {})
         return GameInitialSettings(wonders, cards)
-    }
-}
-
-class WonderDeserializer : JsonDeserializer<Wonder>() {
-    override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Wonder {
-        val objectCodec = p.codec
-        val jsonNode = objectCodec.readTree<TreeNode>(p)
-        val costNode = jsonNode.get("cost").traverse()
-        val featuresNode = jsonNode.get("features").traverse()
-        featuresNode.codec = objectCodec
-        val features: List<CardFeature> = featuresNode.readValueAs(object : TypeReference<List<CardFeature>>() {})
-        costNode.codec = objectCodec
-        val cost = costNode.readValueAs(Resource::class.java)
-        return Wonder((jsonNode.get("name") as TextNode).asText(), cost, features)
     }
 }
 

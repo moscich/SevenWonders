@@ -228,10 +228,3 @@ data class BoardNode(val id: Int, private val innerCard: Card, val descendants: 
         }
 
 }
-
-data class Wonder(var name: String, var cost: Resource = Resource(), var features: List<CardFeature> = mutableListOf()) {
-    constructor() : this("") {
-
-    }
-
-}

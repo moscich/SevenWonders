@@ -3,6 +3,7 @@ package com.moscichowski.wondersTest
 import com.moscichowski.wonders.*
 import com.moscichowski.wonders.BoardNode
 import com.moscichowski.wonders.model.Card
+import com.moscichowski.wonders.model.Wonder
 import kotlin.test.assertTrue
 import kotlin.test.fail
 

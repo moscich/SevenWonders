@@ -113,3 +113,5 @@ object ProvideBrownResource : CardFeature()
 enum class GuildType {
     YELLOW, BROWN_SILVER, WONDERS, BLUE, GREEN, GOLD, RED
 }
+
+data class Wonder(var name: String, var cost: Resource = Resource(), var features: List<CardFeature> = mutableListOf())

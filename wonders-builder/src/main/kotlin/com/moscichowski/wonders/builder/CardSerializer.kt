@@ -17,9 +17,24 @@ import kotlin.reflect.full.primaryConstructor
 open class CardJsonModule : SimpleModule() {
     init {
         this.addSerializer(CardFeature::class.java, CardFeatureSerializer())
-        this.addDeserializer(CardFeature::class.java, CardFeatureDeserializer())
 
+        this.addDeserializer(CardFeature::class.java, CardFeatureDeserializer())
+        this.addDeserializer(Wonder::class.java, WonderDeserializer())
         this.addDeserializer(Card::class.java, CardDeserializer())
+    }
+}
+
+class WonderDeserializer : JsonDeserializer<Wonder>() {
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Wonder {
+        val objectCodec = p.codec
+        val jsonNode = objectCodec.readTree<TreeNode>(p)
+        val costNode = jsonNode.get("cost").traverse()
+        val featuresNode = jsonNode.get("features").traverse()
+        featuresNode.codec = objectCodec
+        val features: List<CardFeature> = featuresNode.readValueAs(object : TypeReference<List<CardFeature>>() {})
+        costNode.codec = objectCodec
+        val cost = costNode.readValueAs(Resource::class.java)
+        return Wonder((jsonNode.get("name") as TextNode).asText(), cost, features)
     }
 }
 

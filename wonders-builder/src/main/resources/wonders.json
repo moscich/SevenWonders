@@ -1,0 +1,221 @@
+[
+  {
+    "name": "Kolos Rodyjski",
+    "cost": {
+      "clay": 3,
+      "glass": 1
+    },
+    "features": [
+      {
+        "type": "MILITARY",
+        "points": 2
+      },
+      {
+        "type": "VICTORY_POINTS",
+        "points": 3
+      }
+    ]
+  },
+  {
+    "name": "Via Appia",
+    "cost": {
+      "clay": 2,
+      "stone": 2,
+      "papyrus": 1
+    },
+    "features": [
+      {
+        "type": "ADD_GOLD",
+        "gold": 3
+      },
+      {
+        "type": "REMOVE_GOLD"
+      },
+      {
+        "type": "EXTRA_TURN"
+      },
+      {
+        "type": "VICTORY_POINTS",
+        "points": 3
+      }
+    ]
+  },
+  {
+    "name": "Pireus",
+    "cost": {
+      "wood": 2,
+      "clay": 1,
+      "stone": 1
+    },
+    "features": [
+      {
+        "type": "PROVIDE_SILVER_RESOURCE",
+        "points": 2
+      },
+      {
+        "type": "EXTRA_TURN"
+      },
+      {
+        "type": "VICTORY_POINTS",
+        "points": 2
+      }
+    ]
+  },
+  {
+    "name": "Piramida Cheopsa",
+    "cost": {
+      "stone": 3,
+      "papyrus": 1
+    },
+    "features": [
+      {
+        "type": "VICTORY_POINTS",
+        "points": 9
+      }
+    ]
+  },
+  {
+    "name": "Posąg Zeusa w Olimpii",
+    "cost": {
+      "wood": 1,
+      "clay": 1,
+      "stone": 1,
+      "papyrus": 2
+    },
+    "features": [
+      {
+        "type": "DESTROY_BROWN_CARD"
+      },
+      {
+        "type": "MILITARY",
+        "points": 1
+      },
+      {
+        "type": "VICTORY_POINTS",
+        "points": 3
+      }
+    ]
+  },
+  {
+    "name": "Circus Maximus",
+    "cost": {
+      "wood": 1,
+      "stone": 2,
+      "glass": 1
+    },
+    "features": [
+      {
+        "type": "DESTROY_SILVER_CARD"
+      },
+      {
+        "type": "MILITARY",
+        "points": 1
+      },
+      {
+        "type": "VICTORY_POINTS",
+        "points": 3
+      }
+    ]
+  },
+  {
+    "name": "Świątynia Artemidy w Efezie",
+    "cost": {
+      "wood": 1,
+      "stone": 1,
+      "glass": 1,
+      "papyrus": 1
+    },
+    "features": [
+      {
+        "type": "ADD_GOLD",
+        "gold": 12
+      },
+      {
+        "type": "EXTRA_TURN"
+      }
+    ]
+  },
+  {
+    "name": "Latarnia morska na Faros",
+    "cost": {
+      "wood": 1,
+      "stone": 1,
+      "papyrus": 2
+    },
+    "features": [
+      {
+        "type": "PROVIDE_BROWN_RESOURCE"
+      },
+      {
+        "type": "VICTORY_POINTS",
+        "points": 4
+      }
+    ]
+  },
+  {
+    "name": "Sfinks",
+    "cost": {
+      "clay": 1,
+      "stone": 1,
+      "glass": 2
+    },
+    "features": [
+      {
+        "type": "EXTRA_TURN"
+      },
+      {
+        "type": "VICTORY_POINTS",
+        "points": 6
+      }
+    ]
+  },
+  {
+    "name": "Wiszące ogrody Semiramidy",
+    "cost": {
+      "wood": 2,
+      "glass": 1,
+      "papyrus": 1
+    },
+    "features": [
+      {
+        "type": "ADD_GOLD",
+        "gold": 6
+      },
+      {
+        "type": "EXTRA_TURN"
+      },
+      {
+        "type": "VICTORY_POINTS",
+        "points": 3
+      }
+    ]
+  },
+  {
+    "name": "Biblioteka Aleksandryjska",
+    "cost": {
+      "wood": 3,
+      "glass": 1,
+      "papyrus": 1
+    },
+    "features": [
+      {
+        "type": "VICTORY_POINTS",
+        "points": 4
+      }
+    ]
+  },
+  {
+    "name": "Mauzoleum w Halikarnasie",
+    "cost": {
+      "clay": 2,
+      "glass": 2,
+      "papyrus": 1
+    },
+    "features": [
+      {
+        "type": "VICTORY_POINTS",
+        "points": 2
+      }
+    ]
+  }
+]

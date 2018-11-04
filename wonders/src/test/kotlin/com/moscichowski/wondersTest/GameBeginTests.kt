@@ -1,6 +1,7 @@
 package com.moscichowski.wondersTest
 
 import com.moscichowski.wonders.*
+import com.moscichowski.wonders.model.Wonder
 import org.junit.Test
 import kotlin.test.*
 
