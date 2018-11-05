@@ -12,8 +12,13 @@ class InitialWondersSelecter(wonders: Wonders) : ActionPerformer(wonders) {
             game.currentPlayer = (game.currentPlayer + 1) % 2
         }
         if (game.wonders.count() == 0) {
-            game.state = GameState.REGULAR
-            game.board = wonders.buildBoard()
+            val nextWonders = wonders.getWonders()
+            if (nextWonders.count() > 0) {
+                game.wonders = nextWonders
+            } else {
+                game.state = GameState.REGULAR
+                game.board = wonders.buildBoard()
+            }
         }
     }
 }

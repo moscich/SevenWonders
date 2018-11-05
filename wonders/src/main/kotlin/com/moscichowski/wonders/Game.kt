@@ -18,7 +18,7 @@ data class Game(private val _wonders: List<Wonder>,
                 var military: Int = 0,
                 var state: GameState = GameState.WONDERS_SELECT,
                 val scienceTokens: MutableList<Pair<Int?, ScienceToken>> = mutableListOf(),
-                val militaryThresholds: MutableList<MilitaryThreshold> = mutableListOf(
+                private val _militaryThresholds: List<MilitaryThreshold> = mutableListOf(
                         MilitaryThreshold(0, 3, 2),
                         MilitaryThreshold(0, 6, 5),
                         MilitaryThreshold(1, 3, 2),
@@ -26,15 +26,16 @@ data class Game(private val _wonders: List<Wonder>,
                 )
 ) {
 
-    private val mutableWonders = _wonders.toMutableList()
+    val militaryThresholds = _militaryThresholds.toMutableList()
 
-    val wonders: List<Wonder>
+    private var mutableWonders = _wonders.toMutableList()
+
+    var wonders: List<Wonder>
     get() {
-        return if (mutableWonders.count() > 4) {
-            mutableWonders.subList(0, mutableWonders.count() - 4)
-        } else {
-            mutableWonders
-        }
+        return mutableWonders
+    }
+    internal set(value) {
+        mutableWonders = value.toMutableList()
     }
 
     internal fun selectWonder(wonder: Wonder) {
@@ -119,7 +120,12 @@ enum class GameState {
     abstract fun canPerform(action: Action): Boolean
 }
 
-data class Player (private var gold_: Int) {
+data class Player (var gold_: Int,
+                   private val _cards: List<Card> = listOf(),
+                   var wonders: List<Pair<Boolean, Wonder>> = listOf()
+) {
+
+    val cards = _cards.toMutableList()
 
     var gold: Int by object : ObservableProperty<Int>(gold_) {
         override fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) {
@@ -127,9 +133,6 @@ data class Player (private var gold_: Int) {
             super.setValue(thisRef, property, positive)
         }
     }
-
-    val cards: MutableList<Card> = mutableListOf()
-    var wonders: List<Pair<Boolean, Wonder>> = listOf()
 
     val features: List<CardFeature>
         get() {

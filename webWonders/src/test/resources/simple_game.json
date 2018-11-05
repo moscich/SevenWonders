@@ -1,21 +1,6 @@
 {
-  "card": {
-    "cost": {
-      "gold": 3
-    },
-    "name": "magazyn gliny",
-    "color": "YELLOW",
-    "features": [
-      {
-        "kind": "CLAY",
-        "type": "WAREHOUSE"
-      }
-    ]
-  },
   "game": {
-    "board": {
-      "elements": []
-    },
+    "board": null,
     "state": "WONDERS_SELECT",
     "player1": {
       "gold": 6,
@@ -32,9 +17,26 @@
     "wonders": [
       {
         "cost": {
+          "clay": 3,
+          "glass": 1
+        },
+        "name": "Kolos Rodyjski",
+        "features": [
+          {
+            "type": "MILITARY",
+            "points": 2
+          },
+          {
+            "type": "VICTORY_POINTS",
+            "points": 3
+          }
+        ]
+      },
+      {
+        "cost": {
           "clay": 2,
-          "wood": 1,
-          "stone": 3
+          "stone": 2,
+          "papyrus": 1
         },
         "name": "Via Appia",
         "features": [
@@ -56,36 +58,34 @@
       },
       {
         "cost": {
-          "wood": 3
-        },
-        "name": "Second wonders",
-        "features": [
-          {
-            "type": "DESTROY_BROWN_CARD"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "clay": 2,
-          "wood": 1
-        },
-        "name": "Third shieeet",
-        "features": [
-          {
-            "type": "DESTROY_SILVER_CARD"
-          }
-        ]
-      },
-      {
-        "cost": {
+          "clay": 1,
           "wood": 2,
-          "glass": 1
+          "stone": 1
         },
-        "name": "Everybody dance",
+        "name": "Pireus",
         "features": [
+          {
+            "type": "PROVIDE_SILVER_RESOURCE"
+          },
           {
             "type": "EXTRA_TURN"
+          },
+          {
+            "type": "VICTORY_POINTS",
+            "points": 2
+          }
+        ]
+      },
+      {
+        "cost": {
+          "stone": 3,
+          "papyrus": 1
+        },
+        "name": "Piramida Cheopsa",
+        "features": [
+          {
+            "type": "VICTORY_POINTS",
+            "points": 9
           }
         ]
       }
@@ -116,7 +116,255 @@
       }
     ]
   },
+  "wonders": [
+    {
+      "cost": {
+        "clay": 1,
+        "wood": 1,
+        "stone": 1,
+        "papyrus": 2
+      },
+      "name": "Posąg Zeusa w Olimpii",
+      "features": [
+        {
+          "type": "DESTROY_BROWN_CARD"
+        },
+        {
+          "type": "MILITARY",
+          "points": 1
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 3
+        }
+      ]
+    },
+    {
+      "cost": {
+        "wood": 1,
+        "glass": 1,
+        "stone": 2
+      },
+      "name": "Circus Maximus",
+      "features": [
+        {
+          "type": "DESTROY_SILVER_CARD"
+        },
+        {
+          "type": "MILITARY",
+          "points": 1
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 3
+        }
+      ]
+    },
+    {
+      "cost": {
+        "wood": 1,
+        "glass": 1,
+        "stone": 1,
+        "papyrus": 1
+      },
+      "name": "Świątynia Artemidy w Efezie",
+      "features": [
+        {
+          "gold": 12,
+          "type": "ADD_GOLD"
+        },
+        {
+          "type": "EXTRA_TURN"
+        }
+      ]
+    },
+    {
+      "cost": {
+        "wood": 1,
+        "stone": 1,
+        "papyrus": 2
+      },
+      "name": "Latarnia morska na Faros",
+      "features": [
+        {
+          "type": "PROVIDE_BROWN_RESOURCE"
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 4
+        }
+      ]
+    }
+  ],
   "firstEpoh": [
+    {
+      "name": "wycinka",
+      "color": "BROWN",
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "wood": 1
+          }
+        }
+      ]
+    },
+    {
+      "cost": {
+        "gold": 1
+      },
+      "name": "skład drewna",
+      "color": "BROWN",
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "wood": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "glinianka",
+      "color": "BROWN",
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "clay": 1
+          }
+        }
+      ]
+    },
+    {
+      "cost": {
+        "gold": 1
+      },
+      "name": "złoża gliny",
+      "color": "BROWN",
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "clay": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "kamieniołom",
+      "color": "BROWN",
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "stone": 1
+          }
+        }
+      ]
+    },
+    {
+      "cost": {
+        "gold": 1
+      },
+      "name": "składowisko kamienia",
+      "color": "BROWN",
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "stone": 1
+          }
+        }
+      ]
+    },
+    {
+      "cost": {
+        "gold": 1
+      },
+      "name": "huta szkła",
+      "color": "SILVER",
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "glass": 1
+          }
+        }
+      ]
+    },
+    {
+      "cost": {
+        "gold": 1
+      },
+      "name": "wytwórnia papirusu",
+      "color": "SILVER",
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "papyrus": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "wieża strażnicza",
+      "color": "RED",
+      "features": [
+        {
+          "type": "MILITARY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "cost": {
+        "papyrus": 1
+      },
+      "name": "warsztat",
+      "color": "GREEN",
+      "features": [
+        {
+          "type": "SCIENCE",
+          "symbol": "COMPASS"
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "cost": {
+        "glass": 1
+      },
+      "name": "apteka",
+      "color": "GREEN",
+      "features": [
+        {
+          "type": "SCIENCE",
+          "symbol": "WHEEL"
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "cost": {
+        "gold": 3
+      },
+      "name": "magazyn kamienia",
+      "color": "YELLOW",
+      "features": [
+        {
+          "kind": "STONE",
+          "type": "WAREHOUSE"
+        }
+      ]
+    },
     {
       "cost": {
         "gold": 3
@@ -239,6 +487,98 @@
         {
           "type": "FREE_SYMBOL",
           "symbol": "MASK"
+        }
+      ]
+    }
+  ],
+  "card$wonders_main": {
+    "name": "wycinka",
+    "color": "BROWN",
+    "features": [
+      {
+        "type": "PROVIDE_RESOURCE",
+        "resource": {
+          "wood": 1
+        }
+      }
+    ]
+  },
+  "wonders$wonders_main": [
+    {
+      "cost": {
+        "clay": 1,
+        "wood": 1,
+        "stone": 1,
+        "papyrus": 2
+      },
+      "name": "Posąg Zeusa w Olimpii",
+      "features": [
+        {
+          "type": "DESTROY_BROWN_CARD"
+        },
+        {
+          "type": "MILITARY",
+          "points": 1
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 3
+        }
+      ]
+    },
+    {
+      "cost": {
+        "wood": 1,
+        "glass": 1,
+        "stone": 2
+      },
+      "name": "Circus Maximus",
+      "features": [
+        {
+          "type": "DESTROY_SILVER_CARD"
+        },
+        {
+          "type": "MILITARY",
+          "points": 1
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 3
+        }
+      ]
+    },
+    {
+      "cost": {
+        "wood": 1,
+        "glass": 1,
+        "stone": 1,
+        "papyrus": 1
+      },
+      "name": "Świątynia Artemidy w Efezie",
+      "features": [
+        {
+          "gold": 12,
+          "type": "ADD_GOLD"
+        },
+        {
+          "type": "EXTRA_TURN"
+        }
+      ]
+    },
+    {
+      "cost": {
+        "wood": 1,
+        "stone": 1,
+        "papyrus": 2
+      },
+      "name": "Latarnia morska na Faros",
+      "features": [
+        {
+          "type": "PROVIDE_BROWN_RESOURCE"
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 4
         }
       ]
     }

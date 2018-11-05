@@ -7,29 +7,36 @@ class WondersBuilder {
         if(cards.find { it.count() != 20 } != null) { throw WrongNumberOfCards(cards) }
         if(wonders.count() != 8) { throw Requires8WondersError() }
 
-        return Wonders(Game(wonders), cards)
+        return Wonders(Game(wonders.subList(0,4)), cards, wonders.subList(4, 8))
     }
 }
 
 class Wonders(var game: Game,
-              private var cards: List<List<Card>>
+              private var _cards: List<List<Card>>,
+              _wonders: List<Wonder>
               ) {
 
 
-    lateinit var firstEpoh: MutableList<Card>
+    var wonders = _wonders.toMutableList()
+    var cards: List<MutableList<Card>> = _cards.map { it.toMutableList() }
 
     internal fun getCard(): Card {
-        return firstEpoh.pop()
+        return cards[0].pop()
+    }
+
+    internal fun getWonders(): List<Wonder> {
+        val wonders = this.wonders.map { it }
+        this.wonders.clear()
+        return wonders
     }
 
     internal fun buildBoard(): Board {
-        this.firstEpoh = cards[0].toMutableList()
 
         val hiddenIndexes = listOf(2, 3, 4, 9, 10, 11, 12, 13)
 
         val nodes = (0 until 20).map {
             val card = if (!hiddenIndexes.contains(it)) {
-                firstEpoh.pop()
+                getCard()
             } else {
                 null
             }
