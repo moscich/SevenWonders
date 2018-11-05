@@ -1,5 +1,6 @@
 package com.moscichowski.WebWonders
 
+import com.moscichowski.WebWonders.service.GameService
 import com.moscichowski.wonders.*
 import com.moscichowski.wonders.builder.CardBuilder
 import com.moscichowski.wonders.model.*
@@ -17,68 +18,23 @@ class GameController {
     @Autowired
     lateinit var mapper: WondersMapper
 
+    @Autowired
+    lateinit var gameService: GameService
+
     @RequestMapping(method = [RequestMethod.POST])
     fun postAction(): Any? {
-        val wonderList = listOf(
-            Wonder("Via Appia", Resource(1,2,3), features = listOf(AddGold(3), RemoveGold, ExtraTurn, VictoryPoints(3))),
-            Wonder("Second wonders", Resource(3), features = listOf(DestroyBrownCard)),
-            Wonder("Third shieeet", Resource(1,2), features = listOf(DestroySilverCard)),
-            Wonder("Everybody dance", Resource(2,glass = 1), features = listOf(ExtraTurn)),
-            Wonder("Via Appia 2", Resource(1,2,3), features = listOf(AddGold(3), RemoveGold, ExtraTurn, VictoryPoints(3))),
-            Wonder("Second wonders 2", Resource(3), features = listOf(DestroyBrownCard)),
-            Wonder("Third shieeet 2", Resource(1,2), features = listOf(DestroySilverCard)),
-            Wonder("Everybody dance 2", Resource(2,glass = 1), features = listOf(ExtraTurn))
-        )
-
-        val cardBuilder = CardBuilder()
-        val cards = listOf(
-                cardBuilder.getCards().subList(0, 20),
-                cardBuilder.getCards().subList(0, 20),
-                cardBuilder.getCards().subList(0, 20))
-
-
-        //TODO shuffle
-
-        val writeValueAsString = mapper.writeValueAsString(GameInitialSettings(wonderList, cards))
-
-        return jdbcTemplate.query("insert into games (initial) values ('$writeValueAsString') RETURNING id") { rs, _ ->
-            rs.getInt(1)
-        }.first()
+        return gameService.createNewGame()
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
-    fun getGame(@PathVariable(value="id") id: Int): Any {
-        val wonders = getWonders(id)
-        return wonders.game
+    fun getGame(@PathVariable(value="id") id: String): Any {
+        return gameService.getGame(id)
     }
 
     @RequestMapping(value = ["/{gameId}/actions"], method = [RequestMethod.POST])
-    fun postAction(@PathVariable(value="gameId") gameId: Int, @RequestBody action: Action): Any {
-
-        val wonders = getWonders(gameId)
-
-        wonders.takeAction(action)
-
-        val deserializedAction = mapper.writeValueAsString(action)
-        jdbcTemplate.execute("insert into actions (game_id, action) values ('$gameId', '$deserializedAction')")
-
-        return wonders.game
+    fun postAction(@PathVariable(value="gameId") gameId: String, @RequestBody action: Action): Any {
+        gameService.takeAction(gameId, action)
+        return "ok"
     }
 
-    private fun getWonders(id: Int): Wonders {
-        val initialGameState = jdbcTemplate.query("select * from games where id = $id") { rs, _ ->
-            rs.getString(2)
-        }.first()
-
-        val readValue: GameInitialSettings = mapper.readValue(initialGameState, GameInitialSettings::class.java)
-        val wonders = Wonders(readValue.wonders, readValue.cards)
-
-        val actions = jdbcTemplate.query("select action from actions where game_id = $id") { rs, _ ->
-            rs.getString(1)
-        }.map { mapper.readValue(it, Action::class.java) }
-
-        actions.forEach { wonders.takeAction(it) }
-
-        return wonders
-    }
 }

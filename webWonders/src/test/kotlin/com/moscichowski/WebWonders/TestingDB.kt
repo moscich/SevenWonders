@@ -63,10 +63,11 @@ class XdTests {
         takeCard200("wytwórnia papirusu")
         takeCard200("huta szkła")
         takeCard200("magazyn gliny")
+        takeCard200("magazyn kamienia")
 //        takeCard200("skryptorium")
 //        takeCard200("stajnie")
 //        takeCard200("palisada")
-//        assertGame(2,3,0,3,0)
+        assertGame(2,2,2,2,0)
 //        sellCard200("garnizon")
 //        assertGame(5,3,0,3,1)
     }
@@ -86,7 +87,7 @@ class XdTests {
     }
 
     fun takeWonder200(name: String) {
-        val response = testRestTemplate.postForEntity("/games/$gameNumber/actions", ActionRequest("CHOOSE_WONDER", name), Any::class.java)
+        val response = testRestTemplate.postForEntity("/games/$gameNumber/actions", ActionRequest("CHOOSE_WONDER", name), String::class.java)
         Assert.assertEquals(200, response.statusCode.value())
     }
 
