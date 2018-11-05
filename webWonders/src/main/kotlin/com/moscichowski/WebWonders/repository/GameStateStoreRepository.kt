@@ -26,7 +26,6 @@ class GameStateStoreRepository {
         return jdbcTemplate.query("select wonders from gameStates where game_id = $id") { rs, _ ->
             rs.getString(1)
         }.map {
-            println("it = ${it}")
             mapper.readValue(it, Wonders::class.java)
         }.first()
     }

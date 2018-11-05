@@ -64,12 +64,12 @@ class XdTests {
         takeCard200("huta szkła")
         takeCard200("magazyn gliny")
         takeCard200("magazyn kamienia")
-//        takeCard200("skryptorium")
-//        takeCard200("stajnie")
-//        takeCard200("palisada")
         assertGame(2,2,2,2,0)
-//        sellCard200("garnizon")
-//        assertGame(5,3,0,3,1)
+        takeCard200("warsztat")
+        takeCard200("apteka")
+        takeCard200("stajnie")
+        takeCard200("wieża strażnicza")
+        assertGame(0,4,2,4,0)
     }
 
     fun assertGame(player1gold: Int,

@@ -1,749 +1,242 @@
 {
-  "game": {
-    "board": {
-      "elements": [
-        {
-          "id": 0,
-          "card": {
-            "name": "wycinka",
-            "color": "BROWN",
-            "features": [
-              {
-                "type": "PROVIDE_RESOURCE",
-                "resource": {
-                  "wood": 1
-                }
-              }
-            ]
-          },
-          "descendants": [
-            2,
-            3
-          ]
-        },
-        {
-          "id": 1,
-          "card": {
-            "cost": {
-              "gold": 1
-            },
-            "name": "skład drewna",
-            "color": "BROWN",
-            "features": [
-              {
-                "type": "PROVIDE_RESOURCE",
-                "resource": {
-                  "wood": 1
-                }
-              }
-            ]
-          },
-          "descendants": [
-            3,
-            4
-          ]
-        },
-        {
-          "id": 2,
-          "descendants": [
-            5,
-            6
-          ]
-        },
-        {
-          "id": 3,
-          "descendants": [
-            6,
-            7
-          ]
-        },
-        {
-          "id": 4,
-          "descendants": [
-            7,
-            8
-          ]
-        },
-        {
-          "id": 5,
-          "card": {
-            "name": "glinianka",
-            "color": "BROWN",
-            "features": [
-              {
-                "type": "PROVIDE_RESOURCE",
-                "resource": {
-                  "clay": 1
-                }
-              }
-            ]
-          },
-          "descendants": [
-            10
-          ]
-        },
-        {
-          "id": 6,
-          "card": {
-            "cost": {
-              "gold": 1
-            },
-            "name": "złoża gliny",
-            "color": "BROWN",
-            "features": [
-              {
-                "type": "PROVIDE_RESOURCE",
-                "resource": {
-                  "clay": 1
-                }
-              }
-            ]
-          },
-          "descendants": [
-            10,
-            11
-          ]
-        },
-        {
-          "id": 7,
-          "card": {
-            "name": "kamieniołom",
-            "color": "BROWN",
-            "features": [
-              {
-                "type": "PROVIDE_RESOURCE",
-                "resource": {
-                  "stone": 1
-                }
-              }
-            ]
-          },
-          "descendants": [
-            11,
-            12
-          ]
-        },
-        {
-          "id": 8,
-          "card": {
-            "cost": {
-              "gold": 1
-            },
-            "name": "składowisko kamienia",
-            "color": "BROWN",
-            "features": [
-              {
-                "type": "PROVIDE_RESOURCE",
-                "resource": {
-                  "stone": 1
-                }
-              }
-            ]
-          },
-          "descendants": [
-            12,
-            13
-          ]
-        },
-        {
-          "id": 10,
-          "descendants": [
-            16
-          ]
-        },
-        {
-          "id": 11,
-          "descendants": [
-            16,
-            17
-          ]
-        },
-        {
-          "id": 12,
-          "descendants": [
-            17,
-            18
-          ]
-        },
-        {
-          "id": 13,
-          "descendants": [
-            18
-          ]
-        },
-        {
-          "id": 16,
-          "card": {
-            "name": "wieża strażnicza",
-            "color": "RED",
-            "features": [
-              {
-                "type": "MILITARY",
-                "points": 1
-              }
-            ]
-          }
-        },
-        {
-          "id": 17,
-          "card": {
-            "cost": {
-              "papyrus": 1
-            },
-            "name": "warsztat",
-            "color": "GREEN",
-            "features": [
-              {
-                "type": "SCIENCE",
-                "symbol": "COMPASS"
-              },
-              {
-                "type": "VICTORY_POINTS",
-                "points": 1
-              }
-            ]
-          }
-        },
-        {
-          "id": 18,
-          "card": {
-            "cost": {
-              "glass": 1
-            },
-            "name": "apteka",
-            "color": "GREEN",
-            "features": [
-              {
-                "type": "SCIENCE",
-                "symbol": "WHEEL"
-              },
-              {
-                "type": "VICTORY_POINTS",
-                "points": 1
-              }
-            ]
-          }
-        }
-      ]
+  "militaryThresholds": [
+    {
+      "player": 0,
+      "position": 3,
+      "gold": 2
     },
-    "state": "REGULAR",
-    "player1": {
-      "gold": 2,
-      "cards": [
-        {
-          "cost": {
-            "gold": 1
-          },
-          "name": "wytwórnia papirusu",
-          "color": "SILVER",
+    {
+      "player": 0,
+      "position": 6,
+      "gold": 5
+    },
+    {
+      "player": 1,
+      "position": 3,
+      "gold": 2
+    },
+    {
+      "player": 1,
+      "position": 6,
+      "gold": 5
+    }
+  ],
+  "board": {
+    "elements": [
+      {
+        "id": 0,
+        "card": {
+          "name": "wycinka",
+          "color": "BROWN",
           "features": [
             {
               "type": "PROVIDE_RESOURCE",
               "resource": {
-                "papyrus": 1
+                "wood": 1
               }
             }
           ]
         },
-        {
-          "cost": {
-            "gold": 3
-          },
-          "name": "magazyn gliny",
-          "color": "YELLOW",
-          "features": [
-            {
-              "kind": "CLAY",
-              "type": "WAREHOUSE"
-            }
-          ]
-        }
-      ],
-      "gold_": 2,
-      "wonders": [
-        {
-          "built": false,
-          "wonder": {
-            "cost": {
-              "clay": 3,
-              "glass": 1
-            },
-            "name": "Kolos Rodyjski",
-            "features": [
-              {
-                "type": "MILITARY",
-                "points": 2
-              },
-              {
-                "type": "VICTORY_POINTS",
-                "points": 3
-              }
-            ]
-          }
-        },
-        {
-          "built": false,
-          "wonder": {
-            "cost": {
-              "stone": 3,
-              "papyrus": 1
-            },
-            "name": "Piramida Cheopsa",
-            "features": [
-              {
-                "type": "VICTORY_POINTS",
-                "points": 9
-              }
-            ]
-          }
-        },
-        {
-          "built": false,
-          "wonder": {
-            "cost": {
-              "wood": 1,
-              "glass": 1,
-              "stone": 2
-            },
-            "name": "Circus Maximus",
-            "features": [
-              {
-                "type": "DESTROY_SILVER_CARD"
-              },
-              {
-                "type": "MILITARY",
-                "points": 1
-              },
-              {
-                "type": "VICTORY_POINTS",
-                "points": 3
-              }
-            ]
-          }
-        },
-        {
-          "built": false,
-          "wonder": {
-            "cost": {
-              "wood": 1,
-              "glass": 1,
-              "stone": 1,
-              "papyrus": 1
-            },
-            "name": "Świątynia Artemidy w Efezie",
-            "features": [
-              {
-                "gold": 12,
-                "type": "ADD_GOLD"
-              },
-              {
-                "type": "EXTRA_TURN"
-              }
-            ]
-          }
-        }
-      ],
-      "features": [
-        {
-          "type": "PROVIDE_RESOURCE",
-          "resource": {
-            "papyrus": 1
-          }
-        },
-        {
-          "kind": "CLAY",
-          "type": "WAREHOUSE"
-        }
-      ]
-    },
-    "player2": {
-      "gold": 2,
-      "cards": [
-        {
+        "descendants": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": 1,
+        "card": {
+          "name": "skład drewna",
+          "color": "BROWN",
           "cost": {
             "gold": 1
           },
-          "name": "huta szkła",
-          "color": "SILVER",
           "features": [
             {
               "type": "PROVIDE_RESOURCE",
               "resource": {
-                "glass": 1
+                "wood": 1
               }
             }
           ]
         },
-        {
+        "descendants": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": 2,
+        "descendants": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": 3,
+        "descendants": [
+          6,
+          7
+        ]
+      },
+      {
+        "id": 4,
+        "descendants": [
+          7,
+          8
+        ]
+      },
+      {
+        "id": 5,
+        "card": {
+          "name": "glinianka",
+          "color": "BROWN",
+          "features": [
+            {
+              "type": "PROVIDE_RESOURCE",
+              "resource": {
+                "clay": 1
+              }
+            }
+          ]
+        },
+        "descendants": [
+          10
+        ]
+      },
+      {
+        "id": 6,
+        "card": {
+          "name": "złoża gliny",
+          "color": "BROWN",
+          "cost": {
+            "gold": 1
+          },
+          "features": [
+            {
+              "type": "PROVIDE_RESOURCE",
+              "resource": {
+                "clay": 1
+              }
+            }
+          ]
+        },
+        "descendants": [
+          10,
+          11
+        ]
+      },
+      {
+        "id": 7,
+        "card": {
+          "name": "kamieniołom",
+          "color": "BROWN",
+          "features": [
+            {
+              "type": "PROVIDE_RESOURCE",
+              "resource": {
+                "stone": 1
+              }
+            }
+          ]
+        },
+        "descendants": [
+          11,
+          12
+        ]
+      },
+      {
+        "id": 8,
+        "card": {
+          "name": "składowisko kamienia",
+          "color": "BROWN",
+          "cost": {
+            "gold": 1
+          },
+          "features": [
+            {
+              "type": "PROVIDE_RESOURCE",
+              "resource": {
+                "stone": 1
+              }
+            }
+          ]
+        },
+        "descendants": [
+          12,
+          13
+        ]
+      },
+      {
+        "id": 10,
+        "descendants": [
+          16
+        ]
+      },
+      {
+        "id": 11,
+        "descendants": [
+          16
+        ]
+      },
+      {
+        "id": 12,
+        "card": {
+          "name": "magazyn drewna",
+          "color": "YELLOW",
           "cost": {
             "gold": 3
           },
-          "name": "magazyn kamienia",
-          "color": "YELLOW",
           "features": [
             {
-              "kind": "STONE",
-              "type": "WAREHOUSE"
+              "type": "WAREHOUSE",
+              "kind": "WOOD"
             }
           ]
         }
-      ],
-      "gold_": 5,
-      "wonders": [
-        {
-          "built": false,
-          "wonder": {
-            "cost": {
-              "clay": 2,
-              "stone": 2,
-              "papyrus": 1
+      },
+      {
+        "id": 13,
+        "card": {
+          "name": "stajnie",
+          "color": "RED",
+          "cost": {
+            "wood": 1
+          },
+          "features": [
+            {
+              "type": "MILITARY",
+              "points": 1
             },
-            "name": "Via Appia",
-            "features": [
-              {
-                "gold": 3,
-                "type": "ADD_GOLD"
-              },
-              {
-                "type": "REMOVE_GOLD"
-              },
-              {
-                "type": "EXTRA_TURN"
-              },
-              {
-                "type": "VICTORY_POINTS",
-                "points": 3
-              }
-            ]
-          }
-        },
-        {
-          "built": false,
-          "wonder": {
-            "cost": {
-              "clay": 1,
-              "wood": 2,
-              "stone": 1
-            },
-            "name": "Pireus",
-            "features": [
-              {
-                "type": "PROVIDE_SILVER_RESOURCE"
-              },
-              {
-                "type": "EXTRA_TURN"
-              },
-              {
-                "type": "VICTORY_POINTS",
-                "points": 2
-              }
-            ]
-          }
-        },
-        {
-          "built": false,
-          "wonder": {
-            "cost": {
-              "clay": 1,
-              "wood": 1,
-              "stone": 1,
-              "papyrus": 2
-            },
-            "name": "Posąg Zeusa w Olimpii",
-            "features": [
-              {
-                "type": "DESTROY_BROWN_CARD"
-              },
-              {
-                "type": "MILITARY",
-                "points": 1
-              },
-              {
-                "type": "VICTORY_POINTS",
-                "points": 3
-              }
-            ]
-          }
-        },
-        {
-          "built": false,
-          "wonder": {
-            "cost": {
-              "wood": 1,
-              "stone": 1,
-              "papyrus": 2
-            },
-            "name": "Latarnia morska na Faros",
-            "features": [
-              {
-                "type": "PROVIDE_BROWN_RESOURCE"
-              },
-              {
-                "type": "VICTORY_POINTS",
-                "points": 4
-              }
-            ]
-          }
+            {
+              "type": "FREE_SYMBOL",
+              "symbol": "HORSESHOE"
+            }
+          ]
         }
-      ],
-      "features": [
-        {
-          "type": "PROVIDE_RESOURCE",
-          "resource": {
-            "glass": 1
-          }
-        },
-        {
-          "kind": "STONE",
-          "type": "WAREHOUSE"
+      },
+      {
+        "id": 16,
+        "card": {
+          "name": "wieża strażnicza",
+          "color": "RED",
+          "features": [
+            {
+              "type": "MILITARY",
+              "points": 1
+            }
+          ]
         }
-      ]
-    },
-    "wonders": [],
-    "military": 0,
-    "currentPlayer": 0,
-    "scienceTokens": [],
-    "militaryThresholds": [
-      {
-        "gold": 2,
-        "player": 0,
-        "position": 3
-      },
-      {
-        "gold": 5,
-        "player": 0,
-        "position": 6
-      },
-      {
-        "gold": 2,
-        "player": 1,
-        "position": 3
-      },
-      {
-        "gold": 5,
-        "player": 1,
-        "position": 6
       }
     ]
   },
-  "cards": [
-    [
+  "player1": {
+    "cards": [
       {
-        "cost": {
-          "gold": 3
-        },
-        "name": "magazyn drewna",
-        "color": "YELLOW",
-        "features": [
-          {
-            "kind": "WOOD",
-            "type": "WAREHOUSE"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "wood": 1
-        },
-        "name": "stajnie",
-        "color": "RED",
-        "features": [
-          {
-            "type": "MILITARY",
-            "points": 1
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "HORSESHOE"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "clay": 1
-        },
-        "name": "garnizon",
-        "color": "RED",
-        "features": [
-          {
-            "type": "MILITARY",
-            "points": 1
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "SWORD"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 2
-        },
-        "name": "palisada",
-        "color": "RED",
-        "features": [
-          {
-            "type": "MILITARY",
-            "points": 1
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "TOWER"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 2
-        },
-        "name": "skryptorium",
-        "color": "GREEN",
-        "features": [
-          {
-            "type": "SCIENCE",
-            "symbol": "INK"
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "BOOK"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 2
-        },
-        "name": "zielarnia",
-        "color": "GREEN",
-        "features": [
-          {
-            "type": "SCIENCE",
-            "symbol": "HERBS"
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "COG"
-          }
-        ]
-      },
-      {
-        "name": "teatr",
-        "color": "BLUE",
-        "features": [
-          {
-            "type": "VICTORY_POINTS",
-            "points": 3
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "MASK"
-          }
-        ]
-      }
-    ],
-    [
-      {
-        "name": "wycinka",
-        "color": "BROWN",
-        "features": [
-          {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "wood": 1
-            }
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 1
-        },
-        "name": "skład drewna",
-        "color": "BROWN",
-        "features": [
-          {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "wood": 1
-            }
-          }
-        ]
-      },
-      {
-        "name": "glinianka",
-        "color": "BROWN",
-        "features": [
-          {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "clay": 1
-            }
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 1
-        },
-        "name": "złoża gliny",
-        "color": "BROWN",
-        "features": [
-          {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "clay": 1
-            }
-          }
-        ]
-      },
-      {
-        "name": "kamieniołom",
-        "color": "BROWN",
-        "features": [
-          {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "stone": 1
-            }
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 1
-        },
-        "name": "składowisko kamienia",
-        "color": "BROWN",
-        "features": [
-          {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "stone": 1
-            }
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 1
-        },
-        "name": "huta szkła",
-        "color": "SILVER",
-        "features": [
-          {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "glass": 1
-            }
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 1
-        },
         "name": "wytwórnia papirusu",
         "color": "SILVER",
+        "cost": {
+          "gold": 1
+        },
         "features": [
           {
             "type": "PROVIDE_RESOURCE",
@@ -754,21 +247,24 @@
         ]
       },
       {
-        "name": "wieża strażnicza",
-        "color": "RED",
+        "name": "magazyn gliny",
+        "color": "YELLOW",
+        "cost": {
+          "gold": 3
+        },
         "features": [
           {
-            "type": "MILITARY",
-            "points": 1
+            "type": "WAREHOUSE",
+            "kind": "CLAY"
           }
         ]
       },
       {
+        "name": "warsztat",
+        "color": "GREEN",
         "cost": {
           "papyrus": 1
         },
-        "name": "warsztat",
-        "color": "GREEN",
         "features": [
           {
             "type": "SCIENCE",
@@ -779,251 +275,121 @@
             "points": 1
           }
         ]
-      },
-      {
-        "cost": {
-          "glass": 1
-        },
-        "name": "apteka",
-        "color": "GREEN",
-        "features": [
-          {
-            "type": "SCIENCE",
-            "symbol": "WHEEL"
-          },
-          {
-            "type": "VICTORY_POINTS",
-            "points": 1
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 3
-        },
-        "name": "magazyn kamienia",
-        "color": "YELLOW",
-        "features": [
-          {
-            "kind": "STONE",
-            "type": "WAREHOUSE"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 3
-        },
-        "name": "magazyn gliny",
-        "color": "YELLOW",
-        "features": [
-          {
-            "kind": "CLAY",
-            "type": "WAREHOUSE"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 3
-        },
-        "name": "magazyn drewna",
-        "color": "YELLOW",
-        "features": [
-          {
-            "kind": "WOOD",
-            "type": "WAREHOUSE"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "wood": 1
-        },
-        "name": "stajnie",
-        "color": "RED",
-        "features": [
-          {
-            "type": "MILITARY",
-            "points": 1
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "HORSESHOE"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "clay": 1
-        },
-        "name": "garnizon",
-        "color": "RED",
-        "features": [
-          {
-            "type": "MILITARY",
-            "points": 1
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "SWORD"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 2
-        },
-        "name": "palisada",
-        "color": "RED",
-        "features": [
-          {
-            "type": "MILITARY",
-            "points": 1
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "TOWER"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 2
-        },
-        "name": "skryptorium",
-        "color": "GREEN",
-        "features": [
-          {
-            "type": "SCIENCE",
-            "symbol": "INK"
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "BOOK"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 2
-        },
-        "name": "zielarnia",
-        "color": "GREEN",
-        "features": [
-          {
-            "type": "SCIENCE",
-            "symbol": "HERBS"
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "COG"
-          }
-        ]
-      },
-      {
-        "name": "teatr",
-        "color": "BLUE",
-        "features": [
-          {
-            "type": "VICTORY_POINTS",
-            "points": 3
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "MASK"
-          }
-        ]
       }
     ],
-    [
+    "wonders": [
       {
-        "name": "wycinka",
-        "color": "BROWN",
-        "features": [
-          {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "wood": 1
+        "built": false,
+        "wonder": {
+          "name": "Kolos Rodyjski",
+          "cost": {
+            "clay": 3,
+            "glass": 1
+          },
+          "features": [
+            {
+              "type": "MILITARY",
+              "points": 2
+            },
+            {
+              "type": "VICTORY_POINTS",
+              "points": 3
             }
-          }
-        ]
+          ]
+        }
       },
       {
-        "cost": {
-          "gold": 1
-        },
-        "name": "skład drewna",
-        "color": "BROWN",
-        "features": [
-          {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "wood": 1
+        "built": false,
+        "wonder": {
+          "name": "Piramida Cheopsa",
+          "cost": {
+            "stone": 3,
+            "papyrus": 1
+          },
+          "features": [
+            {
+              "type": "VICTORY_POINTS",
+              "points": 9
             }
-          }
-        ]
+          ]
+        }
       },
       {
-        "name": "glinianka",
-        "color": "BROWN",
-        "features": [
-          {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "clay": 1
+        "built": false,
+        "wonder": {
+          "name": "Circus Maximus",
+          "cost": {
+            "wood": 1,
+            "stone": 2,
+            "glass": 1
+          },
+          "features": [
+            {
+              "type": "DESTROY_SILVER_CARD"
+            },
+            {
+              "type": "MILITARY",
+              "points": 1
+            },
+            {
+              "type": "VICTORY_POINTS",
+              "points": 3
             }
-          }
-        ]
+          ]
+        }
       },
       {
-        "cost": {
-          "gold": 1
-        },
-        "name": "złoża gliny",
-        "color": "BROWN",
-        "features": [
-          {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "clay": 1
+        "built": false,
+        "wonder": {
+          "name": "Świątynia Artemidy w Efezie",
+          "cost": {
+            "wood": 1,
+            "stone": 1,
+            "glass": 1,
+            "papyrus": 1
+          },
+          "features": [
+            {
+              "type": "ADD_GOLD",
+              "gold": 12
+            },
+            {
+              "type": "EXTRA_TURN"
             }
-          }
-        ]
+          ]
+        }
+      }
+    ],
+    "features": [
+      {
+        "type": "PROVIDE_RESOURCE",
+        "resource": {
+          "papyrus": 1
+        }
       },
       {
-        "name": "kamieniołom",
-        "color": "BROWN",
-        "features": [
-          {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "stone": 1
-            }
-          }
-        ]
+        "type": "WAREHOUSE",
+        "kind": "CLAY"
       },
       {
-        "cost": {
-          "gold": 1
-        },
-        "name": "składowisko kamienia",
-        "color": "BROWN",
-        "features": [
-          {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "stone": 1
-            }
-          }
-        ]
+        "type": "SCIENCE",
+        "symbol": "COMPASS"
       },
       {
-        "cost": {
-          "gold": 1
-        },
+        "type": "VICTORY_POINTS",
+        "points": 1
+      }
+    ],
+    "gold": 2
+  },
+  "player2": {
+    "cards": [
+      {
         "name": "huta szkła",
         "color": "SILVER",
+        "cost": {
+          "gold": 1
+        },
         "features": [
           {
             "type": "PROVIDE_RESOURCE",
@@ -1034,53 +400,24 @@
         ]
       },
       {
+        "name": "magazyn kamienia",
+        "color": "YELLOW",
         "cost": {
-          "gold": 1
+          "gold": 3
         },
-        "name": "wytwórnia papirusu",
-        "color": "SILVER",
         "features": [
           {
-            "type": "PROVIDE_RESOURCE",
-            "resource": {
-              "papyrus": 1
-            }
+            "type": "WAREHOUSE",
+            "kind": "STONE"
           }
         ]
       },
       {
-        "name": "wieża strażnicza",
-        "color": "RED",
-        "features": [
-          {
-            "type": "MILITARY",
-            "points": 1
-          }
-        ]
-      },
-      {
-        "cost": {
-          "papyrus": 1
-        },
-        "name": "warsztat",
+        "name": "apteka",
         "color": "GREEN",
-        "features": [
-          {
-            "type": "SCIENCE",
-            "symbol": "COMPASS"
-          },
-          {
-            "type": "VICTORY_POINTS",
-            "points": 1
-          }
-        ]
-      },
-      {
         "cost": {
           "glass": 1
         },
-        "name": "apteka",
-        "color": "GREEN",
         "features": [
           {
             "type": "SCIENCE",
@@ -1091,146 +428,130 @@
             "points": 1
           }
         ]
-      },
-      {
-        "cost": {
-          "gold": 3
-        },
-        "name": "magazyn kamienia",
-        "color": "YELLOW",
-        "features": [
-          {
-            "kind": "STONE",
-            "type": "WAREHOUSE"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 3
-        },
-        "name": "magazyn gliny",
-        "color": "YELLOW",
-        "features": [
-          {
-            "kind": "CLAY",
-            "type": "WAREHOUSE"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 3
-        },
-        "name": "magazyn drewna",
-        "color": "YELLOW",
-        "features": [
-          {
-            "kind": "WOOD",
-            "type": "WAREHOUSE"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "wood": 1
-        },
-        "name": "stajnie",
-        "color": "RED",
-        "features": [
-          {
-            "type": "MILITARY",
-            "points": 1
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "HORSESHOE"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "clay": 1
-        },
-        "name": "garnizon",
-        "color": "RED",
-        "features": [
-          {
-            "type": "MILITARY",
-            "points": 1
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "SWORD"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 2
-        },
-        "name": "palisada",
-        "color": "RED",
-        "features": [
-          {
-            "type": "MILITARY",
-            "points": 1
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "TOWER"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 2
-        },
-        "name": "skryptorium",
-        "color": "GREEN",
-        "features": [
-          {
-            "type": "SCIENCE",
-            "symbol": "INK"
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "BOOK"
-          }
-        ]
-      },
-      {
-        "cost": {
-          "gold": 2
-        },
-        "name": "zielarnia",
-        "color": "GREEN",
-        "features": [
-          {
-            "type": "SCIENCE",
-            "symbol": "HERBS"
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "COG"
-          }
-        ]
-      },
-      {
-        "name": "teatr",
-        "color": "BLUE",
-        "features": [
-          {
-            "type": "VICTORY_POINTS",
-            "points": 3
-          },
-          {
-            "type": "FREE_SYMBOL",
-            "symbol": "MASK"
-          }
-        ]
       }
-    ]
-  ],
+    ],
+    "wonders": [
+      {
+        "built": false,
+        "wonder": {
+          "name": "Via Appia",
+          "cost": {
+            "clay": 2,
+            "stone": 2,
+            "papyrus": 1
+          },
+          "features": [
+            {
+              "type": "ADD_GOLD",
+              "gold": 3
+            },
+            {
+              "type": "REMOVE_GOLD"
+            },
+            {
+              "type": "EXTRA_TURN"
+            },
+            {
+              "type": "VICTORY_POINTS",
+              "points": 3
+            }
+          ]
+        }
+      },
+      {
+        "built": false,
+        "wonder": {
+          "name": "Pireus",
+          "cost": {
+            "wood": 2,
+            "clay": 1,
+            "stone": 1
+          },
+          "features": [
+            {
+              "type": "PROVIDE_SILVER_RESOURCE"
+            },
+            {
+              "type": "EXTRA_TURN"
+            },
+            {
+              "type": "VICTORY_POINTS",
+              "points": 2
+            }
+          ]
+        }
+      },
+      {
+        "built": false,
+        "wonder": {
+          "name": "Posąg Zeusa w Olimpii",
+          "cost": {
+            "wood": 1,
+            "clay": 1,
+            "stone": 1,
+            "papyrus": 2
+          },
+          "features": [
+            {
+              "type": "DESTROY_BROWN_CARD"
+            },
+            {
+              "type": "MILITARY",
+              "points": 1
+            },
+            {
+              "type": "VICTORY_POINTS",
+              "points": 3
+            }
+          ]
+        }
+      },
+      {
+        "built": false,
+        "wonder": {
+          "name": "Latarnia morska na Faros",
+          "cost": {
+            "wood": 1,
+            "stone": 1,
+            "papyrus": 2
+          },
+          "features": [
+            {
+              "type": "PROVIDE_BROWN_RESOURCE"
+            },
+            {
+              "type": "VICTORY_POINTS",
+              "points": 4
+            }
+          ]
+        }
+      }
+    ],
+    "features": [
+      {
+        "type": "PROVIDE_RESOURCE",
+        "resource": {
+          "glass": 1
+        }
+      },
+      {
+        "type": "WAREHOUSE",
+        "kind": "STONE"
+      },
+      {
+        "type": "SCIENCE",
+        "symbol": "WHEEL"
+      },
+      {
+        "type": "VICTORY_POINTS",
+        "points": 1
+      }
+    ],
+    "gold": 2
+  },
+  "currentPlayer": 0,
+  "military": 0,
+  "state": "REGULAR",
+  "scienceTokens": [],
   "wonders": []
 }

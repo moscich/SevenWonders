@@ -124,7 +124,7 @@ data class WonderPair(val built: Boolean,
                       val wonder: Wonder
                       )
 
-data class Player (var gold_: Int,
+data class Player (private var gold_: Int,
                    private val _cards: List<Card> = listOf(),
                    var wonders: List<WonderPair> = listOf()
 ) {
