@@ -1,7 +1,8 @@
 package com.moscichowski.wonders
 
-class InitialWondersSelecter : ActionPerformer() {
-    fun selectWonder(game: Game, chooseWonder: ChooseWonder) {
+class InitialWondersSelecter(wonders: Wonders) : ActionPerformer(wonders) {
+    fun selectWonder(chooseWonder: ChooseWonder) {
+        val game = wonders.game
         val wonder = game.wonders.find { it.name == chooseWonder.wonderName } ?: throw Error()
         game.selectWonder(wonder)
         val toMutableList = game.player.wonders.toMutableList()

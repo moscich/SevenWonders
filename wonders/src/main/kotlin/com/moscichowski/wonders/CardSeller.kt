@@ -1,17 +1,13 @@
 package com.moscichowski.wonders
 
-class CardSeller: ActionPerformer() {
+class CardSeller(wonders: Wonders): ActionPerformer(wonders) {
 
-    fun sellCard(game: Game, action: SellCard) {
+    fun sellCard(action: SellCard) {
+        val game = wonders.game
         val player = if (game.currentPlayer == 0) game.player1 else game.player2
-        val wantedNode = game.board.cards.find { node ->
-            node.card?.name == action.card
-        } ?: throw Error()
+        val card = game.board.requestedCard(action.card) ?: throw Error()
 
-        game.board.cards.remove(wantedNode)
-        game.board.cards.forEach { node: BoardNode ->
-            node.descendants.remove(wantedNode)
-        }
+        removeCardFromBoard(card.name)
 
         player.gold += 2 + player.yellowCardsCount()
         game.currentPlayer = if (game.currentPlayer == 0) { 1 } else { 0 }

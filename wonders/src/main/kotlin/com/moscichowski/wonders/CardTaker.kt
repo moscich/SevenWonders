@@ -2,7 +2,7 @@ package com.moscichowski.wonders
 
 import com.moscichowski.wonders.model.*
 
-class CardTaker : ActionPerformer() {
+class CardTaker(wonders: Wonders) : ActionPerformer(wonders) {
     private lateinit var game: Game
     private lateinit var card: Card
     override fun hasPromo(): Boolean {
@@ -13,10 +13,11 @@ class CardTaker : ActionPerformer() {
         return if (game.doesCurrentPlayerHaveScience(ScienceToken.STRATEGY)) { 1 } else { 0 }
     }
 
-    fun takeCard(game: Game, action: TakeCard) {
-        this.game = game
-        this.card = game.board.cards.find { action.cardName == it.card?.name }?.card ?: throw CardUnavailable()
-        val (player, wantedNode) = boardCheck(game, card)
+    fun takeCard(action: TakeCard) {
+        this.game = wonders.game
+        this.card = game.board.requestedCard(action.cardName) ?: throw CardUnavailable()
+
+        val player = if (game.currentPlayer == 0) game.player1 else game.player2
 
         var requiredGold = required2(game, player, card.cost)
 
@@ -31,10 +32,7 @@ class CardTaker : ActionPerformer() {
             throw Error()
         }
 
-        game.board.cards.remove(wantedNode)
-        game.board.cards.forEach { node: BoardNode ->
-            node.descendants.remove(wantedNode)
-        }
+        removeCardFromBoard(action.cardName)
 
         player.gold -= requiredGold
 

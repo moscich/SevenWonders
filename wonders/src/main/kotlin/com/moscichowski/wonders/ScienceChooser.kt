@@ -1,9 +1,10 @@
 package com.moscichowski.wonders
 import com.moscichowski.wonders.model.*
 
-class ScienceChooser: ActionPerformer() {
+class ScienceChooser(wonders: Wonders): ActionPerformer(wonders) {
 
-    fun chooseScience(game: Game, action: ChooseScience) {
+    fun chooseScience(action: ChooseScience) {
+        val game = wonders.game
         val index = game.scienceTokens.filter { it.first == null }.indexOfFirst { it.second == action.token }
         if (index == -1) { throw Error() }
         when (action.token) {

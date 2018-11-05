@@ -1,6 +1,7 @@
 package com.moscichowski.wonders
 
 import com.moscichowski.wonders.model.*
+import java.lang.ref.WeakReference
 import kotlin.math.max
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
@@ -36,42 +37,7 @@ data class Game(private val _wonders: List<Wonder>,
     set(value) {_board = value}
 
     init {
-        if(cards.count() != 3) { throw WrongNumberOfCards(cards) }
-        if(cards.find { it.count() != 20 } != null) { throw WrongNumberOfCards(cards) }
-        if(_wonders.count() != 8) { throw Requires8WondersError() }
 
-        val hiddenIndexes = listOf(2, 3, 4, 9, 10, 11, 12, 13)
-
-        val nodes = cards.asSequence().first().mapIndexed { index, card ->
-            val hidden = hiddenIndexes.contains(index)
-            BoardNode(index, card, hidden = hidden)
-        }
-
-        val dependencies = listOf(
-                Pair(2, 3),
-                Pair(3, 4),
-                Pair(5, 6),
-                Pair(6, 7),
-                Pair(7, 8),
-                Pair(9, 10),
-                Pair(10, 11),
-                Pair(11, 12),
-                Pair(12, 13),
-                Pair(14, 15),
-                Pair(15, 16),
-                Pair(16, 17),
-                Pair(17, 18),
-                Pair(18, 19)
-
-        )
-
-        for (index in 0 until dependencies.count()) {
-            val dependency = dependencies[index]
-            nodes[index].descendants.add(nodes[dependency.first])
-            nodes[index].descendants.add(nodes[dependency.second])
-        }
-
-        _board = Board(nodes)
     }
 
     private val mutableWonders = _wonders.toMutableList()
@@ -213,18 +179,17 @@ data class Player (private var gold_: Int) {
     }
 }
 
+fun<T> MutableList<T>.pop(): T {
+    val elem = first()
+    remove(elem)
+    return elem
+}
+
 data class Board(private val cards_: List<BoardNode>) {
-    val cards = cards_.toMutableList()
+    val elements = cards_.toMutableList()
+    fun requestedCard(name: String): Card? {
+        return elements.find { it.card?.name == name && it.descendants.count() == 0 }?.card
+    }
 }
 
-data class BoardNode(val id: Int, private val innerCard: Card, val descendants: MutableList<BoardNode> = mutableListOf(), private val hidden: Boolean = false) {
-    val card: Card?
-        get() {
-            return if (!hidden || descendants.isEmpty()) {
-                innerCard
-            } else {
-                null
-            }
-        }
-
-}
+data class BoardNode(val id: Int, var card: Card?, val descendants: MutableList<BoardNode> = mutableListOf(), private val hidden: Boolean = false)

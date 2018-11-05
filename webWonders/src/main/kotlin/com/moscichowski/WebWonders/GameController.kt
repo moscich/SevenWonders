@@ -1,6 +1,5 @@
 package com.moscichowski.WebWonders
 
-import com.fasterxml.jackson.core.type.TypeReference
 import com.moscichowski.wonders.*
 import com.moscichowski.wonders.builder.CardBuilder
 import com.moscichowski.wonders.model.*
@@ -49,37 +48,15 @@ class GameController {
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getGame(@PathVariable(value="id") id: Int): Any {
-        val first = jdbcTemplate.query("select * from games where id = $id") { rs, _ ->
-            rs.getString(2)
-        }.first()
-
-        val readValue: GameInitialSettings = mapper.readValue(first, GameInitialSettings::class.java)
-        val wonders = Wonders(readValue.wonders, readValue.cards)
-
-        val actions = jdbcTemplate.query("select action from actions where game_id = $id") { rs, _ ->
-            rs.getString(1)
-        }.map { mapper.readValue(it, Action::class.java) }
-
-        actions.forEach { wonders.takeAction(it) }
-
+        val wonders = getWonders(id)
         return wonders.game
     }
 
     @RequestMapping(value = ["/{gameId}/actions"], method = [RequestMethod.POST])
     fun postAction(@PathVariable(value="gameId") gameId: Int, @RequestBody action: Action): Any {
-        val first = jdbcTemplate.query("select * from games where id = $gameId") { rs, _ ->
-            rs.getString(2)
-        }.first()
 
+        val wonders = getWonders(gameId)
 
-        val readValue: GameInitialSettings = mapper.readValue(first, GameInitialSettings::class.java)
-        val wonders = Wonders(readValue.wonders, readValue.cards)
-
-        val actions = jdbcTemplate.query("select action from actions where game_id = $gameId") { rs, _ ->
-            rs.getString(1)
-        }.map { mapper.readValue(it, Action::class.java) }
-
-        actions.forEach { wonders.takeAction(it) }
         wonders.takeAction(action)
 
         val deserializedAction = mapper.writeValueAsString(action)
@@ -88,4 +65,20 @@ class GameController {
         return wonders.game
     }
 
+    private fun getWonders(id: Int): Wonders {
+        val initialGameState = jdbcTemplate.query("select * from games where id = $id") { rs, _ ->
+            rs.getString(2)
+        }.first()
+
+        val readValue: GameInitialSettings = mapper.readValue(initialGameState, GameInitialSettings::class.java)
+        val wonders = Wonders(readValue.wonders, readValue.cards)
+
+        val actions = jdbcTemplate.query("select action from actions where game_id = $id") { rs, _ ->
+            rs.getString(1)
+        }.map { mapper.readValue(it, Action::class.java) }
+
+        actions.forEach { wonders.takeAction(it) }
+
+        return wonders
+    }
 }

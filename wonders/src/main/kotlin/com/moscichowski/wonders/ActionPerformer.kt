@@ -3,7 +3,7 @@ package com.moscichowski.wonders
 import com.moscichowski.wonders.model.*
 import kotlin.math.max
 
-abstract class ActionPerformer {
+abstract class ActionPerformer(val wonders: Wonders) {
     fun resolveCommonFeatures(game: Game, features: List<CardFeature>, player: Player) {
         val addGoldFeature = features.find { it is AddGold }
         if (addGoldFeature != null && addGoldFeature is AddGold) {
@@ -120,16 +120,16 @@ abstract class ActionPerformer {
         return toCombine
     }
 
-    fun boardCheck(game: Game, card: Card): Pair<Player, BoardNode> {
-        val player = if (game.currentPlayer == 0) game.player1 else game.player2
-        val wantedNode = game.board.cards.find { node ->
-            node.card == card
-        } ?: throw Error()
-        if (!wantedNode.descendants.isEmpty()) {
-            throw Error()
-        }
-        return Pair(player, wantedNode)
-    }
+//    fun boardCheck(game: Game, card: Card): Pair<Player, BoardNode> {
+//        val player = if (game.currentPlayer == 0) game.player1 else game.player2
+//        val wantedNode = game.board.cards.find { node ->
+//            node.card == card
+//        } ?: throw Error()
+//        if (!wantedNode.descendants.isEmpty()) {
+//            throw Error()
+//        }
+//        return Pair(player, wantedNode)
+//    }
 
     fun required2(game: Game, player: Player, cost: Resource): Int {
         val opponent = opponent(game)
@@ -192,6 +192,18 @@ abstract class ActionPerformer {
         } else {
             player2
         }
+
+    internal fun removeCardFromBoard(card: String) {
+        val elements = wonders.game.board.elements
+        val removingNode = elements.find { it.card?.name == card }
+        elements.remove(removingNode)
+        elements.forEach { node: BoardNode ->
+            node.descendants.remove(removingNode)
+            if (node.descendants.count() == 0 && node.card == null) {
+                node.card = wonders.getCard()
+            }
+        }
+    }
 
     private val GoldForColor.colorValue: Int get() {
         return when(color) {

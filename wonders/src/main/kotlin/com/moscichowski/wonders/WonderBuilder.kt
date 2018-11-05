@@ -4,16 +4,16 @@ import kotlin.math.max
 import com.moscichowski.wonders.model.*
 
 
-class WonderBuilder : ActionPerformer() {
-    private lateinit var game: Game
+class WonderBuilder(wonders: Wonders) : ActionPerformer(wonders) {
 
     override fun hasPromo(): Boolean {
-        return game.scienceTokens.find { it.first == game.currentPlayer && it.second == ScienceToken.ARCHITECTURE } != null
+        return wonders.game.scienceTokens.find { it.first == wonders.game.currentPlayer && it.second == ScienceToken.ARCHITECTURE } != null
     }
 
-    fun buildWonder(action: BuildWonder, game: Game) {
-        this.game = game
-        val (player, wantedNode) = boardCheck(game, action.card)
+    fun buildWonder(action: BuildWonder) {
+        val game = wonders.game
+        val player = if (game.currentPlayer == 0) game.player1 else game.player2
+        val card = game.board.requestedCard(action.card.name) ?: throw Error()
 
         if (are7WondersBuilt(game)) { throw Error() }
 
@@ -52,10 +52,7 @@ class WonderBuilder : ActionPerformer() {
             }
         }
 
-        game.board.cards.remove(wantedNode)
-        game.board.cards.forEach { node: BoardNode ->
-            node.descendants.remove(wantedNode)
-        }
+        removeCardFromBoard(card.name)
         player.gold -= requiredGold
 
         if (doesOpponentHaveEconomy(game)) {
