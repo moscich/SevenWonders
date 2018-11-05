@@ -15,7 +15,7 @@ class CardTaker(wonders: Wonders) : ActionPerformer(wonders) {
 
     fun takeCard(action: TakeCard) {
         this.game = wonders.game
-        this.card = game.board.requestedCard(action.cardName) ?: throw CardUnavailable()
+        this.card = game.board?.requestedCard(action.cardName) ?: throw CardUnavailable()
 
         val player = if (game.currentPlayer == 0) game.player1 else game.player2
 

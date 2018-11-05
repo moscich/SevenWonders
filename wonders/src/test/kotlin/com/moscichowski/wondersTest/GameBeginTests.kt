@@ -70,8 +70,11 @@ class GameBeginTests {
     }
 
     @Test
-    fun `game should be initialized with 3 boards 20 cards each`() {
-
+    fun `should build board after wonder selection`() {
+        val wonders = Wonders(testWonders, cards)
+        for (index in 0 until 8) {
+            wonders.takeAction(ChooseWonder("Test $index"))
+        }
+        assertNotNull(wonders.game.board)
     }
-
 }

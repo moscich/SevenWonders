@@ -4,12 +4,19 @@ import com.moscichowski.WebWonders.GameInitialSettings
 import com.moscichowski.WebWonders.WondersMapper
 import com.moscichowski.wonders.Action
 import com.moscichowski.wonders.Wonders
+import com.moscichowski.wonders.WondersBuilder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
 
 @Repository
 class GameEventSourcingRepository: GameRepository {
+    @Autowired
+    lateinit var jdbcTemplate: JdbcTemplate
+
+    @Autowired
+    lateinit var mapper: WondersMapper
+
     override fun storeInitialState(settings: GameInitialSettings): Int {
         val writeValueAsString = mapper.writeValueAsString(settings)
 
@@ -32,7 +39,8 @@ class GameEventSourcingRepository: GameRepository {
         }.first()
 
         val readValue: GameInitialSettings = mapper.readValue(initialGameState, GameInitialSettings::class.java)
-        val wonders = Wonders(readValue.wonders, readValue.cards)
+
+        val wonders = WondersBuilder().setupWonders(readValue.wonders, readValue.cards)
 
         val actions = jdbcTemplate.query("select action from actions where game_id = $id") { rs, _ ->
             rs.getString(1)
@@ -42,11 +50,5 @@ class GameEventSourcingRepository: GameRepository {
 
         return wonders
     }
-
-    @Autowired
-    lateinit var jdbcTemplate: JdbcTemplate
-
-    @Autowired
-    lateinit var mapper: WondersMapper
 
 }

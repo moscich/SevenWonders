@@ -12,8 +12,8 @@ class BoardBuildingTests {
         val wonders = (0 until 8).map { Wonder("Test") }
         val cards1 = listOf((0 until 15).map { Card("some") }, (0 until 11).map { Card("some") })
         val cards2 = listOf((0 until 15).map { Card("some") }, (0 until 11).map { Card("some") }, (0 until 11).map { Card("some") })
-        assertFails({ it is WrongNumberOfCards }) { Wonders(wonders, cards1) }
-        assertFails({ it is WrongNumberOfCards }) { Wonders(wonders, cards2) }
+        assertFails({ it is WrongNumberOfCards }) { WondersBuilder().setupWonders(wonders, cards1) }
+        assertFails({ it is WrongNumberOfCards }) { WondersBuilder().setupWonders(wonders, cards2) }
     }
 
     @Test
@@ -21,8 +21,7 @@ class BoardBuildingTests {
         val wonderList = (0 until 8).map { Wonder("Test") }
         val cards = listOf((0 until 20).map { Card("card $it") }, (0 until 20).map { Card("some") }, (0 until 20).map { Card("some") })
         val wonders = Wonders(wonderList, cards)
-        val game = wonders.game
-        game.state = GameState.REGULAR
+        val board = wonders.buildBoard()
 
         val cases = listOf(
                 Triple("card 0", 2, 3),
@@ -44,16 +43,16 @@ class BoardBuildingTests {
         // test cases with descendants
         for (index in 0 until cases.count()) {
             val case = cases[index]
-            val boardNode = game.board.elements[index]
+            val boardNode = board.elements[index]
             assertEquals(case.first, boardNode.card?.name)
-            assertEquals(game.board.elements[case.second], boardNode.descendants[0])
-            assertEquals(game.board.elements[case.third], boardNode.descendants[1])
+            assertEquals(board.elements[case.second], boardNode.descendants[0])
+            assertEquals(board.elements[case.third], boardNode.descendants[1])
         }
 
         // test cases without descendants
         for (index in cases.count()..19) {
             val expectedCardName = "card ${index - 8}"
-            val boardNode = game.board.elements[index]
+            val boardNode = board.elements[index]
             assertEquals(expectedCardName, boardNode.card?.name)
             assertEquals(0, boardNode.descendants.count())
         }

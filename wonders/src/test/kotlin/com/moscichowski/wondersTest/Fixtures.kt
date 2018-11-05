@@ -8,7 +8,11 @@ import kotlin.test.assertTrue
 import kotlin.test.fail
 
 fun Game(): Game {
-    return Game(testWonders, cards)
+    return Game(testWonders)
+}
+
+fun Wonders(wonders: List<Wonder>, cards: List<List<Card>>): Wonders {
+    return WondersBuilder().setupWonders(wonders, cards)
 }
 
 fun Wonders(game: Game): Wonders {
@@ -18,7 +22,7 @@ fun Wonders(game: Game): Wonders {
 }
 
 fun Game(player1: Player, player2: Player, board: Board, currentPlayer: Int = 0): Game {
-    val game = Game(testWonders, cards, board, player1 = player1, player2 = player2, currentPlayer = currentPlayer, state = GameState.REGULAR)
+    val game = Game(testWonders, board, player1 = player1, player2 = player2, currentPlayer = currentPlayer, state = GameState.REGULAR)
     game.board = board
     return game
 }

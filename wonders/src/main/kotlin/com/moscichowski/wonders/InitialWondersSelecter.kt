@@ -13,6 +13,7 @@ class InitialWondersSelecter(wonders: Wonders) : ActionPerformer(wonders) {
         }
         if (game.wonders.count() == 0) {
             game.state = GameState.REGULAR
+            game.board = wonders.buildBoard()
         }
     }
 }

@@ -1,27 +1,29 @@
 package com.moscichowski.wonders
 import com.moscichowski.wonders.model.*
 
-interface CardProvider {
-    fun getCard(): Card
-}
-
-class Wonders: CardProvider {
-    override fun getCard(): Card {
-        return firstEpoh.pop()
-    }
-
-    var game: Game
-    private var cards: List<MutableList<Card>>
-
-    var firstEpoh: MutableList<Card>
-
-    constructor(wonders: List<Wonder>, cards: List<List<Card>>) {
-
-        this.cards = cards.map { it.toMutableList() }
-        this.firstEpoh = cards[0].toMutableList()
+class WondersBuilder {
+    fun setupWonders(wonders: List<Wonder>, cards: List<List<Card>>): Wonders {
         if(cards.count() != 3) { throw WrongNumberOfCards(cards) }
         if(cards.find { it.count() != 20 } != null) { throw WrongNumberOfCards(cards) }
         if(wonders.count() != 8) { throw Requires8WondersError() }
+
+        return Wonders(Game(wonders), cards)
+    }
+}
+
+class Wonders(var game: Game,
+              private var cards: List<List<Card>>
+              ) {
+
+
+    lateinit var firstEpoh: MutableList<Card>
+
+    internal fun getCard(): Card {
+        return firstEpoh.pop()
+    }
+
+    internal fun buildBoard(): Board {
+        this.firstEpoh = cards[0].toMutableList()
 
         val hiddenIndexes = listOf(2, 3, 4, 9, 10, 11, 12, 13)
 
@@ -49,7 +51,6 @@ class Wonders: CardProvider {
                 Pair(16, 17),
                 Pair(17, 18),
                 Pair(18, 19)
-
         )
 
         for (index in 0 until dependencies.count()) {
@@ -58,8 +59,7 @@ class Wonders: CardProvider {
             nodes[index].descendants.add(nodes[dependency.second])
         }
 
-        val board = Board(nodes)
-        this.game = Game(wonders, cards, board)
+        return Board(nodes)
     }
 
     fun takeAction(action: Action) {

@@ -13,7 +13,7 @@ class WonderBuilder(wonders: Wonders) : ActionPerformer(wonders) {
     fun buildWonder(action: BuildWonder) {
         val game = wonders.game
         val player = if (game.currentPlayer == 0) game.player1 else game.player2
-        val card = game.board.requestedCard(action.card.name) ?: throw Error()
+        val card = game.board?.requestedCard(action.card.name) ?: throw Error()
 
         if (are7WondersBuilt(game)) { throw Error() }
 

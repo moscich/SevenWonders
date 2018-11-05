@@ -194,7 +194,8 @@ abstract class ActionPerformer(val wonders: Wonders) {
         }
 
     internal fun removeCardFromBoard(card: String) {
-        val elements = wonders.game.board.elements
+        val board = wonders.game.board ?: throw Error()
+        val elements = board.elements
         val removingNode = elements.find { it.card?.name == card }
         elements.remove(removingNode)
         elements.forEach { node: BoardNode ->

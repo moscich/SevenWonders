@@ -11,8 +11,7 @@ data class MilitaryThreshold(val player: Int,
                              val gold: Int)
 
 data class Game(private val _wonders: List<Wonder>,
-                private val cards: List<List<Card>>,
-                private var _board: Board = Board(listOf()),
+                var board: Board? = null,
                 val player1: Player = Player(6),
                 val player2: Player = Player(6),
                 var currentPlayer: Int = 0,
@@ -26,19 +25,6 @@ data class Game(private val _wonders: List<Wonder>,
                         MilitaryThreshold(1, 6, 5)
                 )
 ) {
-    var board: Board
-    get() {
-        return if (state != GameState.WONDERS_SELECT) {
-            _board
-        } else {
-            Board(listOf())
-        }
-    }
-    set(value) {_board = value}
-
-    init {
-
-    }
 
     private val mutableWonders = _wonders.toMutableList()
 
