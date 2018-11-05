@@ -208,7 +208,7 @@ class WondersTests {
         val board = Board(mutableListOf(node))
         val wonder = Wonder("Some wonders")
         val player1 = Player(6)
-        player1.wonders = mutableListOf(Pair(false, Wonder("Different Wonder")))
+        player1.wonders = mutableListOf(WonderPair(false, Wonder("Different Wonder")))
         val game = Game(player1, Player(6), board)
         val wonders = Wonders(game)
         try {
@@ -227,7 +227,7 @@ class WondersTests {
         val board = Board(mutableListOf(node))
         val wonder = Wonder("Some wonders")
         val player1 = Player(6)
-        player1.wonders = mutableListOf(Pair(true, wonder))
+        player1.wonders = mutableListOf(WonderPair(true, wonder))
         val game = Game(player1, Player(6), board)
         val wonders = Wonders(game)
         try {
@@ -246,7 +246,7 @@ class WondersTests {
         val board = Board(mutableListOf(node))
         val wonder = Wonder("Some wonders", Resource(gold = 7))
         val player1 = Player(6)
-        player1.wonders = mutableListOf(Pair(false, wonder))
+        player1.wonders = mutableListOf(WonderPair(false, wonder))
         val game = Game(player1, Player(6), board)
         val wonders = Wonders(game)
         try {
@@ -264,11 +264,11 @@ class WondersTests {
         val board = Board(mutableListOf(node))
         val wonder = Wonder("Some wonders", Resource(gold = 2))
         val player1 = Player(6)
-        player1.wonders = mutableListOf(Pair(false, wonder))
+        player1.wonders = mutableListOf(WonderPair(false, wonder))
         val game = Game(player1, Player(6), board)
         val wonders = Wonders(game)
         wonders.takeAction(BuildWonder(card, wonder))
-        assertTrue(player1.wonders.first().first)
+        assertTrue(player1.wonders.first().built)
         assertEquals(4, player1.gold)
         assertEquals(game.currentPlayer, 1)
     }
@@ -280,14 +280,14 @@ class WondersTests {
         val board = Board(mutableListOf(node))
         val wonder = Wonder("Some wonders", Resource(gold = 2), listOf(DestroyBrownCard))
         val player1 = Player(6)
-        player1.wonders = mutableListOf(Pair(false, wonder))
+        player1.wonders = mutableListOf(WonderPair(false, wonder))
         val opponent = Player(6)
         val brownCard = Card("Brown card")
         opponent.cards.add(brownCard)
         val game = Game(player1, opponent, board)
         val wonders = Wonders(game)
         wonders.takeAction(BuildWonder(card, wonder, brownCard))
-        assertTrue(player1.wonders.first().first)
+        assertTrue(player1.wonders.first().built)
         assertEquals(4, player1.gold)
         assertEquals(0, board.elements.count())
         assertEquals(0, opponent.cards.count())
@@ -301,7 +301,7 @@ class WondersTests {
         val board = Board(mutableListOf(node))
         val wonder = Wonder("Some wonders", Resource(gold = 2), listOf(DestroyBrownCard))
         val player1 = Player(6)
-        player1.wonders = mutableListOf(Pair(false, wonder))
+        player1.wonders = mutableListOf(WonderPair(false, wonder))
         val opponent = Player(6)
         val nonBrownCard = Card("Non Brown card", CardColor.SILVER)
         opponent.cards.add(nonBrownCard)
@@ -314,7 +314,7 @@ class WondersTests {
             assertEquals("Test", err.something)
         }
 
-        assertFalse(player1.wonders.first().first)
+        assertFalse(player1.wonders.first().built)
         assertEquals(6, player1.gold)
         assertEquals(1, board.elements.count())
         assertEquals(1, opponent.cards.count())
@@ -328,7 +328,7 @@ class WondersTests {
         val board = Board(mutableListOf(node))
         val wonder = Wonder("Some wonders", Resource(gold = 2), listOf(DestroySilverCard))
         val player1 = Player(6)
-        player1.wonders = mutableListOf(Pair(false, wonder))
+        player1.wonders = mutableListOf(WonderPair(false, wonder))
         val opponent = Player(6)
         val nonSilverCard = Card("Non Silver card", CardColor.BROWN)
         opponent.cards.add(nonSilverCard)
@@ -341,7 +341,7 @@ class WondersTests {
             assertEquals("Test", err.something)
         }
 
-        assertFalse(player1.wonders.first().first)
+        assertFalse(player1.wonders.first().built)
         assertEquals(6, player1.gold)
         assertEquals(1, board.elements.count())
         assertEquals(1, opponent.cards.count())
@@ -354,14 +354,14 @@ class WondersTests {
         val board = Board(mutableListOf(node))
         val wonder = Wonder("Some wonders", Resource(gold = 2), listOf(DestroySilverCard))
         val player1 = Player(6)
-        player1.wonders = mutableListOf(Pair(false, wonder))
+        player1.wonders = mutableListOf(WonderPair(false, wonder))
         val opponent = Player(6)
         val silverCard = Card("Silver card", CardColor.SILVER)
         opponent.cards.add(silverCard)
         val game = Game(player1, opponent, board)
         val wonders = Wonders(game)
         wonders.takeAction(BuildWonder(card, wonder, silverCard))
-        assertTrue(player1.wonders.first().first)
+        assertTrue(player1.wonders.first().built)
         assertEquals(4, player1.gold)
         assertEquals(0, board.elements.count())
         assertEquals(0, opponent.cards.count())
@@ -374,11 +374,11 @@ class WondersTests {
         val board = Board(mutableListOf(node))
         val wonder = Wonder("Some wonders", Resource(gold = 2), listOf(ExtraTurn))
         val player1 = Player(6)
-        player1.wonders = mutableListOf(Pair(false, wonder))
+        player1.wonders = mutableListOf(WonderPair(false, wonder))
         val game = Game(player1, Player(6), board)
         val wonders = Wonders(game)
         wonders.takeAction(BuildWonder(card, wonder))
-        assertTrue(player1.wonders.first().first)
+        assertTrue(player1.wonders.first().built)
         assertEquals(4, player1.gold)
         assertEquals(0, board.elements.count())
         assertEquals(0, game.currentPlayer)
@@ -390,16 +390,16 @@ class WondersTests {
 
         val eightWonder = Wonder("")
         wonders.game.player1.wonders = listOf(
-                Pair(true, Wonder("")),
-                Pair(true, Wonder("")),
-                Pair(true, Wonder("")),
-                Pair(false, eightWonder)
+                WonderPair(true, Wonder("")),
+                WonderPair(true, Wonder("")),
+                WonderPair(true, Wonder("")),
+                WonderPair(false, eightWonder)
         )
         wonders.game.player2.wonders = listOf(
-                Pair(true, Wonder("")),
-                Pair(true, Wonder("")),
-                Pair(true, Wonder("")),
-                Pair(true, Wonder(""))
+                WonderPair(true, Wonder("")),
+                WonderPair(true, Wonder("")),
+                WonderPair(true, Wonder("")),
+                WonderPair(true, Wonder(""))
         )
 
         assertFails { wonders.takeAction(BuildWonder(card, eightWonder)) }
@@ -412,7 +412,7 @@ class WondersTests {
         val board = Board(mutableListOf(node))
         val wonder = Wonder("Some wonders", features = listOf(ProvideSilverResource))
         val player1 = Player(8)
-        player1.wonders = mutableListOf(Pair(true, wonder))
+        player1.wonders = mutableListOf(WonderPair(true, wonder))
         val opponent = Player(6)
         opponent.cards.add(Card("Providing silver", features = listOf(ProvideResource(Resource(papyrus = 1, glass = 2)))))
         val game = Game(player1, opponent, board)
@@ -429,7 +429,7 @@ class WondersTests {
         val board = Board(mutableListOf(node))
         val wonder = Wonder("Some wonders", features = listOf(ProvideBrownResource))
         val player1 = Player(8)
-        player1.wonders = mutableListOf(Pair(true, wonder))
+        player1.wonders = mutableListOf(WonderPair(true, wonder))
         val opponent = Player(6)
         opponent.cards.add(Card("Providing brown", features = listOf(ProvideResource(Resource(wood = 1, clay = 2, stone = 3)))))
         val game = Game(player1, opponent, board)
@@ -451,7 +451,7 @@ class WondersTests {
         val provideBrownWonder = Wonder("Some wonders", features = listOf(ProvideBrownResource))
         val provideSilverWonder = Wonder("Some wonders", features = listOf(ProvideSilverResource))
         val player1 = Player(6)
-        player1.wonders = mutableListOf(Pair(true, provideBrownWonder), Pair(true, provideSilverWonder))
+        player1.wonders = mutableListOf(WonderPair(true, provideBrownWonder), WonderPair(true, provideSilverWonder))
         player1.cards.add(Card("Brown Card", features = listOf(ProvideBrownResource)))
         player1.cards.add(Card("Silver Card", features = listOf(ProvideSilverResource)))
         val opponent = Player(6)
@@ -637,7 +637,7 @@ class WondersTests {
         val wonder = Wonder("Some wonders", Resource(1, 1, 1, 1, 1))
         wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 2, 3, 4, 5)))))
         wonders.game.scienceTokens.add(Pair(0, ScienceToken.ARCHITECTURE))
-        player.wonders = listOf(Pair(false, wonder))
+        player.wonders = listOf(WonderPair(false, wonder))
         player.gold = 16
 
         wonders.takeAction(BuildWonder(card, wonder))
@@ -650,7 +650,7 @@ class WondersTests {
         val (wonders, card, player) = game()
         val wonder = Wonder("Some wonders", Resource(1, 1, 1, 1, 1))
         wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 2, 3, 4, 5)))))
-        player.wonders = listOf(Pair(false, wonder))
+        player.wonders = listOf(WonderPair(false, wonder))
         player.gold = 25
 
         wonders.takeAction(BuildWonder(card, wonder))
@@ -702,7 +702,7 @@ class WondersTests {
         wonders.game.player2.cards.add(Card("Providing", features = listOf(ProvideResource(Resource(1, 1)))))
         wonders.game.scienceTokens.add(Pair(0, ScienceToken.ECONOMY))
         val wonder = Wonder("", Resource(1, 1, 1, 1, 1, 10))
-        wonders.game.player2.wonders = listOf(Pair(false, wonder))
+        wonders.game.player2.wonders = listOf(WonderPair(false, wonder))
         wonders.game.player2.gold = 20
         wonders.game.currentPlayer = 1
 
@@ -726,7 +726,7 @@ class WondersTests {
     fun strategyOnlyWorksWithRedCards() {
         val (wonders, card) = game()
         val wonder = Wonder("", features = listOf(Military(2)))
-        wonders.game.player1.wonders = listOf(Pair(false, wonder))
+        wonders.game.player1.wonders = listOf(WonderPair(false, wonder))
         wonders.game.scienceTokens.add(Pair(0, ScienceToken.STRATEGY))
 
         wonders.takeAction(BuildWonder(card, wonder))
@@ -738,7 +738,7 @@ class WondersTests {
     fun theology() {
         val (wonders, card) = game()
         val wonder = Wonder("")
-        wonders.game.player1.wonders = listOf(Pair(false, wonder))
+        wonders.game.player1.wonders = listOf(WonderPair(false, wonder))
         wonders.game.scienceTokens.add(Pair(0, ScienceToken.THEOLOGY))
 
         wonders.takeAction(BuildWonder(card, wonder))
@@ -848,10 +848,10 @@ class WondersTests {
     fun goldForWonders() {
         val (wonders, card, player) = gameWithCard(Card("Test", features = listOf(GoldForWonder)))
 
-        player.wonders = listOf(Pair(true, Wonder("")),
-                Pair(true, Wonder("")),
-                Pair(true, Wonder("")),
-                Pair(true, Wonder(""))
+        player.wonders = listOf(WonderPair(true, Wonder("")),
+                WonderPair(true, Wonder("")),
+                WonderPair(true, Wonder("")),
+                WonderPair(true, Wonder(""))
         )
 
         wonders.takeAction(TakeCard(card))
@@ -886,15 +886,15 @@ class WondersTests {
         val (wonders) = gameNoGold()
 
         wonders.game.player1.wonders = listOf(
-                Pair(true, Wonder("")),
-                Pair(false, Wonder("")))
+                WonderPair(true, Wonder("")),
+                WonderPair(false, Wonder("")))
         wonders.game.player1.cards.add(Card("", features = listOf(Guild(GuildType.WONDERS))))
 
         assertEquals(2, wonders.game.victoryPointsForPlayer(0))
 
         wonders.game.player2.wonders = listOf(
-                Pair(true, Wonder("")),
-                Pair(true, Wonder("")))
+                WonderPair(true, Wonder("")),
+                WonderPair(true, Wonder("")))
         assertEquals(4, wonders.game.victoryPointsForPlayer(0))
     }
 
@@ -933,9 +933,9 @@ class WondersTests {
         val (wonders) = gameNoGold()
 
         wonders.game.player1.wonders = listOf(
-                Pair(true, Wonder("", features = listOf(VictoryPoints(3)))),
-                Pair(false, Wonder("", features = listOf(VictoryPoints(3)))))
-        wonders.game.player2.wonders = listOf(Pair(true, Wonder("", features = listOf(VictoryPoints(3)))))
+                WonderPair(true, Wonder("", features = listOf(VictoryPoints(3)))),
+                WonderPair(false, Wonder("", features = listOf(VictoryPoints(3)))))
+        wonders.game.player2.wonders = listOf(WonderPair(true, Wonder("", features = listOf(VictoryPoints(3)))))
 
         assertEquals(3, wonders.game.victoryPointsForPlayer(0))
     }
@@ -1023,7 +1023,7 @@ fun cardWithFeature(feature: CardFeature): Card {
 
 fun player(wonder: Wonder): Pair<Player, Wonder> {
     val player1 = Player(6)
-    player1.wonders = mutableListOf(Pair(false, wonder))
+    player1.wonders = mutableListOf(WonderPair(false, wonder))
     return Pair(player1, wonder)
 }
 

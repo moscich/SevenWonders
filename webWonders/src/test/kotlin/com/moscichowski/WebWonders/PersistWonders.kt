@@ -1,11 +1,9 @@
 package com.moscichowski.WebWonders
 
-import com.moscichowski.WebWonders.repository.GameRepository
-import com.moscichowski.WebWonders.repository.GameStateStoreRepository
+import com.moscichowski.WebWonders.repository.GameEventSourcingRepository
 import com.moscichowski.wonders.WondersBuilder
 import com.moscichowski.wonders.builder.CardBuilder
 import com.moscichowski.wonders.builder.WonderBuilder
-import com.moscichowski.wonders.model.*
 import org.flywaydb.test.annotation.FlywayTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -20,10 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner
 class PersistWonders {
 
     @Autowired
-    lateinit var repo: GameStateStoreRepository
-
-    @Autowired
-    lateinit var createGameRepo: GameRepository
+    lateinit var repo: GameEventSourcingRepository
 
     @Test
     fun storeWonders() {
@@ -37,9 +32,10 @@ class PersistWonders {
 
         val wonders = WondersBuilder().setupWonders(wonderList.subList(0, 8), cards)
 
-        val gameId = createGameRepo.storeInitialState(GameInitialSettings(wonderList, cards)).toString()
+        val gameId = repo.storeInitialState(GameInitialSettings(wonderList, cards)).toString()
 
         val id = repo.storeWonders(gameId, wonders)
+        Thread.sleep(1000)
         val retrievedWonders = repo.getWonders(id)
         assertEquals(wonders.game, retrievedWonders.game)
         assertEquals(wonders.cards, retrievedWonders.cards)

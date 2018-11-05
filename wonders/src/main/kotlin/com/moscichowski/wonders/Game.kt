@@ -120,9 +120,13 @@ enum class GameState {
     abstract fun canPerform(action: Action): Boolean
 }
 
+data class WonderPair(val built: Boolean,
+                      val wonder: Wonder
+                      )
+
 data class Player (var gold_: Int,
                    private val _cards: List<Card> = listOf(),
-                   var wonders: List<Pair<Boolean, Wonder>> = listOf()
+                   var wonders: List<WonderPair> = listOf()
 ) {
 
     val cards = _cards.toMutableList()
@@ -137,7 +141,7 @@ data class Player (var gold_: Int,
     val features: List<CardFeature>
         get() {
             val features = mutableListOf<CardFeature>()
-            val wonderFeatures = wonders.filter { it.first }.flatMap { it.second.features }.toMutableList()
+            val wonderFeatures = wonders.filter { it.built }.flatMap { it.wonder.features }.toMutableList()
             val cardFeatures = cards.flatMap { it.features }
             features.addAll(cardFeatures)
             features.addAll(wonderFeatures)

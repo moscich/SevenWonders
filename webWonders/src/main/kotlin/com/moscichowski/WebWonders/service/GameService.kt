@@ -1,11 +1,12 @@
 package com.moscichowski.WebWonders.service
 
 import com.moscichowski.WebWonders.GameInitialSettings
-import com.moscichowski.WebWonders.repository.GameRepository
+import com.moscichowski.WebWonders.repository.GameEventSourcingRepository
 import com.moscichowski.wonders.Action
 import com.moscichowski.wonders.Game
+import com.moscichowski.wonders.WondersBuilder
 import com.moscichowski.wonders.builder.CardBuilder
-import com.moscichowski.wonders.model.*
+import com.moscichowski.wonders.builder.WonderBuilder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -13,20 +14,12 @@ import org.springframework.stereotype.Service
 class GameService {
 
     @Autowired
-    lateinit var repo: GameRepository
+    lateinit var repo: GameEventSourcingRepository
 
-    fun createNewGame(): Int {
-        val wonderList = listOf(
-                Wonder("Via Appia", Resource(1,2,3), features = listOf(AddGold(3), RemoveGold, ExtraTurn, VictoryPoints(3))),
-                Wonder("Second wonders", Resource(3), features = listOf(DestroyBrownCard)),
-                Wonder("Third shieeet", Resource(1,2), features = listOf(DestroySilverCard)),
-                Wonder("Everybody dance", Resource(2,glass = 1), features = listOf(ExtraTurn)),
-                Wonder("Via Appia 2", Resource(1,2,3), features = listOf(AddGold(3), RemoveGold, ExtraTurn, VictoryPoints(3))),
-                Wonder("Second wonders 2", Resource(3), features = listOf(DestroyBrownCard)),
-                Wonder("Third shieeet 2", Resource(1,2), features = listOf(DestroySilverCard)),
-                Wonder("Everybody dance 2", Resource(2,glass = 1), features = listOf(ExtraTurn))
-        )
+    fun createNewGame(): String {
 
+        val wonderBuilder = WonderBuilder()
+        val wonderList = wonderBuilder.getWonders()
         val cardBuilder = CardBuilder()
         val cards = listOf(
                 cardBuilder.getCards().subList(0, 20),
@@ -36,16 +29,19 @@ class GameService {
 
         //TODO shuffle
 
-        return repo.storeInitialState(GameInitialSettings(wonderList, cards))
+        val wonders = WondersBuilder().setupWonders(wonderList.subList(0, 8), cards)
+        val gameId = repo.storeInitialState(GameInitialSettings(wonderList, cards)).toString()
+        repo.storeWonders(gameId, wonders)
+        return gameId
     }
 
     fun takeAction(gameId: String, action: Action) {
-        val wonders = repo.getWondersGame(gameId)
+        val wonders = repo.getWonders(gameId)
         wonders.takeAction(action)
-        repo.storeAction(gameId, action)
+        repo.storeWonders(gameId, wonders)
     }
 
     fun getGame(id: String): Game {
-        return repo.getWondersGame(id).game
+        return repo.getWonders(id).game
     }
 }

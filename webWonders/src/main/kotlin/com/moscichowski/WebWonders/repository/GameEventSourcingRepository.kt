@@ -10,14 +10,14 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
 
 @Repository
-class GameEventSourcingRepository: GameRepository {
+class GameEventSourcingRepository {
     @Autowired
     lateinit var jdbcTemplate: JdbcTemplate
 
     @Autowired
     lateinit var mapper: WondersMapper
 
-    override fun storeInitialState(settings: GameInitialSettings): Int {
+    fun storeInitialState(settings: GameInitialSettings): Int {
         val writeValueAsString = mapper.writeValueAsString(settings)
 
         return jdbcTemplate.query("insert into games (initial) values ('$writeValueAsString') RETURNING id") { rs, _ ->
@@ -25,15 +25,28 @@ class GameEventSourcingRepository: GameRepository {
         }.first()
     }
 
-    override fun storeWondersGame(wonders: Wonders) {
+    fun storeWonders(gameId: String, wonders: Wonders): String {
+        val deserializedAction = mapper.writeValueAsString(wonders)
+        return jdbcTemplate.query("insert into gameStates (game_id, wonders) values ('$gameId', '$deserializedAction') RETURNING id") { rs, _ ->
+            rs.getInt(1).toString()
+        }.first()
     }
 
-    override fun storeAction(gameId: String, action: Action) {
+    fun getWonders(id: String): Wonders {
+        return jdbcTemplate.query("select wonders from gameStates where game_id = $id") { rs, _ ->
+            rs.getString(1)
+        }.map {
+            println("it = ${it}")
+            mapper.readValue(it, Wonders::class.java)
+        }.last()
+    }
+
+    fun storeAction(gameId: String, action: Action) {
         val deserializedAction = mapper.writeValueAsString(action)
         jdbcTemplate.execute("insert into actions (game_id, action) values ('$gameId', '$deserializedAction')")
     }
 
-    override fun getWondersGame(id: String): Wonders {
+    fun getWondersGame(id: String): Wonders {
         val initialGameState = jdbcTemplate.query("select * from games where id = $id") { rs, _ ->
             rs.getString(2)
         }.first()

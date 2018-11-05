@@ -62,11 +62,11 @@ class GameBeginTests {
         assertEquals(0, wonders.game.wonders.count())
 
         assertEquals(GameState.REGULAR, wonders.game.state)
-        assertEquals(listOf("Test 0", "Test 3", "Test 5", "Test 6"), wonders.game.player1.wonders.map { it.second.name })
-        assertEquals(listOf("Test 1", "Test 2", "Test 4", "Test 7"), wonders.game.player2.wonders.map { it.second.name })
+        assertEquals(listOf("Test 0", "Test 3", "Test 5", "Test 6"), wonders.game.player1.wonders.map { it.wonder.name })
+        assertEquals(listOf("Test 1", "Test 2", "Test 4", "Test 7"), wonders.game.player2.wonders.map { it.wonder.name })
 
-        assertNull(wonders.game.player1.wonders.find { it.first })
-        assertNull(wonders.game.player2.wonders.find { it.first })
+        assertNull(wonders.game.player1.wonders.find { it.built })
+        assertNull(wonders.game.player2.wonders.find { it.built })
     }
 
     @Test

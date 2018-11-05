@@ -26,7 +26,7 @@ class WonderBuilder(wonders: Wonders) : ActionPerformer(wonders) {
         }
 
         val hasWonderAvailable = !player.wonders.any {
-            it.second == action.wonder && !it.first
+            it.wonder == action.wonder && !it.built
         }
         if (hasWonderAvailable) {
             throw WonderBuildFailed()
@@ -71,10 +71,10 @@ class WonderBuilder(wonders: Wonders) : ActionPerformer(wonders) {
             game.currentPlayer = (game.currentPlayer + 1) % 2
         }
 
-        player.wonders.indexOfFirst { it.second == action.wonder }
+        player.wonders.indexOfFirst { it.wonder == action.wonder }
         player.wonders = player.wonders.map {
-            if (it.second == action.wonder) {
-                return@map Pair(true, it.second)
+            if (it.wonder == action.wonder) {
+                return@map WonderPair(true, it.wonder)
             } else {
                 return@map it
             }
@@ -82,5 +82,5 @@ class WonderBuilder(wonders: Wonders) : ActionPerformer(wonders) {
     }
 
     private fun are7WondersBuilt(game: Game) =
-            game.player1.wonders.count { it.first } + game.player2.wonders.count { it.first } == 7
+            game.player1.wonders.count { it.built } + game.player2.wonders.count { it.built } == 7
 }

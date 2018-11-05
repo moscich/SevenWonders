@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.databind.node.BooleanNode
 import com.fasterxml.jackson.databind.node.IntNode
 import com.fasterxml.jackson.databind.node.TextNode
 import com.moscichowski.wonders.*
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.lang.Error
 import kotlin.reflect.full.primaryConstructor
 import com.moscichowski.wonders.model.*
+import java.lang.Exception
 
 
 @RestController
@@ -52,7 +54,7 @@ class HelloController {
 class ActionJsonModule : SimpleModule() {
     init {
         this.addSerializer(Action::class.java, ActionSerializer())
-        this.addSerializer(BoardNode::class.java, BoardSerializer())
+        this.addSerializer(BoardNode::class.java, BoardNodeSerializer())
         this.addSerializer(Resource::class.java, ResourceSerializer())
         this.addSerializer(Card::class.java, CardSerializer())
         this.addSerializer(Wonders::class.java, WondersSerializer())
@@ -63,6 +65,9 @@ class ActionJsonModule : SimpleModule() {
         this.addDeserializer(Game::class.java, GameDeserializer())
         this.addDeserializer(Player::class.java, PlayerDeserializer())
         this.addDeserializer(MilitaryThreshold::class.java, MilitaryThresholdDeserializer())
+        this.addDeserializer(WonderPair::class.java, WonderPairDeserializer())
+        this.addDeserializer(Board::class.java, BoardDeserializer())
+        this.addDeserializer(BoardNodeDuringDeserialization::class.java, BoardNodeDeserializer())
     }
 }
 
@@ -113,7 +118,7 @@ class ResourceSerializer : JsonSerializer<Resource>() {
     }
 }
 
-class BoardSerializer : JsonSerializer<BoardNode>() {
+class BoardNodeSerializer : JsonSerializer<BoardNode>() {
 
     override fun serialize(value: BoardNode, gen: JsonGenerator, serializers: SerializerProvider?) {
         gen.writeStartObject()
@@ -201,6 +206,72 @@ class GameDeserializer: JsonDeserializer<Game>() {
     }
 }
 
+class WonderPairDeserializer: JsonDeserializer<WonderPair>() {
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): WonderPair {
+        val objectCodec = p.codec
+        val jsonNode = objectCodec.readTree<TreeNode>(p)
+        val built = (jsonNode.get("built") as BooleanNode).booleanValue()
+        val wonderNode = jsonNode.get("wonder").traverse()
+        wonderNode.codec = objectCodec
+        val wonder = wonderNode.readValueAs(Wonder::class.java)
+        return WonderPair(built, wonder)
+    }
+}
+
+class BoardDeserializer: JsonDeserializer<Board>() {
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): Board {
+        val objectCodec = p.codec
+        val jsonNode = objectCodec.readTree<TreeNode>(p)
+        val elementsNode = jsonNode.get("elements").traverse()
+        elementsNode.codec = objectCodec
+        val elementsDuringConstruction: List<BoardNodeDuringDeserialization> = elementsNode.readValueAs(object : TypeReference<List<BoardNodeDuringDeserialization>>() {})
+
+        val map: HashMap<Int, Pair<BoardNode, List<Int>>> = hashMapOf()
+
+        elementsDuringConstruction.forEach {
+            map[it.id] = Pair(BoardNode(it.id, it.card), it.descendants)
+        }
+
+        val boardNodes = map.values.map {
+            for (descendant in it.second) {
+                it.first.descendants.add(map[descendant]!!.first)
+            }
+            it.first
+        }
+
+        return Board(boardNodes)
+    }
+}
+
+class BoardNodeDeserializer: JsonDeserializer<BoardNodeDuringDeserialization>() {
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): BoardNodeDuringDeserialization {
+        val objectCodec = p.codec
+        val jsonNode = objectCodec.readTree<TreeNode>(p)
+
+        val card = try {
+            val cardNode = jsonNode.get("card").traverse()
+            cardNode.codec = objectCodec
+            cardNode.readValueAs(Card::class.java)
+        } catch (e: Exception) {
+            null
+        }
+
+        val descendants: List<Int> = try {
+            val descendantsNode = jsonNode.get("descendants").traverse()
+            descendantsNode.codec = objectCodec
+            descendantsNode.readValueAs(object : TypeReference<List<Int>>() {})
+        } catch (e: Exception) {
+            listOf()
+        }
+
+        val id = (jsonNode.get("id") as IntNode).intValue()
+
+        return BoardNodeDuringDeserialization(id, card, descendants)
+    }
+}
+
+data class BoardNodeDuringDeserialization(val id: Int, var card: Card?, val descendants: List<Int>)
+
 class PlayerDeserializer: JsonDeserializer<Player>() {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): Player {
         val objectCodec = p.codec
@@ -210,7 +281,7 @@ class PlayerDeserializer: JsonDeserializer<Player>() {
         val cardsNode = jsonNode.get("cards").traverse()
         cardsNode.codec = objectCodec
         val gold = (jsonNode.get("gold") as IntNode).intValue()
-        val wonders: List<Pair<Boolean, Wonder>> = wondersNode.readValueAs(object : TypeReference<List<Pair<Boolean, Wonder>>>() {})
+        val wonders: List<WonderPair> = wondersNode.readValueAs(object : TypeReference<List<WonderPair>>() {})
         val cards: List<Card> = cardsNode.readValueAs(object : TypeReference<List<Card>>() {})
         return Player(gold, cards, wonders)
     }

@@ -6,7 +6,7 @@ class InitialWondersSelecter(wonders: Wonders) : ActionPerformer(wonders) {
         val wonder = game.wonders.find { it.name == chooseWonder.wonderName } ?: throw Error()
         game.selectWonder(wonder)
         val toMutableList = game.player.wonders.toMutableList()
-        toMutableList.add(Pair(false, wonder))
+        toMutableList.add(WonderPair(false, wonder))
         game.player.wonders = toMutableList
         if (game.wonders.count() != 2) {
             game.currentPlayer = (game.currentPlayer + 1) % 2

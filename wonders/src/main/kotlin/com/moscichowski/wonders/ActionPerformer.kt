@@ -33,7 +33,7 @@ abstract class ActionPerformer(val wonders: Wonders) {
 
         val goldForWondersFeature = features.find { it is GoldForWonder }
         if (goldForWondersFeature is GoldForWonder) {
-            player.gold += 2 * player.wonders.count { it.first }
+            player.gold += 2 * player.wonders.count { it.built }
         }
 
         val guild = features.find { it is Guild }
@@ -65,7 +65,7 @@ abstract class ActionPerformer(val wonders: Wonders) {
             toCombine.add(Resource(wood = 1, clay = 1, stone = 1))
         }
 
-        val wonderFeatures = wonders.filter { it.first }.flatMap { it.second.features }
+        val wonderFeatures = wonders.filter { it.built }.flatMap { it.wonder.features }
         if (wonderFeatures.contains(ProvideSilverResource)) {
             toCombine.add(Resource(papyrus = 1, glass = 1))
         }

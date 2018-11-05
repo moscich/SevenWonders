@@ -13,8 +13,8 @@ class GuildFeatureResolver {
                 max(playersResourceCards, opponentResourceCards)
             }
             GuildType.WONDERS -> {
-                val player1Wonders = game.player1.wonders.count { it.first }
-                val player2Wonders = game.player2.wonders.count { it.first }
+                val player1Wonders = game.player1.wonders.count { it.built }
+                val player2Wonders = game.player2.wonders.count { it.built }
                 2 * max(player1Wonders, player2Wonders)
             }
             GuildType.GOLD -> {
