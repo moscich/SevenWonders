@@ -1,0 +1,8 @@
+rootProject.name = 'SevenWonders'
+
+include 'wonders'
+include 'webService'
+include 'webWonders'
+include 'wonders-model'
+include 'wonders-builder'
+
