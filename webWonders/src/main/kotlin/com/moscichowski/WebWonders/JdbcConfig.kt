@@ -18,9 +18,6 @@ class SpringJdbcConfig {
 
     @Bean
     fun postgresDataSource(): DataSource {
-
-        println("\n\n\nPARAMETERS MM = $url, $username, $password \n\n\n")
-
         val dataSource = DriverManagerDataSource()
         dataSource.url = url
         dataSource.username = username
