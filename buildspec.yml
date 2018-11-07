@@ -8,5 +8,6 @@ phases:
       - gradle bootjar
 
 artifacts:
+  discard-paths: yes
   files:
     - webWonders/build/libs/webWonders-0.0.1-SNAPSHOT.jar
