@@ -32,6 +32,29 @@ class Wonders(var game: Game,
 
     internal fun buildBoard(): Board {
 
+        val positions = listOf(
+                BoardPosition(1,3),
+                BoardPosition(1,4),
+                BoardPosition(2,2),
+                BoardPosition(2,3),
+                BoardPosition(2,4),
+                BoardPosition(3,2),
+                BoardPosition(3,3),
+                BoardPosition(3,4),
+                BoardPosition(3,5),
+                BoardPosition(4,1),
+                BoardPosition(4,2),
+                BoardPosition(4,3),
+                BoardPosition(4,4),
+                BoardPosition(4,5),
+                BoardPosition(5,1),
+                BoardPosition(5,2),
+                BoardPosition(5,3),
+                BoardPosition(5,4),
+                BoardPosition(5,5),
+                BoardPosition(5,6)
+        )
+
         val hiddenIndexes = listOf(2, 3, 4, 9, 10, 11, 12, 13)
 
         val nodes = (0 until 20).map {
@@ -40,7 +63,7 @@ class Wonders(var game: Game,
             } else {
                 null
             }
-            BoardNode(it, card)
+            BoardNode(it, card, position = positions[it])
         }
 
         val dependencies = listOf(
@@ -73,6 +96,10 @@ class Wonders(var game: Game,
         if (!game.state.canPerform(action)) { throw Error() }
         action.performOn(this)
     }
+}
+
+data class BoardPosition(val row: Int, val column: Int) {
+
 }
 
 sealed class Action {

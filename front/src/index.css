@@ -3,38 +3,47 @@ body {
   margin: 20px;
 }
 
+hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+}
+
 .game {
   text-align: center;
 }
 
+.military {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+}
+
+.science {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+}
+
 .card {
-  width: 6%;
-  height: 100px;
+  width: 16%;
+  height: 120px;
   position: absolute;
-  background-color: black;
+  background-color: #fafafa;
 }
 
-.card1 {
-  width: 60px;
-  height: 60px;
-  background-color: red; 
-
+.card:hover {
+  background-color: yellow;
 }
-
-.card2 {
-  width: 60px;
-  height: 60px;
-  background-color: red;
-  position: absolute;
-  left: 100px;
-  top: 150px;
-}
-
-
+ 
 .game-board {
   position: relative;
-  background-color: green; 
+
   display: inline-block;
   width: 100%;
-  height: 100px;
+  height: 550px
 }

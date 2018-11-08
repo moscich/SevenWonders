@@ -68,6 +68,7 @@ class ActionJsonModule : SimpleModule() {
         this.addDeserializer(WonderPair::class.java, WonderPairDeserializer())
         this.addDeserializer(Board::class.java, BoardDeserializer())
         this.addDeserializer(BoardNodeDuringDeserialization::class.java, BoardNodeDeserializer())
+        this.addDeserializer(BoardPosition::class.java, BoardPositionDeserializer())
     }
 }
 
@@ -123,6 +124,7 @@ class BoardNodeSerializer : JsonSerializer<BoardNode>() {
     override fun serialize(value: BoardNode, gen: JsonGenerator, serializers: SerializerProvider?) {
         gen.writeStartObject()
         gen.writeObjectField("id", value.id)
+        gen.writeObjectField("position", value.position)
 
         if (value.card != null) {
             gen.writeObjectField("card", value.card)
@@ -163,6 +165,18 @@ class WondersDeserializer: JsonDeserializer<Wonders>() {
         val cards: List<List<Card>> = cardsNode.readValueAs(object : TypeReference<List<List<Card>>>() {})
 
         return Wonders(game, cards, wonders)
+    }
+}
+
+class BoardPositionDeserializer: JsonDeserializer<BoardPosition>() {
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): BoardPosition {
+        val objectCodec = p.codec
+        val jsonNode = objectCodec.readTree<TreeNode>(p)
+
+        val row = (jsonNode.get("row") as IntNode).intValue()
+        val column = (jsonNode.get("column") as IntNode).intValue()
+
+        return BoardPosition(row, column)
     }
 }
 
@@ -229,7 +243,7 @@ class BoardDeserializer: JsonDeserializer<Board>() {
         val map: HashMap<Int, Pair<BoardNode, List<Int>>> = hashMapOf()
 
         elementsDuringConstruction.forEach {
-            map[it.id] = Pair(BoardNode(it.id, it.card), it.descendants)
+            map[it.id] = Pair(BoardNode(it.id, it.card, position = it.position), it.descendants)
         }
 
         val boardNodes = map.values.map {
@@ -266,11 +280,15 @@ class BoardNodeDeserializer: JsonDeserializer<BoardNodeDuringDeserialization>() 
 
         val id = (jsonNode.get("id") as IntNode).intValue()
 
-        return BoardNodeDuringDeserialization(id, card, descendants)
+        val positionNode = jsonNode.get("position").traverse()
+        positionNode.codec = objectCodec
+        val position = positionNode.readValueAs(BoardPosition::class.java)
+
+        return BoardNodeDuringDeserialization(id, card, descendants, position)
     }
 }
 
-data class BoardNodeDuringDeserialization(val id: Int, var card: Card?, val descendants: List<Int>)
+data class BoardNodeDuringDeserialization(val id: Int, var card: Card?, val descendants: List<Int>, val position: BoardPosition)
 
 class PlayerDeserializer: JsonDeserializer<Player>() {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): Player {

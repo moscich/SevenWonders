@@ -35,10 +35,11 @@ class GameService {
         return gameId
     }
 
-    fun takeAction(gameId: String, action: Action) {
+    fun takeAction(gameId: String, action: Action): Game {
         val wonders = repo.getWonders(gameId)
         wonders.takeAction(action)
         repo.storeWonders(gameId, wonders)
+        return getGame(gameId)
     }
 
     fun getGame(id: String): Game {

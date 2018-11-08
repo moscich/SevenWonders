@@ -185,4 +185,4 @@ data class Board(private val cards_: List<BoardNode>) {
     }
 }
 
-data class BoardNode(val id: Int, var card: Card?, val descendants: MutableList<BoardNode> = mutableListOf(), private val hidden: Boolean = false)
+data class BoardNode(val id: Int, var card: Card?, val descendants: MutableList<BoardNode> = mutableListOf(), val position: BoardPosition, private val hidden: Boolean = false)

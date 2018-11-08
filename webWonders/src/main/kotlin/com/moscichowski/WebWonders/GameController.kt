@@ -7,8 +7,14 @@ import com.moscichowski.wonders.model.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletResponse
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestMapping
+
+
 
 @RestController
+@CrossOrigin(origins = arrayOf("http://localhost:3000"))//, methods = arrayOf(RequestMethod.OPTIONS, RequestMethod.POST, RequestMethod.GET), allowedHeaders = arrayOf("origin", "content-type", "accept", "x-requested-with"))
 @RequestMapping("/games")
 class GameController {
 
@@ -33,8 +39,7 @@ class GameController {
 
     @RequestMapping(value = ["/{gameId}/actions"], method = [RequestMethod.POST])
     fun postAction(@PathVariable(value="gameId") gameId: String, @RequestBody action: Action): Any {
-        gameService.takeAction(gameId, action)
-        return "ok"
+        return gameService.takeAction(gameId, action)
     }
 
 }

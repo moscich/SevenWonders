@@ -27,7 +27,7 @@ fun Game(player1: Player, player2: Player, board: Board, currentPlayer: Int = 0)
     return game
 }
 
-fun BoardNode(innerCard: Card, descendants: MutableList<BoardNode> = mutableListOf(), hidden: Boolean = false) = BoardNode(0, innerCard, descendants, hidden)
+fun BoardNode(innerCard: Card, descendants: MutableList<BoardNode> = mutableListOf(), hidden: Boolean = false) = BoardNode(0, innerCard, descendants, BoardPosition(0, 0), hidden)
 
 val testWonders = (0 until 8).map { Wonder("Test $it") }
 val cards = listOf((0 until 20).map { Card("some") }, (0 until 20).map { Card("some") }, (0 until 20).map { Card("some") })
