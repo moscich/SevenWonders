@@ -85,8 +85,8 @@ class XdTests {
         takeCard200("skład drewna")
         val sellCard200 = takeCard200("wycinka")
         // AGE 2 begins
-        sellCard200("barracks")
         takeCard200("horse breeders")
+        sellCard200("barracks")
     }
 
     fun assertGame(player1gold: Int,

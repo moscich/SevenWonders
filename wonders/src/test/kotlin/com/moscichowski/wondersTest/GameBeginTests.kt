@@ -77,25 +77,4 @@ class GameBeginTests {
         }
         assertNotNull(wonders.game.board)
     }
-
-    @Test
-    fun `should build second board after first cleared with take_card`() {
-        val wonders = Wonders(testWonders, cards)
-        wonders.game.state = GameState.REGULAR
-        wonders.game.board = Board(listOf(BoardNode(0, Card("last card"), position = BoardPosition(0,0))))
-        wonders.takeAction(TakeCard("last card"))
-        assertEquals(20, wonders.game.board?.elements?.count())
-        assertEquals(12, wonders.game.board?.elements?.count { it.card?.name == "epoh 2" } )
-    }
-
-    @Test
-    fun `should build second board after first cleared with wonder build`() {
-        val wonders = Wonders(testWonders, cards)
-        wonders.game.state = GameState.REGULAR
-        wonders.game.board = Board(listOf(BoardNode(0, Card("last card"), position = BoardPosition(0,0))))
-        wonders.game.player1.wonders = listOf(WonderPair(false, Wonder("Wonder")))
-        wonders.takeAction(BuildWonder("last card", "Wonder"))
-        assertEquals(20, wonders.game.board?.elements?.count())
-        assertEquals(12, wonders.game.board?.elements?.count { it.card?.name == "epoh 2" } )
-    }
 }

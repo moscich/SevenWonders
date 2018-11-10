@@ -92,6 +92,17 @@ class Wonders(var game: Game,
         }
         action.performOn(this)
         if (game.board?.elements?.count() == 0) {
+            if (game.military < 0) {
+                game.currentPlayer = 0
+                game.state = GameState.CHOOSE_PLAYER
+            }
+            if (game.military > 0) {
+                game.currentPlayer = 1
+                game.state = GameState.CHOOSE_PLAYER
+            }
+            if (game.military == 0) {
+                game.currentPlayer = if (game.currentPlayer == 0) { 1 } else { 0 }
+            }
             game.board = buildBoard(1)
         }
     }
@@ -223,6 +234,12 @@ data class TakeCard(val cardName: String) : Action() {
 data class ChooseScience(val token: ScienceToken) : Action() {
     override fun performOn(wonders: Wonders) {
         ScienceChooser(wonders).chooseScience(this)
+    }
+}
+
+data class ChoosePlayer(val player: Int) : Action() {
+    override fun performOn(wonders: Wonders) {
+        throw NotImplementedError()
     }
 }
 

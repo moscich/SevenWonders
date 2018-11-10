@@ -115,6 +115,11 @@ enum class GameState {
         override fun canPerform(action: Action): Boolean {
             return action is ChooseScience
         }
+    },
+    CHOOSE_PLAYER {
+        override fun canPerform(action: Action): Boolean {
+            return action is ChooseScience
+        }
     };
 
     abstract fun canPerform(action: Action): Boolean

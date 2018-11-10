@@ -27,7 +27,7 @@
         "id": 0,
         "position": {
           "row": 1,
-          "column": 3
+          "column": 1
         },
         "card": {
           "name": "sawmill",
@@ -52,7 +52,7 @@
         "id": 1,
         "position": {
           "row": 1,
-          "column": 4
+          "column": 2
         },
         "card": {
           "name": "brickyard",
@@ -77,8 +77,8 @@
       {
         "id": 2,
         "position": {
-          "row": 2,
-          "column": 2
+          "row": 1,
+          "column": 3
         },
         "card": {
           "name": "shelf quarry",
@@ -103,8 +103,8 @@
       {
         "id": 3,
         "position": {
-          "row": 2,
-          "column": 3
+          "row": 1,
+          "column": 4
         },
         "card": {
           "name": "glass blower",
@@ -126,8 +126,8 @@
       {
         "id": 4,
         "position": {
-          "row": 2,
-          "column": 4
+          "row": 1,
+          "column": 5
         },
         "card": {
           "name": "drying room",
@@ -149,8 +149,8 @@
       {
         "id": 5,
         "position": {
-          "row": 3,
-          "column": 2
+          "row": 1,
+          "column": 6
         },
         "card": {
           "name": "walls",
@@ -172,8 +172,8 @@
       {
         "id": 6,
         "position": {
-          "row": 3,
-          "column": 3
+          "row": 2,
+          "column": 1
         },
         "descendants": [
           11
@@ -182,8 +182,8 @@
       {
         "id": 7,
         "position": {
-          "row": 3,
-          "column": 4
+          "row": 2,
+          "column": 2
         },
         "descendants": [
           11,
@@ -193,8 +193,8 @@
       {
         "id": 8,
         "position": {
-          "row": 3,
-          "column": 5
+          "row": 2,
+          "column": 3
         },
         "descendants": [
           12,
@@ -204,8 +204,8 @@
       {
         "id": 9,
         "position": {
-          "row": 4,
-          "column": 1
+          "row": 2,
+          "column": 4
         },
         "descendants": [
           13,
@@ -215,8 +215,8 @@
       {
         "id": 10,
         "position": {
-          "row": 4,
-          "column": 2
+          "row": 2,
+          "column": 5
         },
         "descendants": [
           14,
@@ -226,8 +226,8 @@
       {
         "id": 11,
         "position": {
-          "row": 4,
-          "column": 3
+          "row": 3,
+          "column": 2
         },
         "card": {
           "name": "forum",
@@ -249,8 +249,8 @@
       {
         "id": 12,
         "position": {
-          "row": 4,
-          "column": 4
+          "row": 3,
+          "column": 3
         },
         "card": {
           "name": "caravansery",
@@ -274,8 +274,8 @@
       {
         "id": 13,
         "position": {
-          "row": 4,
-          "column": 5
+          "row": 3,
+          "column": 4
         },
         "card": {
           "name": "customs house",
@@ -297,8 +297,8 @@
       {
         "id": 14,
         "position": {
-          "row": 5,
-          "column": 1
+          "row": 3,
+          "column": 5
         },
         "card": {
           "name": "tribunal",
@@ -321,7 +321,7 @@
       {
         "id": 15,
         "position": {
-          "row": 5,
+          "row": 4,
           "column": 2
         },
         "descendants": [
@@ -331,7 +331,7 @@
       {
         "id": 16,
         "position": {
-          "row": 5,
+          "row": 4,
           "column": 3
         },
         "descendants": [
@@ -342,7 +342,7 @@
       {
         "id": 17,
         "position": {
-          "row": 5,
+          "row": 4,
           "column": 4
         },
         "descendants": [
@@ -353,7 +353,7 @@
         "id": 18,
         "position": {
           "row": 5,
-          "column": 5
+          "column": 3
         },
         "card": {
           "name": "horse breeders",
@@ -375,7 +375,7 @@
         "id": 19,
         "position": {
           "row": 5,
-          "column": 6
+          "column": 4
         },
         "card": {
           "name": "barracks",
