@@ -79,7 +79,8 @@
           "column": 2
         },
         "descendants": [
-          5
+          5,
+          6
         ]
       },
       {
@@ -88,23 +89,9 @@
           "row": 2,
           "column": 3
         },
-        "card": {
-          "name": "zielarnia",
-          "color": "GREEN",
-          "cost": {
-            "gold": 2
-          },
-          "features": [
-            {
-              "type": "SCIENCE",
-              "symbol": "HERBS"
-            },
-            {
-              "type": "FREE_SYMBOL",
-              "symbol": "COG"
-            }
-          ]
-        }
+        "descendants": [
+          6
+        ]
       },
       {
         "id": 4,
@@ -139,6 +126,28 @@
         "card": {
           "name": "glinianka",
           "color": "BROWN",
+          "features": [
+            {
+              "type": "PROVIDE_RESOURCE",
+              "resource": {
+                "clay": 1
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": 6,
+        "position": {
+          "row": 3,
+          "column": 3
+        },
+        "card": {
+          "name": "złoża gliny",
+          "color": "BROWN",
+          "cost": {
+            "gold": 1
+          },
           "features": [
             {
               "type": "PROVIDE_RESOURCE",
@@ -299,7 +308,6 @@
         }
       }
     ],
-    "gold": 9,
     "features": [
       {
         "type": "PROVIDE_RESOURCE",
@@ -327,7 +335,8 @@
         "type": "FREE_SYMBOL",
         "symbol": "HORSESHOE"
       }
-    ]
+    ],
+    "gold": 9
   },
   "player2": {
     "cards": [
@@ -416,7 +425,7 @@
         }
       },
       {
-        "built": true,
+        "built": false,
         "wonder": {
           "name": "Pireus",
           "cost": {
@@ -484,7 +493,6 @@
         }
       }
     ],
-    "gold": 1,
     "features": [
       {
         "type": "PROVIDE_RESOURCE",
@@ -507,18 +515,9 @@
       {
         "type": "MILITARY",
         "points": 1
-      },
-      {
-        "type": "PROVIDE_SILVER_RESOURCE"
-      },
-      {
-        "type": "EXTRA_TURN"
-      },
-      {
-        "type": "VICTORY_POINTS",
-        "points": 2
       }
-    ]
+    ],
+    "gold": 8
   },
   "currentPlayer": 1,
   "military": 0,

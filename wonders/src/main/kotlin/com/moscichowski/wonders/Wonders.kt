@@ -111,7 +111,7 @@ data class ChooseWonder(val wonderName: String) : Action() {
     }
 }
 
-data class BuildWonder(val wonder: String, val card: String, var param: Any? = null) : Action() {
+data class BuildWonder(val card: String, val wonder: String, var param: Any? = null) : Action() {
     override fun performOn(wonders: Wonders) {
         WonderBuilder(wonders).buildWonder(this)
     }

@@ -340,7 +340,7 @@ class ActionDeserializer : JsonDeserializer<Action>() {
         if (typeString == "BUILD_WONDER") {
             val name = (jsonNode.get("name") as TextNode).textValue()
             val card = (jsonNode.get("card") as TextNode).textValue()
-            return BuildWonder(name, card)
+            return BuildWonder(card, name)
         } else {
             val paramType = actionMap[typeString]?.first
             val paramName = actionMap[typeString]?.second

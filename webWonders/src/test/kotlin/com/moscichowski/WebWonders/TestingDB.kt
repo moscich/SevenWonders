@@ -76,7 +76,7 @@ class XdTests {
         sellCard200("składowisko kamienia")
         sellCard200("kamieniołom")
         buildWonder200("Pireus", "złoża gliny")
-        assertGame(0,4,2,4,0)
+        assertGame(9,4,1,4,1)
     }
 
     fun assertGame(player1gold: Int,
