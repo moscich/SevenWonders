@@ -17,7 +17,7 @@ class InitialWondersSelecter(wonders: Wonders) : ActionPerformer(wonders) {
                 game.wonders = nextWonders
             } else {
                 game.state = GameState.REGULAR
-                game.board = wonders.buildBoard()
+                game.board = wonders.buildBoard(0)
             }
         }
     }

@@ -19,8 +19,8 @@ class Wonders(var game: Game,
     var wonders = _wonders.toMutableList()
     var cards: List<MutableList<Card>> = _cards.map { it.toMutableList() }
 
-    internal fun getCard(): Card {
-        return cards[0].pop()
+    internal fun getCard(epoh: Int): Card {
+        return cards[epoh].pop()
     }
 
     internal fun getWonders(): List<Wonder> {
@@ -29,8 +29,9 @@ class Wonders(var game: Game,
         return wonders
     }
 
-    internal fun buildBoard(): Board {
+    internal fun buildBoard(epoch: Int): Board {
 
+        //TODO not tested
         val positions = listOf(
                 BoardPosition(1,3),
                 BoardPosition(1,4),
@@ -54,38 +55,26 @@ class Wonders(var game: Game,
                 BoardPosition(5,6)
         )
 
-        val hiddenIndexes = listOf(2, 3, 4, 9, 10, 11, 12, 13)
+        val hiddenIndexes = if (epoch == 0) { firstEpochHiddenIndexes } else { secondEpochHiddenIndexes }
 
         val nodes = (0 until 20).map {
             val card = if (!hiddenIndexes.contains(it)) {
-                getCard()
+                getCard(epoch)
             } else {
                 null
             }
             BoardNode(it, card, position = positions[it])
         }
 
-        val dependencies = listOf(
-                Pair(2, 3),
-                Pair(3, 4),
-                Pair(5, 6),
-                Pair(6, 7),
-                Pair(7, 8),
-                Pair(9, 10),
-                Pair(10, 11),
-                Pair(11, 12),
-                Pair(12, 13),
-                Pair(14, 15),
-                Pair(15, 16),
-                Pair(16, 17),
-                Pair(17, 18),
-                Pair(18, 19)
-        )
+        val dependencies = if (epoch == 0) { firstEpochDependencies } else { secondEpohDependencies }
 
         for (index in 0 until dependencies.count()) {
             val dependency = dependencies[index]
             nodes[index].descendants.add(nodes[dependency.first])
-            nodes[index].descendants.add(nodes[dependency.second])
+            val secondDependency = dependency.second
+            if (secondDependency != null) {
+                nodes[index].descendants.add(nodes[secondDependency])
+            }
         }
 
         return Board(nodes)
@@ -94,12 +83,60 @@ class Wonders(var game: Game,
     fun takeAction(action: Action) {
         if (!game.state.canPerform(action)) { throw Error() }
         action.performOn(this)
+        if (game.board?.elements?.count() == 0) {
+            game.board = buildBoard(1)
+        }
     }
+
+    private val firstEpochHiddenIndexes = listOf(2, 3, 4, 9, 10, 11, 12, 13)
+    private val secondEpochHiddenIndexes = listOf(6, 7, 8, 9, 10, 15, 16, 17)
+
+    private val firstEpochDependencies: List<Pair<Int, Int?>>
+        get() {
+            return listOf(
+                    Pair(2, 3),
+                    Pair(3, 4),
+                    Pair(5, 6),
+                    Pair(6, 7),
+                    Pair(7, 8),
+                    Pair(9, 10),
+                    Pair(10, 11),
+                    Pair(11, 12),
+                    Pair(12, 13),
+                    Pair(14, 15),
+                    Pair(15, 16),
+                    Pair(16, 17),
+                    Pair(17, 18),
+                    Pair(18, 19)
+            )
+        }
+    private val secondEpohDependencies: List<Pair<Int, Int?>>
+        get() {
+            return listOf(
+                    Pair(6, null),
+                    Pair(6, 7),
+                    Pair(7, 8),
+                    Pair(8, 9),
+                    Pair(9, 10),
+                    Pair(10, null),
+                    Pair(11, null),
+                    Pair(11, 12),
+                    Pair(12, 13),
+                    Pair(13, 14),
+                    Pair(14, 14),
+                    Pair(15, null),
+                    Pair(15, 16),
+                    Pair(16, 17),
+                    Pair(17, null),
+                    Pair(18, null),
+                    Pair(18, 19),
+                    Pair(19, null))
+        }
+
+
 }
 
-data class BoardPosition(val row: Int, val column: Int) {
-
-}
+data class BoardPosition(val row: Int, val column: Int)
 
 sealed class Action {
     abstract fun performOn(wonders: Wonders)
