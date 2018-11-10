@@ -1,26 +1,41 @@
 package com.moscichowski.wonders
+
 import com.moscichowski.wonders.model.*
 
 class WondersBuilder {
     fun setupWonders(wonders: List<Wonder>, cards: List<List<Card>>): Wonders {
-        if(cards.count() != 3) { throw WrongNumberOfCards(cards) }
-        if(cards.find { it.count() != 20 } != null) { throw WrongNumberOfCards(cards) }
-        if(wonders.count() != 8) { throw Requires8WondersError() }
+        if (cards.count() != 3) {
+            throw WrongNumberOfCards(cards)
+        }
+        if (cards.find { it.count() != 20 } != null) {
+            throw WrongNumberOfCards(cards)
+        }
+        if (wonders.count() != 8) {
+            throw Requires8WondersError()
+        }
 
-        return Wonders(Game(wonders.subList(0,4)), cards, wonders.subList(4, 8))
+        return Wonders(Game(wonders.subList(0, 4)), cards, wonders.subList(4, 8))
     }
 }
 
 class Wonders(var game: Game,
               private var _cards: List<List<Card>>,
               _wonders: List<Wonder>
-              ) {
+) {
 
     var wonders = _wonders.toMutableList()
     var cards: List<MutableList<Card>> = _cards.map { it.toMutableList() }
 
     internal fun getCard(epoh: Int): Card {
         return cards[epoh].pop()
+    }
+
+    internal fun getCard(): Card {
+        return if (cards[0].isEmpty()) {
+            cards[1].pop()
+        } else {
+            cards[0].pop()
+        }
     }
 
     internal fun getWonders(): List<Wonder> {
@@ -32,30 +47,17 @@ class Wonders(var game: Game,
     internal fun buildBoard(epoch: Int): Board {
 
         //TODO not tested
-        val positions = listOf(
-                BoardPosition(1,3),
-                BoardPosition(1,4),
-                BoardPosition(2,2),
-                BoardPosition(2,3),
-                BoardPosition(2,4),
-                BoardPosition(3,2),
-                BoardPosition(3,3),
-                BoardPosition(3,4),
-                BoardPosition(3,5),
-                BoardPosition(4,1),
-                BoardPosition(4,2),
-                BoardPosition(4,3),
-                BoardPosition(4,4),
-                BoardPosition(4,5),
-                BoardPosition(5,1),
-                BoardPosition(5,2),
-                BoardPosition(5,3),
-                BoardPosition(5,4),
-                BoardPosition(5,5),
-                BoardPosition(5,6)
-        )
+        val positions = if(epoch == 0) {
+            firstAgePositions
+        } else {
+            secondAgePositions
+        }
 
-        val hiddenIndexes = if (epoch == 0) { firstEpochHiddenIndexes } else { secondEpochHiddenIndexes }
+        val hiddenIndexes = if (epoch == 0) {
+            firstEpochHiddenIndexes
+        } else {
+            secondEpochHiddenIndexes
+        }
 
         val nodes = (0 until 20).map {
             val card = if (!hiddenIndexes.contains(it)) {
@@ -66,7 +68,11 @@ class Wonders(var game: Game,
             BoardNode(it, card, position = positions[it])
         }
 
-        val dependencies = if (epoch == 0) { firstEpochDependencies } else { secondEpohDependencies }
+        val dependencies = if (epoch == 0) {
+            firstEpochDependencies
+        } else {
+            secondEpohDependencies
+        }
 
         for (index in 0 until dependencies.count()) {
             val dependency = dependencies[index]
@@ -81,7 +87,9 @@ class Wonders(var game: Game,
     }
 
     fun takeAction(action: Action) {
-        if (!game.state.canPerform(action)) { throw Error() }
+        if (!game.state.canPerform(action)) {
+            throw Error()
+        }
         action.performOn(this)
         if (game.board?.elements?.count() == 0) {
             game.board = buildBoard(1)
@@ -90,6 +98,58 @@ class Wonders(var game: Game,
 
     private val firstEpochHiddenIndexes = listOf(2, 3, 4, 9, 10, 11, 12, 13)
     private val secondEpochHiddenIndexes = listOf(6, 7, 8, 9, 10, 15, 16, 17)
+
+    private val firstAgePositions: List<BoardPosition>
+        get() {
+            return listOf(
+                    BoardPosition(1, 3),
+                    BoardPosition(1, 4),
+                    BoardPosition(2, 2),
+                    BoardPosition(2, 3),
+                    BoardPosition(2, 4),
+                    BoardPosition(3, 2),
+                    BoardPosition(3, 3),
+                    BoardPosition(3, 4),
+                    BoardPosition(3, 5),
+                    BoardPosition(4, 1),
+                    BoardPosition(4, 2),
+                    BoardPosition(4, 3),
+                    BoardPosition(4, 4),
+                    BoardPosition(4, 5),
+                    BoardPosition(5, 1),
+                    BoardPosition(5, 2),
+                    BoardPosition(5, 3),
+                    BoardPosition(5, 4),
+                    BoardPosition(5, 5),
+                    BoardPosition(5, 6)
+            )
+        }
+
+    private val secondAgePositions: List<BoardPosition>
+        get() {
+            return listOf(
+                    BoardPosition(1, 1),
+                    BoardPosition(1, 2),
+                    BoardPosition(1, 3),
+                    BoardPosition(1, 4),
+                    BoardPosition(1, 5),
+                    BoardPosition(1, 6),
+                    BoardPosition(2, 1),
+                    BoardPosition(2, 2),
+                    BoardPosition(2, 3),
+                    BoardPosition(2, 4),
+                    BoardPosition(2, 5),
+                    BoardPosition(3, 2),
+                    BoardPosition(3, 3),
+                    BoardPosition(3, 4),
+                    BoardPosition(3, 5),
+                    BoardPosition(4, 2),
+                    BoardPosition(4, 3),
+                    BoardPosition(4, 4),
+                    BoardPosition(5, 3),
+                    BoardPosition(5, 4)
+            )
+        }
 
     private val firstEpochDependencies: List<Pair<Int, Int?>>
         get() {
@@ -144,7 +204,7 @@ sealed class Action {
 
 data class ChooseWonder(val wonderName: String) : Action() {
     override fun performOn(wonders: Wonders) {
-        InitialWondersSelecter(wonders).selectWonder( this)
+        InitialWondersSelecter(wonders).selectWonder(this)
     }
 }
 

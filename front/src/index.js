@@ -81,7 +81,7 @@ class Game extends React.Component {
   	this.state = {
       elements: Array(0).fill(null),
     };
-	fetch("http://localhost:8080/games/69")
+	fetch("http://localhost:8080/games/74")
     .then(result=>result.json())
     .then((res) => 
     	this.setState({
@@ -125,7 +125,7 @@ class Game extends React.Component {
   		body["card"] = param1
   	}
 
-	fetch('http://localhost:8080/games/69/actions', {
+	fetch('http://localhost:8080/games/74/actions', {
     method: 'POST',
     headers: {
     'Accept': 'application/json',
@@ -203,7 +203,6 @@ class Science extends React.Component {
 
 class ActionSelection extends React.Component {
 	render() {
-		console.log(this.props.player)
 		return (
 			<div className={"modal " + (this.props.selectedCard ? "is-active" : "")}>
   			<div className="modal-background"></div>
@@ -280,11 +279,6 @@ class SelectWondersToBuild extends React.Component {
 	render() {
 		var wonders = ""
 		if (this.props.player != null ) {
-			
-			for (var i = 0; i < this.props.player.wonders.length; i++) {
-				console.log(JSON.stringify(this.props.player.wonders[i]))
-				console.log(this.props.player.wonders[i].name)
-			}
 			wonders = 
 			<table className="table" className={this.props.class}>
 			<tbody>{this.props.player.wonders.map((it) => <tr key={it.wonder.name}><td onClick={(id) => this.props.onBuildWonder(it.wonder.name)}><a>{it.wonder.name}</a></td></tr>)}
@@ -308,7 +302,6 @@ class PlayerWonders extends React.Component {
 
 		var wonders = ""
 		if (this.props.player != null ) {
-			console.log("GOGO " + JSON.stringify(this.props.player.wonders))
 			wonders = 
 			<table className="table" className={this.props.class}>
 			<tbody>{this.props.player.wonders.map((it) => 

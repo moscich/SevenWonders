@@ -105,4 +105,17 @@ class BoardBuildingTests {
             assertEquals(0, boardNode.descendants.count())
         }
     }
+
+    @Test
+    fun `When there are no cards left - populate with next age`() {
+        val cards = listOf((0 until 20).map { Card("card $it") }, (0 until 20).map { Card("card2 $it") }, (0 until 20).map { Card("some") })
+        val wonders = Wonders(testWonders, cards)
+        val board = wonders.buildBoard(1)
+        wonders.cards[0].clear()
+        wonders.game.board = board
+        wonders.game.state = GameState.REGULAR
+
+        wonders.takeAction(TakeCard("card2 11"))
+        wonders.takeAction(TakeCard("card2 12"))
+    }
 }

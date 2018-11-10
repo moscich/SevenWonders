@@ -30,20 +30,22 @@
           "column": 3
         },
         "card": {
-          "name": "wycinka",
+          "name": "sawmill",
           "color": "BROWN",
+          "cost": {
+            "gold": 2
+          },
           "features": [
             {
               "type": "PROVIDE_RESOURCE",
               "resource": {
-                "wood": 1
+                "wood": 2
               }
             }
           ]
         },
         "descendants": [
-          2,
-          3
+          6
         ]
       },
       {
@@ -53,23 +55,23 @@
           "column": 4
         },
         "card": {
-          "name": "skład drewna",
+          "name": "brickyard",
           "color": "BROWN",
           "cost": {
-            "gold": 1
+            "gold": 2
           },
           "features": [
             {
               "type": "PROVIDE_RESOURCE",
               "resource": {
-                "wood": 1
+                "clay": 2
               }
             }
           ]
         },
         "descendants": [
-          3,
-          4
+          6,
+          7
         ]
       },
       {
@@ -78,9 +80,24 @@
           "row": 2,
           "column": 2
         },
+        "card": {
+          "name": "shelf quarry",
+          "color": "BROWN",
+          "cost": {
+            "gold": 2
+          },
+          "features": [
+            {
+              "type": "PROVIDE_RESOURCE",
+              "resource": {
+                "stone": 2
+              }
+            }
+          ]
+        },
         "descendants": [
-          5,
-          6
+          7,
+          8
         ]
       },
       {
@@ -89,8 +106,21 @@
           "row": 2,
           "column": 3
         },
+        "card": {
+          "name": "glass blower",
+          "color": "SILVER",
+          "features": [
+            {
+              "type": "PROVIDE_RESOURCE",
+              "resource": {
+                "glass": 1
+              }
+            }
+          ]
+        },
         "descendants": [
-          6
+          8,
+          9
         ]
       },
       {
@@ -100,22 +130,21 @@
           "column": 4
         },
         "card": {
-          "name": "skryptorium",
-          "color": "GREEN",
-          "cost": {
-            "gold": 2
-          },
+          "name": "drying room",
+          "color": "SILVER",
           "features": [
             {
-              "type": "SCIENCE",
-              "symbol": "INK"
-            },
-            {
-              "type": "FREE_SYMBOL",
-              "symbol": "BOOK"
+              "type": "PROVIDE_RESOURCE",
+              "resource": {
+                "papyrus": 1
+              }
             }
           ]
-        }
+        },
+        "descendants": [
+          9,
+          10
+        ]
       },
       {
         "id": 5,
@@ -124,17 +153,21 @@
           "column": 2
         },
         "card": {
-          "name": "glinianka",
-          "color": "BROWN",
+          "name": "walls",
+          "color": "RED",
+          "cost": {
+            "stone": 2
+          },
           "features": [
             {
-              "type": "PROVIDE_RESOURCE",
-              "resource": {
-                "clay": 1
-              }
+              "type": "MILITARY",
+              "points": 2
             }
           ]
-        }
+        },
+        "descendants": [
+          10
+        ]
       },
       {
         "id": 6,
@@ -142,20 +175,221 @@
           "row": 3,
           "column": 3
         },
+        "descendants": [
+          11
+        ]
+      },
+      {
+        "id": 7,
+        "position": {
+          "row": 3,
+          "column": 4
+        },
+        "descendants": [
+          11,
+          12
+        ]
+      },
+      {
+        "id": 8,
+        "position": {
+          "row": 3,
+          "column": 5
+        },
+        "descendants": [
+          12,
+          13
+        ]
+      },
+      {
+        "id": 9,
+        "position": {
+          "row": 4,
+          "column": 1
+        },
+        "descendants": [
+          13,
+          14
+        ]
+      },
+      {
+        "id": 10,
+        "position": {
+          "row": 4,
+          "column": 2
+        },
+        "descendants": [
+          14,
+          14
+        ]
+      },
+      {
+        "id": 11,
+        "position": {
+          "row": 4,
+          "column": 3
+        },
         "card": {
-          "name": "złoża gliny",
-          "color": "BROWN",
+          "name": "forum",
+          "color": "YELLOW",
           "cost": {
-            "gold": 1
+            "clay": 1,
+            "gold": 3
           },
           "features": [
             {
-              "type": "PROVIDE_RESOURCE",
-              "resource": {
-                "clay": 1
-              }
+              "type": "PROVIDE_SILVER_RESOURCE"
             }
           ]
+        },
+        "descendants": [
+          15
+        ]
+      },
+      {
+        "id": 12,
+        "position": {
+          "row": 4,
+          "column": 4
+        },
+        "card": {
+          "name": "caravansery",
+          "color": "YELLOW",
+          "cost": {
+            "glass": 1,
+            "papyrus": 1,
+            "gold": 2
+          },
+          "features": [
+            {
+              "type": "PROVIDE_BROWN_RESOURCE"
+            }
+          ]
+        },
+        "descendants": [
+          15,
+          16
+        ]
+      },
+      {
+        "id": 13,
+        "position": {
+          "row": 4,
+          "column": 5
+        },
+        "card": {
+          "name": "customs house",
+          "color": "YELLOW",
+          "cost": {
+            "gold": 4
+          },
+          "features": [
+            {
+              "type": "CUSTOMS"
+            }
+          ]
+        },
+        "descendants": [
+          16,
+          17
+        ]
+      },
+      {
+        "id": 14,
+        "position": {
+          "row": 5,
+          "column": 1
+        },
+        "card": {
+          "name": "tribunal",
+          "color": "BLUE",
+          "cost": {
+            "wood": 2,
+            "glass": 1
+          },
+          "features": [
+            {
+              "type": "VICTORY_POINTS",
+              "points": 5
+            }
+          ]
+        },
+        "descendants": [
+          17
+        ]
+      },
+      {
+        "id": 15,
+        "position": {
+          "row": 5,
+          "column": 2
+        },
+        "descendants": [
+          18
+        ]
+      },
+      {
+        "id": 16,
+        "position": {
+          "row": 5,
+          "column": 3
+        },
+        "descendants": [
+          18,
+          19
+        ]
+      },
+      {
+        "id": 17,
+        "position": {
+          "row": 5,
+          "column": 4
+        },
+        "descendants": [
+          19
+        ]
+      },
+      {
+        "id": 18,
+        "position": {
+          "row": 5,
+          "column": 5
+        },
+        "card": {
+          "name": "horse breeders",
+          "color": "RED",
+          "cost": {
+            "wood": 1,
+            "clay": 2
+          },
+          "features": [
+            {
+              "type": "MILITARY",
+              "points": 1
+            }
+          ],
+          "freeSymbol": "HORSESHOE"
+        }
+      },
+      {
+        "id": 19,
+        "position": {
+          "row": 5,
+          "column": 6
+        },
+        "card": {
+          "name": "barracks",
+          "color": "RED",
+          "cost": {
+            "gold": 3
+          },
+          "features": [
+            {
+              "type": "MILITARY",
+              "points": 1
+            }
+          ],
+          "freeSymbol": "SWORD"
         }
       }
     ]
@@ -221,6 +455,32 @@
           {
             "type": "FREE_SYMBOL",
             "symbol": "HORSESHOE"
+          }
+        ]
+      },
+      {
+        "name": "teatr",
+        "color": "BLUE",
+        "features": [
+          {
+            "type": "VICTORY_POINTS",
+            "points": 3
+          },
+          {
+            "type": "FREE_SYMBOL",
+            "symbol": "MASK"
+          }
+        ]
+      },
+      {
+        "name": "wycinka",
+        "color": "BROWN",
+        "features": [
+          {
+            "type": "PROVIDE_RESOURCE",
+            "resource": {
+              "wood": 1
+            }
           }
         ]
       }
@@ -308,6 +568,7 @@
         }
       }
     ],
+    "gold": 12,
     "features": [
       {
         "type": "PROVIDE_RESOURCE",
@@ -334,9 +595,22 @@
       {
         "type": "FREE_SYMBOL",
         "symbol": "HORSESHOE"
+      },
+      {
+        "type": "VICTORY_POINTS",
+        "points": 3
+      },
+      {
+        "type": "FREE_SYMBOL",
+        "symbol": "MASK"
+      },
+      {
+        "type": "PROVIDE_RESOURCE",
+        "resource": {
+          "wood": 1
+        }
       }
-    ],
-    "gold": 9
+    ]
   },
   "player2": {
     "cards": [
@@ -394,6 +668,38 @@
             "points": 1
           }
         ]
+      },
+      {
+        "name": "zielarnia",
+        "color": "GREEN",
+        "cost": {
+          "gold": 2
+        },
+        "features": [
+          {
+            "type": "SCIENCE",
+            "symbol": "HERBS"
+          },
+          {
+            "type": "FREE_SYMBOL",
+            "symbol": "COG"
+          }
+        ]
+      },
+      {
+        "name": "skład drewna",
+        "color": "BROWN",
+        "cost": {
+          "gold": 1
+        },
+        "features": [
+          {
+            "type": "PROVIDE_RESOURCE",
+            "resource": {
+              "wood": 1
+            }
+          }
+        ]
       }
     ],
     "wonders": [
@@ -425,7 +731,7 @@
         }
       },
       {
-        "built": false,
+        "built": true,
         "wonder": {
           "name": "Pireus",
           "cost": {
@@ -493,6 +799,7 @@
         }
       }
     ],
+    "gold": 1,
     "features": [
       {
         "type": "PROVIDE_RESOURCE",
@@ -515,9 +822,32 @@
       {
         "type": "MILITARY",
         "points": 1
+      },
+      {
+        "type": "SCIENCE",
+        "symbol": "HERBS"
+      },
+      {
+        "type": "FREE_SYMBOL",
+        "symbol": "COG"
+      },
+      {
+        "type": "PROVIDE_RESOURCE",
+        "resource": {
+          "wood": 1
+        }
+      },
+      {
+        "type": "PROVIDE_SILVER_RESOURCE"
+      },
+      {
+        "type": "EXTRA_TURN"
+      },
+      {
+        "type": "VICTORY_POINTS",
+        "points": 2
       }
-    ],
-    "gold": 8
+    ]
   },
   "currentPlayer": 1,
   "military": 0,

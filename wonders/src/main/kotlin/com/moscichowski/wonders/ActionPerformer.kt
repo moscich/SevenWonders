@@ -201,7 +201,7 @@ abstract class ActionPerformer(val wonders: Wonders) {
         elements.forEach { node: BoardNode ->
             node.descendants.remove(removingNode)
             if (node.descendants.count() == 0 && node.card == null) {
-                node.card = wonders.getCard(0)
+                node.card = wonders.getCard()
             }
         }
     }
