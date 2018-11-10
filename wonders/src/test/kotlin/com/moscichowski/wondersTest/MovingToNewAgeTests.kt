@@ -2,9 +2,11 @@ package com.moscichowski.wondersTest
 
 import com.moscichowski.wonders.*
 import com.moscichowski.wonders.model.ExtraTurn
+import com.moscichowski.wonders.model.ScienceToken
 import com.moscichowski.wonders.model.Wonder
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFails
 
 class MovingToNewAgeTests {
 
@@ -61,13 +63,6 @@ class MovingToNewAgeTests {
         assertEquals(12, wonders.game.board?.elements?.count { it.card?.name == "epoh 2" } )
     }
 
-    fun lastCardAge1(): Wonders {
-        val wonders = Wonders(testWonders, cards)
-        wonders.game.state = GameState.REGULAR
-        wonders.game.board = Board(listOf(BoardNode(0, Card("last card"), position = BoardPosition(0, 0))))
-        return wonders
-    }
-
     @Test
     fun `should build second board after first cleared with wonder build`() {
         val wonders = lastCardAge1()
@@ -75,5 +70,39 @@ class MovingToNewAgeTests {
         wonders.takeAction(BuildWonder("last card", "Wonder"))
         assertEquals(20, wonders.game.board?.elements?.count())
         assertEquals(12, wonders.game.board?.elements?.count { it.card?.name == "epoh 2" } )
+    }
+
+    @Test
+    fun `in choose player state action are forbidden`() {
+        val wonders = Wonders(testWonders, cards)
+        wonders.game.state = GameState.CHOOSE_PLAYER
+        wonders.game.board = Board(Card("card"))
+        wonders.game.player1.wonders = listOf(WonderPair(false, Wonder("Wonder")))
+        assertFails { wonders.takeAction(BuildWonder("card", "Wonder")) }
+        assertFails { wonders.takeAction(TakeCard("card")) }
+        assertFails { wonders.takeAction(ChooseScience(ScienceToken.THEOLOGY)) }
+    }
+
+    @Test
+    fun `in choose player state only selecting player action allowed`() {
+        val wonders = Wonders(testWonders, cards)
+        wonders.game.state = GameState.CHOOSE_PLAYER
+        wonders.takeAction(ChoosePlayer(1))
+        assertEquals(1, wonders.game.currentPlayer)
+    }
+
+    @Test
+    fun `after player choose game state return to regular`() {
+        val wonders = Wonders(testWonders, cards)
+        wonders.game.state = GameState.CHOOSE_PLAYER
+        wonders.takeAction(ChoosePlayer(1))
+        assertEquals(GameState.REGULAR, wonders.game.state)
+    }
+
+    private fun lastCardAge1(): Wonders {
+        val wonders = Wonders(testWonders, cards)
+        wonders.game.state = GameState.REGULAR
+        wonders.game.board = Board(listOf(BoardNode(0, Card("last card"), position = BoardPosition(0, 0))))
+        return wonders
     }
 }

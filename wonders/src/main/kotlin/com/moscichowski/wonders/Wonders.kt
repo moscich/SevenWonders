@@ -239,7 +239,8 @@ data class ChooseScience(val token: ScienceToken) : Action() {
 
 data class ChoosePlayer(val player: Int) : Action() {
     override fun performOn(wonders: Wonders) {
-        throw NotImplementedError()
+        wonders.game.currentPlayer = player
+        wonders.game.state = GameState.REGULAR
     }
 }
 

@@ -118,7 +118,7 @@ enum class GameState {
     },
     CHOOSE_PLAYER {
         override fun canPerform(action: Action): Boolean {
-            return action is ChooseScience
+            return action is ChoosePlayer
         }
     };
 
