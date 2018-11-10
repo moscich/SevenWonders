@@ -13,6 +13,34 @@ hr {
     border-width: 1px;
 }
 
+.playerCards {
+    overflow:auto;
+}
+
+.player2Cards {
+  float: right;
+}
+
+.player1Cards {
+  float: left;
+}
+
+.player1Wonders {
+  float: left;
+}
+
+.player2Wonders {
+  float: right;
+}
+
+.currentPlayer {
+  background-color: yellow;
+}
+
+.wonderBuilt {
+  color: green;
+}
+
 .game {
   text-align: center;
 }
@@ -30,7 +58,7 @@ hr {
 }
 
 .card {
-  width: 16%;
+  width: 15%;
   height: 120px;
   position: absolute;
   background-color: #fafafa;
@@ -44,6 +72,6 @@ hr {
   position: relative;
 
   display: inline-block;
-  width: 100%;
+  width: 70%;
   height: 550px
 }

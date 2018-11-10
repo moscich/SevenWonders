@@ -70,6 +70,13 @@ class XdTests {
         takeCard200("stajnie")
         takeCard200("wieża strażnicza")
         assertGame(0,4,2,4,0)
+        sellCard200("magazyn drewna")
+        sellCard200("palisada")
+        sellCard200("garnizon")
+        sellCard200("składowisko kamienia")
+        sellCard200("kamieniołom")
+        buildWonder200("Pireus", "złoża gliny")
+        assertGame(0,4,2,4,0)
     }
 
     fun assertGame(player1gold: Int,
@@ -93,6 +100,11 @@ class XdTests {
 
     fun takeCard200(name: String) {
         val result = testRestTemplate.postForEntity("/games/$gameNumber/actions", ActionRequest("TAKE_CARD", name), String::class.java)
+        Assert.assertEquals(200, result.statusCode.value())
+    }
+
+    fun buildWonder200(name: String, card: String) {
+        val result = testRestTemplate.postForEntity("/games/$gameNumber/actions", WonderBuildRequest(name, card), String::class.java)
         Assert.assertEquals(200, result.statusCode.value())
     }
 

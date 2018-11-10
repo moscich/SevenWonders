@@ -24,6 +24,7 @@ import java.lang.Error
 import kotlin.reflect.full.primaryConstructor
 import com.moscichowski.wonders.model.*
 import java.lang.Exception
+import javax.xml.soap.Text
 
 
 @RestController
@@ -336,13 +337,18 @@ class ActionDeserializer : JsonDeserializer<Action>() {
         val objectCodec = p.codec
         val jsonNode = objectCodec.readTree<TreeNode>(p)
         val typeString = (jsonNode.get("type") as TextNode).asText()
-        val paramName = actionMap[typeString]?.second
-        val paramType = actionMap[typeString]?.first
-        val paramNode = jsonNode.get(paramName).traverse()
-        paramNode.codec = objectCodec
-        val paramData = paramNode.readValueAs(paramType)
+        if (typeString == "BUILD_WONDER") {
+            val name = (jsonNode.get("name") as TextNode).textValue()
+            val card = (jsonNode.get("card") as TextNode).textValue()
+            return BuildWonder(name, card)
+        } else {
+            val paramType = actionMap[typeString]?.first
+            val paramName = actionMap[typeString]?.second
+            val paramNode = jsonNode.get(paramName).traverse()
+            paramNode.codec = objectCodec
 
-        return paramData
+            return paramNode.readValueAs(paramType)
+        }
     }
 }
 
@@ -371,7 +377,8 @@ class ActionSerializer : JsonSerializer<Action>() {
 val actionMap = mapOf(
         Pair("CHOOSE_WONDER", Pair(ChooseWonder::class.java, "name")),
         Pair("TAKE_CARD", Pair(TakeCard::class.java, "name")),
-        Pair("SELL_CARD", Pair(SellCard::class.java, "name"))
+        Pair("SELL_CARD", Pair(SellCard::class.java, "name")),
+        Pair("BUILD_WONDER", Pair(BuildWonder::class.java, "name"))
 )
 
 fun String.action(param: Any): Action? {

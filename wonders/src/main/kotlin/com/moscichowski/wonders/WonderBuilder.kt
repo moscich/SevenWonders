@@ -13,26 +13,23 @@ class WonderBuilder(wonders: Wonders) : ActionPerformer(wonders) {
     fun buildWonder(action: BuildWonder) {
         val game = wonders.game
         val player = if (game.currentPlayer == 0) game.player1 else game.player2
-        val card = game.board?.requestedCard(action.card.name) ?: throw Error()
+        val card = game.board?.requestedCard(action.card) ?: throw Error()
+
+        val wonder = player.wonders.find {
+            it.wonder.name == action.wonder && !it.built
+        }?.wonder ?: throw WonderBuildFailed()
 
         if (are7WondersBuilt(game)) { throw Error() }
 
         val opponent = if (game.currentPlayer == 1) game.player1 else game.player2
 
-        val requiredGold = required2(game, player, action.wonder.cost)
+        val requiredGold = required2(game, player, wonder.cost)
 
         if (player.gold < requiredGold) {
             throw WonderBuildFailed()
         }
 
-        val hasWonderAvailable = !player.wonders.any {
-            it.wonder == action.wonder && !it.built
-        }
-        if (hasWonderAvailable) {
-            throw WonderBuildFailed()
-        }
-
-        if (action.wonder.features.find { it is DestroyBrownCard } != null) {
+        if (wonder.features.find { it is DestroyBrownCard } != null) {
             val cardToDestroy = action.param
             if (cardToDestroy is Card) {
                 if (cardToDestroy.color != CardColor.BROWN) {
@@ -42,7 +39,7 @@ class WonderBuilder(wonders: Wonders) : ActionPerformer(wonders) {
             }
         }
 
-        if (action.wonder.features.find { it is DestroySilverCard } != null) {
+        if (wonder.features.find { it is DestroySilverCard } != null) {
             val cardToDestroy = action.param
             if (cardToDestroy is Card) {
                 if (cardToDestroy.color != CardColor.SILVER) {
@@ -56,24 +53,23 @@ class WonderBuilder(wonders: Wonders) : ActionPerformer(wonders) {
         player.gold -= requiredGold
 
         if (doesOpponentHaveEconomy(game)) {
-            game.opponent.gold += (requiredGold - action.wonder.cost.gold)
+            game.opponent.gold += (requiredGold - wonder.cost.gold)
         }
 
-        if (action.wonder.features.find { it is RemoveGold } != null) {
+        if (wonder.features.find { it is RemoveGold } != null) {
             opponent.gold -= 3
             opponent.gold = max(0, opponent.gold)
         }
 
-        resolveCommonFeatures(game, action.wonder.features, player)
+        resolveCommonFeatures(game, wonder.features, player)
 
-        if (action.wonder.features.find { it is ExtraTurn } == null &&
+        if (wonder.features.find { it is ExtraTurn } == null &&
                 game.scienceTokens.find { it.first == game.currentPlayer && it.second == ScienceToken.THEOLOGY } == null ) {
             game.currentPlayer = (game.currentPlayer + 1) % 2
         }
 
-        player.wonders.indexOfFirst { it.wonder == action.wonder }
         player.wonders = player.wonders.map {
-            if (it.wonder == action.wonder) {
+            if (it.wonder.name == action.wonder) {
                 return@map WonderPair(true, it.wonder)
             } else {
                 return@map it

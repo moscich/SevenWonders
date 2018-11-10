@@ -16,7 +16,6 @@ class Wonders(var game: Game,
               _wonders: List<Wonder>
               ) {
 
-
     var wonders = _wonders.toMutableList()
     var cards: List<MutableList<Card>> = _cards.map { it.toMutableList() }
 
@@ -112,7 +111,7 @@ data class ChooseWonder(val wonderName: String) : Action() {
     }
 }
 
-data class BuildWonder(val card: Card, val wonder: Wonder, var param: Any? = null) : Action() {
+data class BuildWonder(val wonder: String, val card: String, var param: Any? = null) : Action() {
     override fun performOn(wonders: Wonders) {
         WonderBuilder(wonders).buildWonder(this)
     }

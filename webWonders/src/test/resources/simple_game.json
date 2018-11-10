@@ -25,6 +25,10 @@
     "elements": [
       {
         "id": 0,
+        "position": {
+          "row": 1,
+          "column": 3
+        },
         "card": {
           "name": "wycinka",
           "color": "BROWN",
@@ -44,6 +48,10 @@
       },
       {
         "id": 1,
+        "position": {
+          "row": 1,
+          "column": 4
+        },
         "card": {
           "name": "skład drewna",
           "color": "BROWN",
@@ -66,27 +74,68 @@
       },
       {
         "id": 2,
+        "position": {
+          "row": 2,
+          "column": 2
+        },
         "descendants": [
-          5,
-          6
+          5
         ]
       },
       {
         "id": 3,
-        "descendants": [
-          6,
-          7
-        ]
+        "position": {
+          "row": 2,
+          "column": 3
+        },
+        "card": {
+          "name": "zielarnia",
+          "color": "GREEN",
+          "cost": {
+            "gold": 2
+          },
+          "features": [
+            {
+              "type": "SCIENCE",
+              "symbol": "HERBS"
+            },
+            {
+              "type": "FREE_SYMBOL",
+              "symbol": "COG"
+            }
+          ]
+        }
       },
       {
         "id": 4,
-        "descendants": [
-          7,
-          8
-        ]
+        "position": {
+          "row": 2,
+          "column": 4
+        },
+        "card": {
+          "name": "skryptorium",
+          "color": "GREEN",
+          "cost": {
+            "gold": 2
+          },
+          "features": [
+            {
+              "type": "SCIENCE",
+              "symbol": "INK"
+            },
+            {
+              "type": "FREE_SYMBOL",
+              "symbol": "BOOK"
+            }
+          ]
+        }
       },
       {
         "id": 5,
+        "position": {
+          "row": 3,
+          "column": 2
+        },
         "card": {
           "name": "glinianka",
           "color": "BROWN",
@@ -96,133 +145,6 @@
               "resource": {
                 "clay": 1
               }
-            }
-          ]
-        },
-        "descendants": [
-          10
-        ]
-      },
-      {
-        "id": 6,
-        "card": {
-          "name": "złoża gliny",
-          "color": "BROWN",
-          "cost": {
-            "gold": 1
-          },
-          "features": [
-            {
-              "type": "PROVIDE_RESOURCE",
-              "resource": {
-                "clay": 1
-              }
-            }
-          ]
-        },
-        "descendants": [
-          10,
-          11
-        ]
-      },
-      {
-        "id": 7,
-        "card": {
-          "name": "kamieniołom",
-          "color": "BROWN",
-          "features": [
-            {
-              "type": "PROVIDE_RESOURCE",
-              "resource": {
-                "stone": 1
-              }
-            }
-          ]
-        },
-        "descendants": [
-          11,
-          12
-        ]
-      },
-      {
-        "id": 8,
-        "card": {
-          "name": "składowisko kamienia",
-          "color": "BROWN",
-          "cost": {
-            "gold": 1
-          },
-          "features": [
-            {
-              "type": "PROVIDE_RESOURCE",
-              "resource": {
-                "stone": 1
-              }
-            }
-          ]
-        },
-        "descendants": [
-          12,
-          13
-        ]
-      },
-      {
-        "id": 10,
-        "descendants": [
-          16
-        ]
-      },
-      {
-        "id": 11,
-        "descendants": [
-          16
-        ]
-      },
-      {
-        "id": 12,
-        "card": {
-          "name": "magazyn drewna",
-          "color": "YELLOW",
-          "cost": {
-            "gold": 3
-          },
-          "features": [
-            {
-              "type": "WAREHOUSE",
-              "kind": "WOOD"
-            }
-          ]
-        }
-      },
-      {
-        "id": 13,
-        "card": {
-          "name": "stajnie",
-          "color": "RED",
-          "cost": {
-            "wood": 1
-          },
-          "features": [
-            {
-              "type": "MILITARY",
-              "points": 1
-            },
-            {
-              "type": "FREE_SYMBOL",
-              "symbol": "HORSESHOE"
-            }
-          ]
-        }
-      },
-      {
-        "id": 16,
-        "card": {
-          "name": "wieża strażnicza",
-          "color": "RED",
-          "features": [
-            {
-              "type": "MILITARY",
-              "points": 1
             }
           ]
         }
@@ -273,6 +195,23 @@
           {
             "type": "VICTORY_POINTS",
             "points": 1
+          }
+        ]
+      },
+      {
+        "name": "stajnie",
+        "color": "RED",
+        "cost": {
+          "wood": 1
+        },
+        "features": [
+          {
+            "type": "MILITARY",
+            "points": 1
+          },
+          {
+            "type": "FREE_SYMBOL",
+            "symbol": "HORSESHOE"
           }
         ]
       }
@@ -360,6 +299,7 @@
         }
       }
     ],
+    "gold": 9,
     "features": [
       {
         "type": "PROVIDE_RESOURCE",
@@ -378,9 +318,16 @@
       {
         "type": "VICTORY_POINTS",
         "points": 1
+      },
+      {
+        "type": "MILITARY",
+        "points": 1
+      },
+      {
+        "type": "FREE_SYMBOL",
+        "symbol": "HORSESHOE"
       }
-    ],
-    "gold": 2
+    ]
   },
   "player2": {
     "cards": [
@@ -428,6 +375,16 @@
             "points": 1
           }
         ]
+      },
+      {
+        "name": "wieża strażnicza",
+        "color": "RED",
+        "features": [
+          {
+            "type": "MILITARY",
+            "points": 1
+          }
+        ]
       }
     ],
     "wonders": [
@@ -459,7 +416,7 @@
         }
       },
       {
-        "built": false,
+        "built": true,
         "wonder": {
           "name": "Pireus",
           "cost": {
@@ -527,6 +484,7 @@
         }
       }
     ],
+    "gold": 1,
     "features": [
       {
         "type": "PROVIDE_RESOURCE",
@@ -545,11 +503,24 @@
       {
         "type": "VICTORY_POINTS",
         "points": 1
+      },
+      {
+        "type": "MILITARY",
+        "points": 1
+      },
+      {
+        "type": "PROVIDE_SILVER_RESOURCE"
+      },
+      {
+        "type": "EXTRA_TURN"
+      },
+      {
+        "type": "VICTORY_POINTS",
+        "points": 2
       }
-    ],
-    "gold": 2
+    ]
   },
-  "currentPlayer": 0,
+  "currentPlayer": 1,
   "military": 0,
   "state": "REGULAR",
   "scienceTokens": [],
