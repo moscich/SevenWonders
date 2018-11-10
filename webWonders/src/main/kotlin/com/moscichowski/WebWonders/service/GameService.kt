@@ -22,9 +22,9 @@ class GameService {
         val wonderList = wonderBuilder.getWonders()
         val cardBuilder = CardBuilder()
         val cards = listOf(
-                cardBuilder.getCards().subList(0, 20),
-                cardBuilder.getCards().subList(0, 20),
-                cardBuilder.getCards().subList(0, 20))
+                cardBuilder.getCards(0).subList(0, 20),
+                cardBuilder.getCards(1).subList(0, 20),
+                cardBuilder.getCards(1).subList(0, 20))
 
 
         //TODO shuffle

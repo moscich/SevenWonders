@@ -26,9 +26,9 @@ class PersistWonders {
         val cardBuilder = CardBuilder()
         val wonderList = wonderBuilder.getWonders()
         val cards = listOf(
-                cardBuilder.getCards().subList(0, 20),
-                cardBuilder.getCards().subList(0, 20),
-                cardBuilder.getCards().subList(0, 20))
+                cardBuilder.getCards(0).subList(0, 20),
+                cardBuilder.getCards(1).subList(0, 20),
+                cardBuilder.getCards(1).subList(0, 20))
 
         val wonders = WondersBuilder().setupWonders(wonderList.subList(0, 8), cards)
 

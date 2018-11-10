@@ -86,7 +86,7 @@ class CardSerializer : JsonSerializer<Card>() {
         }
         gen.writeObjectField("features", value.features)
         if (value.freeSymbol != null) {
-            gen.writeObjectField("features", value.freeSymbol)
+            gen.writeObjectField("freeSymbol", value.freeSymbol)
         }
 
         gen.writeEndObject()
