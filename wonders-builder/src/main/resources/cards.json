@@ -338,6 +338,375 @@
         }
       ]
     }
+  ],
+  [
+    {
+      "name": "sawmill",
+      "color": "BROWN",
+      "cost": {
+        "gold": 2
+      },
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "wood": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "brickyard",
+      "color": "BROWN",
+      "cost": {
+        "gold": 2
+      },
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "clay": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "shelf quarry",
+      "color": "BROWN",
+      "cost": {
+        "gold": 2
+      },
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "stone": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "glass blower",
+      "color": "SILVER",
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "glass": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "drying room",
+      "color": "SILVER",
+      "features": [
+        {
+          "type": "PROVIDE_RESOURCE",
+          "resource": {
+            "papyrus": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "walls",
+      "color": "RED",
+      "cost": {
+        "stone": 2
+      },
+      "features": [
+        {
+          "type": "MILITARY",
+          "points": 2
+        }
+      ]
+    },
+    {
+      "name": "forum",
+      "color": "YELLOW",
+      "cost": {
+        "clay": 1,
+        "gold": 3
+      },
+      "features": [
+        {
+          "type": "PROVIDE_SILVER_RESOURCE"
+        }
+      ]
+    },
+    {
+      "name": "caravansery",
+      "color": "YELLOW",
+      "cost": {
+        "glass": 1,
+        "papyrus": 1,
+        "gold": 2
+      },
+      "features": [
+        {
+          "type": "PROVIDE_BROWN_RESOURCE"
+        }
+      ]
+    },
+    {
+      "name": "customs house",
+      "color": "YELLOW",
+      "cost": {
+        "gold": 4
+      },
+      "features": [
+        {
+          "type": "CUSTOMS"
+        }
+      ]
+    },
+    {
+      "name": "tribunal",
+      "color": "BLUE",
+      "cost": {
+        "wood": 2,
+        "glass": 1
+      },
+      "features": [
+        {
+          "type": "VICTORY_POINTS",
+          "points": 5
+        }
+      ]
+    },
+    {
+      "name": "horse breeders",
+      "color": "RED",
+      "cost": {
+        "wood": 1,
+        "clay": 2
+      },
+      "features": [
+        {
+          "type": "MILITARY",
+          "points": 1
+        }
+      ],
+      "freeSymbol": "HORSESHOE"
+    },
+    {
+      "name": "barracks",
+      "color": "RED",
+      "cost": {
+        "gold": 3
+      },
+      "features": [
+        {
+          "type": "MILITARY",
+          "points": 1
+        }
+      ],
+      "freeSymbol": "SWORD"
+    },
+    {
+      "name": "archery range",
+      "color": "RED",
+      "cost": {
+        "wood": 1,
+        "stone": 1,
+        "papyrus": 1
+      },
+      "features": [
+        {
+          "type": "MILITARY",
+          "points": 2
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "TARGET"
+        }
+      ]
+    },
+    {
+      "name": "parade ground",
+      "color": "RED",
+      "cost": {
+        "clay": 2,
+        "glass": 1
+      },
+      "features": [
+        {
+          "type": "MILITARY",
+          "points": 2
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "HELMET"
+        }
+      ]
+    },
+    {
+      "name": "library",
+      "color": "GREEN",
+      "cost": {
+        "wood": 1,
+        "stone": 1,
+        "glass": 1
+      },
+      "features": [
+        {
+          "type": "SCIENCE",
+          "symbol": "INK"
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 2
+        }
+      ],
+      "freeSymbol": "BOOK"
+    },
+    {
+      "name": "dispensary",
+      "color": "GREEN",
+      "cost": {
+        "clay": 2,
+        "stone": 1
+      },
+      "features": [
+        {
+          "type": "SCIENCE",
+          "symbol": "HERBS"
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 2
+        }
+      ],
+      "freeSymbol": "COG"
+    },
+    {
+      "name": "school",
+      "color": "GREEN",
+      "cost": {
+        "wood": 1,
+        "papyrus": 2
+      },
+      "features": [
+        {
+          "type": "SCIENCE",
+          "symbol": "WHEEL"
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 1
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "HARF"
+        }
+      ]
+    },
+    {
+      "name": "laboratory",
+      "color": "GREEN",
+      "cost": {
+        "wood": 1,
+        "glass": 2
+      },
+      "features": [
+        {
+          "type": "SCIENCE",
+          "symbol": "COMPASS"
+        },
+        {
+          "type": "VICTORY_POINTS",
+          "points": 1
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "LAMP"
+        }
+      ]
+    },
+    {
+      "name": "statue",
+      "color": "BLUE",
+      "cost": {
+        "clay": 2
+      },
+      "features": [
+        {
+          "type": "VICTORY_POINTS",
+          "points": 4
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "COLUMN"
+        }
+      ],
+      "freeSymbol": "MASK"
+    },
+    {
+      "name": "temple",
+      "color": "BLUE",
+      "cost": {
+        "wood": 1,
+        "papyrus": 1
+      },
+      "features": [
+        {
+          "type": "VICTORY_POINTS",
+          "points": 4
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "SUN"
+        }
+      ],
+      "freeSymbol": "MOON"
+    },
+    {
+      "name": "aqueduct",
+      "color": "BLUE",
+      "cost": {
+        "stone": 3
+      },
+      "features": [
+        {
+          "type": "VICTORY_POINTS",
+          "points": 5
+        }
+      ],
+      "freeSymbol": "TEARDROP"
+    },
+    {
+      "name": "rostrum",
+      "color": "BLUE",
+      "cost": {
+        "wood": 1,
+        "stone": 1
+      },
+      "features": [
+        {
+          "type": "VICTORY_POINTS",
+          "points": 4
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "COURT"
+        }
+      ]
+    },
+    {
+      "name": "brewery",
+      "color": "YELLOW",
+      "features": [
+        {
+          "type": "ADD_GOLD",
+          "gold": 6
+        },
+        {
+          "type": "FREE_SYMBOL",
+          "symbol": "BARREL"
+        }
+      ]
+    }
   ]
 ]
 

@@ -45,29 +45,37 @@ class CardDeserializer : JsonDeserializer<Card>() {
         val cost = cost(jsonNode, objectCodec)
         val features = features(jsonNode, objectCodec)
         val color = color(jsonNode, objectCodec)
+        val freeSymbol = freeSymbol(jsonNode, objectCodec)
 
-        return Card((jsonNode.get("name") as TextNode).asText(), color, cost, features)
+        return Card((jsonNode.get("name") as TextNode).asText(), color, cost, features, freeSymbol)
     }
 
-    fun color(jsonNode: TreeNode, objectCodec: ObjectCodec?): CardColor {
+    private fun color(jsonNode: TreeNode, objectCodec: ObjectCodec?): CardColor {
         val get = jsonNode.get("color")
         val colorNode = get.traverse()
         colorNode.codec = objectCodec
         return colorNode.readValueAs(CardColor::class.java)
     }
 
-    fun features(jsonNode: TreeNode, objectCodec: ObjectCodec?): List<CardFeature> {
+    private fun features(jsonNode: TreeNode, objectCodec: ObjectCodec?): List<CardFeature> {
         val featureJson = jsonNode.get("features") ?: return listOf()
         val featuresNode = featureJson.traverse()
         featuresNode.codec = objectCodec
         return featuresNode.readValueAs(object : TypeReference<List<CardFeature>>() {})
     }
 
-    fun cost(jsonNode: TreeNode, objectCodec: ObjectCodec?): Resource {
+    private fun cost(jsonNode: TreeNode, objectCodec: ObjectCodec?): Resource {
         val costJson = jsonNode.get("cost") ?: return Resource()
         val costNode = costJson.traverse()
         costNode.codec = objectCodec
-        return costNode.readValueAs<Resource>(Resource::class.java)
+        return costNode.readValueAs(Resource::class.java)
+    }
+
+    private fun freeSymbol(jsonNode: TreeNode, objectCodec: ObjectCodec?): CardFreeSymbol? {
+        val freeSymbolJson = jsonNode.get("freeSymbol") ?: return null
+        val freeSymbolNode = freeSymbolJson.traverse()
+        freeSymbolNode.codec = objectCodec
+        return freeSymbolNode.readValueAs(CardFreeSymbol::class.java)
     }
 }
 
