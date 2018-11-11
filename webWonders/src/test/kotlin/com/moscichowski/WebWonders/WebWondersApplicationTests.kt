@@ -25,6 +25,7 @@ class WebWondersApplicationTests {
 }
 
 data class ActionRequest(val type: String, val name: String)
+data class ChoosePlayerRequest(val type: String, val playerNo: Int)
 data class WonderBuildRequest(val name: String, val card: String) {
     val type = "BUILD_WONDER"
 }

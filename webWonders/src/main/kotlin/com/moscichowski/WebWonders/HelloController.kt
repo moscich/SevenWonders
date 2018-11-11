@@ -378,7 +378,8 @@ val actionMap = mapOf(
         Pair("CHOOSE_WONDER", Pair(ChooseWonder::class.java, "name")),
         Pair("TAKE_CARD", Pair(TakeCard::class.java, "name")),
         Pair("SELL_CARD", Pair(SellCard::class.java, "name")),
-        Pair("BUILD_WONDER", Pair(BuildWonder::class.java, "name"))
+        Pair("BUILD_WONDER", Pair(BuildWonder::class.java, "name")),
+        Pair("CHOOSE_PLAYER", Pair(ChoosePlayer::class.java, "playerNo"))
 )
 
 fun String.action(param: Any): Action? {

@@ -81,10 +81,11 @@ class Game extends React.Component {
   	this.state = {
       elements: Array(0).fill(null),
     };
-	fetch("http://localhost:8080/games/74")
+	fetch("http://localhost:8080/games/77")
     .then(result=>result.json())
     .then((res) => 
     	this.setState({
+    		game: res,
     		elements: res.board.elements,
     		currentPlayer: res.currentPlayer,
     		player1gold: res.player1.gold,
@@ -116,16 +117,29 @@ class Game extends React.Component {
   	this.cardAction(id, 'BUILD_WONDER', this.state.selectedCard)
   }
 
-  cardAction(id, action, param1) {
+  selectPlayer(playerNo) {
+  	this.cardAction(null, "CHOOSE_PLAYER", null, playerNo)
+  }
+
+  cardAction(id, action, param1, playerNo) {
+
   	var body = {
-  		type: action,
-  	    name: id,
+  		type: action
   	}
+
+  	if (id) {
+  		body["name"] = id
+  	}
+
   	if (param1) {
   		body["card"] = param1
   	}
 
-	fetch('http://localhost:8080/games/74/actions', {
+  	if (playerNo != null) {
+  		body["playerNo"] = playerNo
+  	}
+
+	fetch('http://localhost:8080/games/77/actions', {
     method: 'POST',
     headers: {
     'Accept': 'application/json',
@@ -135,6 +149,7 @@ class Game extends React.Component {
   }).then(result=>result.json())
     .then((res) => 
     	this.setState({
+    		game: res,
     		elements: res.board.elements,
     		currentPlayer: res.currentPlayer,
     		player1gold: res.player1.gold,
@@ -160,6 +175,9 @@ class Game extends React.Component {
   	const player = this.state.currentPlayer == 0 ? this.state.player1 : this.state.player2
     return (
       <div>
+      <PlayerSelection
+        onPlayerSelection={(playerNo) => this.selectPlayer(playerNo)}
+        state={this.state.game && this.state.game.state}/>
       <ActionSelection 
         selectedCard={this.state.selectedCard} 
         player={player}
@@ -214,6 +232,27 @@ class ActionSelection extends React.Component {
   					<div className="button is-warning" onClick={() => this.props.onSell()}>Sell</div>
   					<div className="button is-primary" onClick={() => this.props.onClose()} >Cancel</div>
   					<SelectWondersToBuild onBuildWonder={this.props.onBuildWonder} player={this.props.player}/>
+  				</div>
+  			  </div>
+  			</div>
+  			<button onClick={() => this.props.onClose()} className="modal-close is-large" aria-label="close"></button>
+		</div>
+	
+		)
+	}
+}
+
+class PlayerSelection extends React.Component {
+	render() {
+		return (
+			<div className={"modal " + (this.props.state == "CHOOSE_PLAYER" ? "is-active" : "")}>
+  			<div className="modal-background"></div>
+  			<div className="modal-content">
+  			  <div className="game">
+  				<div className="box">
+  					<h2>New Age!</h2>
+  					<div className="button is-primary" onClick={() => this.props.onPlayerSelection(0)}>Player 1</div>
+  					<div className="button is-primary" onClick={() => this.props.onPlayerSelection(1)} >Player 2</div>
   				</div>
   			  </div>
   			</div>

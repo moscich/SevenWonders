@@ -568,7 +568,6 @@
         }
       }
     ],
-    "gold": 12,
     "features": [
       {
         "type": "PROVIDE_RESOURCE",
@@ -610,7 +609,8 @@
           "wood": 1
         }
       }
-    ]
+    ],
+    "gold": 12
   },
   "player2": {
     "cards": [
@@ -799,7 +799,6 @@
         }
       }
     ],
-    "gold": 1,
     "features": [
       {
         "type": "PROVIDE_RESOURCE",
@@ -847,9 +846,10 @@
         "type": "VICTORY_POINTS",
         "points": 2
       }
-    ]
+    ],
+    "gold": 1
   },
-  "currentPlayer": 1,
+  "currentPlayer": 0,
   "military": 0,
   "state": "REGULAR",
   "scienceTokens": [],

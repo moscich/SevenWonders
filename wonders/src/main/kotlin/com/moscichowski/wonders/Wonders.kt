@@ -88,7 +88,7 @@ class Wonders(var game: Game,
 
     fun takeAction(action: Action) {
         if (!game.state.canPerform(action)) {
-            throw Error()
+            throw ActionNotAllowed(action::class.java.toString())
         }
         action.performOn(this)
         if (game.board?.elements?.count() == 0) {
@@ -250,14 +250,12 @@ data class SellCard(val card: String) : Action() {
     }
 }
 
-class WonderBuildFailed : Error() {
-    val something: String = "Test"
+class ActionNotAllowed(val action: String): Error() {
     override val message: String?
-        get() = "Wrong neighbourhood"
+        get() = "Action $action not allowed"
 }
 
-class TakeCardFailed : Error() {
-    val something: String = "Test"
+class WonderBuildFailed : Error() {
     override val message: String?
         get() = "Wrong neighbourhood"
 }

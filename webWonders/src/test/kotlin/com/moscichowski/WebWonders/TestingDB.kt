@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.TreeNode
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.opentable.db.postgres.embedded.EmbeddedPostgres
@@ -72,11 +71,11 @@ class XdTests {
         assertGame(0,4,2,4,0)
         sellCard200("magazyn drewna")
         sellCard200("palisada")
-        sellCard200("garnizon")
+        takeCard200("garnizon")
         sellCard200("składowisko kamienia")
         sellCard200("kamieniołom")
         buildWonder200("Pireus", "złoża gliny")
-        assertGame(9,4,1,4,1)
+//        assertGame(9,4,1,4,1)
 
         sellCard200("glinianka")
         sellCard200("skryptorium")
@@ -85,7 +84,8 @@ class XdTests {
         takeCard200("skład drewna")
         val sellCard200 = takeCard200("wycinka")
         // AGE 2 begins
-        takeCard200("horse breeders")
+        takeCard400("horse breeders")
+        selectPlayer200(1)
         sellCard200("barracks")
     }
 
@@ -114,6 +114,12 @@ class XdTests {
         return result.body
     }
 
+    fun takeCard400(name: String): String? {
+        val result = testRestTemplate.postForEntity("/games/$gameNumber/actions", ActionRequest("TAKE_CARD", name), String::class.java)
+        Assert.assertEquals(400, result.statusCode.value())
+        return result.body
+    }
+
     fun buildWonder200(name: String, card: String) {
         val result = testRestTemplate.postForEntity("/games/$gameNumber/actions", WonderBuildRequest(name, card), String::class.java)
         Assert.assertEquals(200, result.statusCode.value())
@@ -127,6 +133,10 @@ class XdTests {
 
     fun takeCard(name: String): ResponseEntity<String>? {
         return testRestTemplate.postForEntity("/games/$gameNumber/actions", ActionRequest("TAKE_CARD", name), String::class.java)
+    }
+
+    fun selectPlayer200(playerNo: Int): ResponseEntity<String>? {
+        return testRestTemplate.postForEntity("/games/$gameNumber/actions", ChoosePlayerRequest("CHOOSE_PLAYER", playerNo), String::class.java)
     }
 
     fun availableWonderName(): String {

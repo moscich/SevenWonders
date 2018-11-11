@@ -8,10 +8,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import java.lang.Error
 
-class AwesomeException: Exception() {
-
-}
-
 data class RestError(val message: String)
 
 @ControllerAdvice
@@ -19,6 +15,7 @@ public class RestResponseEntityExceptionHandler: ResponseEntityExceptionHandler(
 
     @ExceptionHandler(Error::class)
     public fun handleError(ex: Error, request: WebRequest): ResponseEntity<RestError> {
+        println(ex.localizedMessage)
         return ResponseEntity.badRequest().body(RestError(ex.localizedMessage))
     }
 }

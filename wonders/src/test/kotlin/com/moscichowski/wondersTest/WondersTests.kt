@@ -220,7 +220,6 @@ class WondersTests {
             wonders.takeAction(BuildWonder(card, wonder))
             fail()
         } catch (err: WonderBuildFailed) {
-            assertEquals("Test", err.something)
         }
         assertEquals(game.currentPlayer, 0)
     }
@@ -239,7 +238,6 @@ class WondersTests {
             wonders.takeAction(BuildWonder(card, wonder))
             fail()
         } catch (err: WonderBuildFailed) {
-            assertEquals("Test", err.something)
         }
         assertEquals(game.currentPlayer, 0)
     }
@@ -315,7 +313,6 @@ class WondersTests {
             wonders.takeAction(BuildWonder(card, wonder, nonBrownCard))
             fail()
         } catch (err: WonderBuildFailed) {
-            assertEquals("Test", err.something)
         }
 
         assertFalse(player1.wonders.first().built)
@@ -342,7 +339,6 @@ class WondersTests {
             wonders.takeAction(BuildWonder(card, wonder, nonSilverCard))
             fail()
         } catch (err: WonderBuildFailed) {
-            assertEquals("Test", err.something)
         }
 
         assertFalse(player1.wonders.first().built)
