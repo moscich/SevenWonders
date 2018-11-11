@@ -311,7 +311,7 @@ class Main extends React.Component {
 }
 
 function cardString(card) {
-	return card.name + " " + card.features.map((it) => it.type)
+	return card.name
 }
 
 class SelectWondersToBuild extends React.Component {

@@ -26,12 +26,12 @@ class MyRunner: CommandLineRunner {
     private var gameNumber = 0
 
     override fun run(vararg args: String?) {
-        gameNumber = createGame()
-        println(gameNumber)
-        for (i in 0 until 8) {
-            val name = availableWonderName()
-            takeWonder(name)
-        }
+//        gameNumber = createGame()
+//        println(gameNumber)
+//        for (i in 0 until 8) {
+//            val name = availableWonderName()
+//            takeWonder(name)
+//        }
     }
 
     fun createGame(): Int {
