@@ -11,6 +11,7 @@ import java.lang.Error
 data class RestError(val message: String)
 
 class InvalidTokenError: Error()
+class ForbiddenError: Error()
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler: ResponseEntityExceptionHandler() {
@@ -18,6 +19,11 @@ public class RestResponseEntityExceptionHandler: ResponseEntityExceptionHandler(
     @ExceptionHandler(InvalidTokenError::class)
     public fun handleAuthError(ex: InvalidTokenError, request: WebRequest): ResponseEntity<RestError> {
         return ResponseEntity.status(401).body(RestError("Jo nie trybi"))
+    }
+
+    @ExceptionHandler(ForbiddenError::class)
+    public fun handleForbiddenError(ex: ForbiddenError, request: WebRequest): ResponseEntity<RestError> {
+        return ResponseEntity.status(403).body(RestError("Nie Twoja kolej ino!"))
     }
 
     @ExceptionHandler(Error::class)

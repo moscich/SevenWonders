@@ -36,7 +36,8 @@ class GameController {
         val header = request.getHeader("Authorization") ?: throw InvalidTokenError()
         val token = header.slice(7 until header.length)
         val userForToken = auth.getUserForToken(token)
-        return GameCreated(gameService.createNewGame(), "xd")
+        val inviteCode = "xd"
+        return GameCreated(gameService.createNewGame(userForToken, inviteCode), inviteCode)
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
@@ -44,9 +45,23 @@ class GameController {
         return gameService.getGame(id)
     }
 
-    @RequestMapping(value = ["/{gameId}/actions"], method = [RequestMethod.POST])
-    fun postAction(@PathVariable(value="gameId") gameId: String, @RequestBody action: Action): Any {
-        return gameService.takeAction(gameId, action)
+    @RequestMapping("/{id}", method = [RequestMethod.PUT])
+    fun joinGame(request: HttpServletRequest, @PathVariable(value="id") id: String, @RequestBody inviteCode: Map<String, String>): Any {
+        val header = request.getHeader("Authorization") ?: throw InvalidTokenError()
+        val token = header.slice(7 until header.length)
+        val userForToken = auth.getUserForToken(token)
+        gameService.joinGame(id, userForToken, inviteCode["inviteCode"]!!)
+        return "xd"
     }
 
+    @RequestMapping(value = ["/{gameId}/actions"], method = [RequestMethod.POST])
+    fun postAction(request: HttpServletRequest, @PathVariable(value="gameId") gameId: String, @RequestBody action: Action): Any {
+        val header = request.getHeader("Authorization") ?: throw InvalidTokenError()
+        val token = header.slice(7 until header.length)
+        val userForToken = auth.getUserForToken(token)
+
+        return gameService.takeAction(gameId, action, userForToken)
+    }
 }
+
+data class InviteCodeRequest(val inviteCode:String)

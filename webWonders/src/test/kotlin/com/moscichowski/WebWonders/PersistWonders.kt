@@ -32,10 +32,10 @@ class PersistWonders {
 
         val wonders = WondersBuilder().setupWonders(wonderList.subList(0, 8), cards)
 
-        val gameId = repo.storeInitialState(GameInitialSettings(wonderList, cards)).toString()
+        val gameId = repo.storeInitialState(GameInitialSettings(wonderList, cards), "xd", "xd").toString()
 
         repo.storeWonders(gameId, wonders)
-        val retrievedWonders = repo.getWonders(gameId)
+        val retrievedWonders = repo.getWonders(gameId).first
         assertEquals(wonders.game, retrievedWonders.game)
         assertEquals(wonders.cards, retrievedWonders.cards)
     }

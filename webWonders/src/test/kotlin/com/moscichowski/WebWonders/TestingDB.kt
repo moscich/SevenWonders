@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
-import com.moscichowski.WebWonders.common.GameCreated
 import com.moscichowski.WebWonders.security.AuthUser
 import com.moscichowski.WebWonders.security.FacebookAuthUserWrapper
 import junit.framework.Assert.*
@@ -114,6 +113,20 @@ class XdTests {
         Assert.assertEquals(200, response.statusCode.value())
     }
 
+    fun takeWonder403(gameId: String, name: String, token: String) {
+        val headers = HttpHeaders()
+        headers.add("Authorization", "Bearer $token")
+        val response = testRestTemplate.postForEntity("/games/$gameId/actions", HttpEntity(ActionRequest("CHOOSE_WONDER", name), headers), String::class.java)
+        Assert.assertEquals(403, response.statusCode.value())
+    }
+
+    fun takeWonder200(gameId: String, name: String, token: String) {
+        val headers = HttpHeaders()
+        headers.add("Authorization", "Bearer $token")
+        val response = testRestTemplate.postForEntity("/games/$gameId/actions", HttpEntity(ActionRequest("CHOOSE_WONDER", name), headers), String::class.java)
+        Assert.assertEquals(200, response.statusCode.value())
+    }
+
     fun takeCard200(name: String): String? {
         val result = testRestTemplate.postForEntity("/games/$gameNumber/actions", ActionRequest("TAKE_CARD", name), String::class.java)
         Assert.assertEquals(200, result.statusCode.value())
@@ -173,15 +186,32 @@ class XdTests {
     private fun <T> uninitialized(): T = null as T
     @Test
     fun `face authenticated game creation`() {
-        Mockito.`when`(restTemplate.getForEntity("https://graph.facebook.com/debug_token?input_token=XD-Token&access_token=1559710037462455|F_CkzUCoMC_tKa0uy5JqZX1ECu8", FacebookAuthUserWrapper::class.java))
-                .thenReturn(ResponseEntity(FacebookAuthUserWrapper(AuthUser("xyz", true)), HttpStatus.ACCEPTED))
+        Mockito.`when`(restTemplate.getForEntity("https://graph.facebook.com/debug_token?input_token=Player-1-token&access_token=1559710037462455|F_CkzUCoMC_tKa0uy5JqZX1ECu8", FacebookAuthUserWrapper::class.java))
+                .thenReturn(ResponseEntity(FacebookAuthUserWrapper(AuthUser("player1", true)), HttpStatus.ACCEPTED))
 
-        val headers = HttpHeaders()
-        headers.add("Authorization", "Bearer XD-Token")
-        val httpEntity = HttpEntity("parameters", headers)
+        Mockito.`when`(restTemplate.getForEntity("https://graph.facebook.com/debug_token?input_token=Player-2-token&access_token=1559710037462455|F_CkzUCoMC_tKa0uy5JqZX1ECu8", FacebookAuthUserWrapper::class.java))
+                .thenReturn(ResponseEntity(FacebookAuthUserWrapper(AuthUser("player2", true)), HttpStatus.ACCEPTED))
 
-        val gameCreated = testRestTemplate.exchange<Map<String, String>>("/games", HttpMethod.POST, httpEntity, object : TypeReference<Map<String, String>>() {}).body
+        val player1Headers = HttpHeaders()
+        player1Headers.add("Authorization", "Bearer Player-1-token")
+        val player2Headers = HttpHeaders()
+        player2Headers.add("Authorization", "Bearer Player-2-token")
+
+        val gameCreated = testRestTemplate.exchange<Map<String, String>>("/games", HttpMethod.POST, HttpEntity(null, player1Headers), object : TypeReference<Map<String, String>>() {}).body
         assertNotNull(gameCreated)
+        val gameId = gameCreated!!["id"]!!
+        val game = testRestTemplate.getForEntity("/games/$gameId", String::class.java)
+        assertNotNull(game.body)
+
+        val inviteCode = gameCreated["inviteCode"]
+        val body = mapOf(Pair("inviteCode", inviteCode))
+        val joinResponse = testRestTemplate.exchange("/games/$gameId", HttpMethod.PUT, HttpEntity(body, player2Headers), String::class.java)
+        assertTrue(joinResponse.statusCode.is2xxSuccessful)
+
+        takeWonder403(gameId, "Kolos Rodyjski", "Player-2-token")
+        takeWonder200(gameId, "Kolos Rodyjski", "Player-1-token")
+        takeWonder403(gameId, "Via Appia", "Player-1-token")
+        takeWonder200(gameId, "Via Appia", "Player-2-token")
     }
 }
 
