@@ -184,7 +184,7 @@ class Game extends React.Component {
 
   render() {
     if (this.state == null) {
-      return(<p>Dupa</p>)
+      return(<p>Loading...</p>)
     }
   	const player = this.state.currentPlayer == 0 ? this.state.player1 : this.state.player2
     return (

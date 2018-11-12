@@ -6,11 +6,10 @@ class WondersService {
 	
 	getGames() {
 		console.log("token = " + this.token)
-		const token = this.token
+		const token = sessionStorage.getItem('secret')
 		return new Promise(function(resolve, reject) {
 			console.log("token " + token)
 			if (token == null) {
-				console.log("token2 " + token)
 				reject("No token")
 				return
 			}
@@ -38,11 +37,10 @@ class WondersService {
 
 	getGame(gameNo) {
 		console.log("token = " + this.token)
-		const token = this.token
+		const token = sessionStorage.getItem('secret')
 		return new Promise(function(resolve, reject) {
 			console.log("token " + token)
 			if (token == null) {
-				console.log("token2 " + token)
 				reject("No token")
 				return
 			}

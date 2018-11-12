@@ -6,30 +6,56 @@ const Home = () => (
   <div>
     <h1>Game list and shit</h1>
     <Route render={({ history }) => (
-    	<XDD history = {history}/>
+    	<HomeComponent history = {history}/>
   )} />
   </div>
 )
 
 export default Home
 
-class XDD extends React.Component {
+class HomeComponent extends React.Component {
 	constructor(props) {
 		super(props)
-		
-		wondersService.getGames()
-		.then(function(res) {
-    		console.log(res)
-    	})
-		.catch(function(e) {
-    		console.log("err = " + e)
-    		props.history.push('/login')
-    	});
+
+		const expDate = new Date(0)
+		expDate.setUTCSeconds(sessionStorage.getItem('secret_expiration'));
+		console.log(expDate)
+		console.log(new Date())
+
+		if(sessionStorage.getItem('secret') == null) {
+    		props.history.push('login')
+    	}
+
+		this.state = {
+        	inputValue: 'xd'
+      	}
+
+    } 
+     
+    createGame() {
+    	alert("xd mate")
+    }
+
+    joinGame() {
+    	alert(this.state.inputValue)
+    }
+
+    updateInputValue(evt) {
+    this.setState({
+      inputValue: evt.target.value
+    });
   }
 
   render() {
+  	if (this.state == null) {
+  		return(<div></div>)
+  	};
     return(
-      <p>ih a ha</p>
+    	<div>
+    	<div className="button is-primary" onClick={() => this.createGame()}>Create game</div>
+    	<input value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} className="input" type="text" placeholder="Invitation code"/>
+    	<div className="button is-primary" onClick={() => this.joinGame()}>Join game</div>
+    	</div>
     )
   }
 }
