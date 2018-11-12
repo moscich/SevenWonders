@@ -1,7 +1,7 @@
 package com.moscichowski.WebWonders.service
 
 import com.moscichowski.WebWonders.GameInitialSettings
-import com.moscichowski.WebWonders.repository.GameEventSourcingRepository
+import com.moscichowski.WebWonders.repository.GameStateRepository
 import com.moscichowski.wonders.Action
 import com.moscichowski.wonders.Game
 import com.moscichowski.wonders.WondersBuilder
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 class GameService {
 
     @Autowired
-    lateinit var repo: GameEventSourcingRepository
+    lateinit var repo: GameStateRepository
 
     fun createNewGame(): String {
 

@@ -41,7 +41,7 @@ hr {
   color: green;
 }
 
-.game {
+.center {
   text-align: center;
 }
 
@@ -57,11 +57,21 @@ hr {
   text-align: center;
 }
 
-.card {
+.boardCard {
   width: 15%;
   height: 120px;
   position: absolute;
   background-color: #fafafa;
+}
+
+.cardDetails {
+  width: 15%;
+  position: absolute;
+  background-color: #fafafa;
+}
+
+.hidden {
+  visibility: hidden;
 }
 
 .card:hover {

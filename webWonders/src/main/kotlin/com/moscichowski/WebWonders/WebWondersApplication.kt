@@ -1,6 +1,7 @@
 package com.moscichowski.WebWonders
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.moscichowski.WebWonders.security.AuthUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -26,6 +27,8 @@ class MyRunner: CommandLineRunner {
     private var gameNumber = 0
 
     override fun run(vararg args: String?) {
+//        val forEntity = restTemplate.getForEntity("https://graph.facebook.com/1701400063299376?access_token=1559710037462455|F_CkzUCoMC_tKa0uy5JqZX1ECu8", AuthUser::class.java)
+//        println("forEntity = ${forEntity}")
 //        gameNumber = createGame()
 //        println(gameNumber)
 //        for (i in 0 until 8) {

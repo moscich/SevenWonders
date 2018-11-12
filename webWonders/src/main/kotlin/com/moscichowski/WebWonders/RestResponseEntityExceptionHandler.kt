@@ -10,12 +10,19 @@ import java.lang.Error
 
 data class RestError(val message: String)
 
+class InvalidTokenError: Error()
+
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler: ResponseEntityExceptionHandler() {
 
+    @ExceptionHandler(InvalidTokenError::class)
+    public fun handleAuthError(ex: InvalidTokenError, request: WebRequest): ResponseEntity<RestError> {
+        return ResponseEntity.status(401).body(RestError("Jo nie trybi"))
+    }
+
     @ExceptionHandler(Error::class)
     public fun handleError(ex: Error, request: WebRequest): ResponseEntity<RestError> {
-        println(ex.localizedMessage)
         return ResponseEntity.badRequest().body(RestError(ex.localizedMessage))
+
     }
 }

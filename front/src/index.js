@@ -1,10 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
+  Switch,
   Route,
   NavLink,
   HashRouter
 } from "react-router-dom";
+import Login from './Login'
+import Home from './Home'
+import wondersService from './WondersService'
+
 import './bulma.css';
 import './index.css';
 
@@ -59,15 +64,27 @@ class Card extends React.Component {
 
   	if (cardName) {
   	return (  
-  	  <div onClick={() => this.props.onClick(cardName)} className="card" style={{left:""+(column+bonus)*16.66+"%", top:(this.props.row-1)*100}}>
-  	    <div>{cardName}</div>
-<div>{cardCostString}</div>
+  	  <div onClick={() => this.props.onClick(cardName)} className="card boardCard" style={{left:""+(column+bonus)*16.66+"%", top:(this.props.row-1)*100}}>
+  	  <header className="card-header center">
+    				<p className="card-header-title center">
+      					{cardName}
+    				</p>
+    			</header>
+    			<div className="card-content">
+    			<div className="content">
+    			{cardCostString}
+	    	</div>
+	    </div>
   	  </div>
   	);
   } else {
   	return (  
-  	  <div className="card" style={{left:""+(column+bonus)*16.66+"%", top:(this.props.row-1)*100}}>
-  	    <div>?</div>
+  	  <div className="boardCard card" style={{left:""+(column+bonus)*16.66+"%", top:(this.props.row-1)*100}}>
+  	    <header className="card-header center">
+    				<p className="card-header-title">
+      					?
+    				</p>
+    			</header>
   	  </div>
   	);
   }
@@ -78,25 +95,19 @@ class Game extends React.Component {
 
   constructor(props) {
   	super(props);
-  	this.state = {
-      elements: Array(0).fill(null),
-    };
-	fetch("http://localhost:8080/games/77")
-    .then(result=>result.json())
-    .then((res) => 
-    	this.setState({
-    		game: res,
-    		elements: res.board.elements,
-    		currentPlayer: res.currentPlayer,
-    		player1gold: res.player1.gold,
-    		player2gold: res.player2.gold,
-    		player1: res.player1,
-    		player2: res.player2,
-    	})
-    ).catch(function(e) {
-        console.log("error " + e);
-    });
 
+  wondersService.getGame(77)
+  .then((res) => 
+      this.setState({
+        game: res,
+        elements: res.board.elements,
+        currentPlayer: res.currentPlayer,
+        player1gold: res.player1.gold,
+        player2gold: res.player2.gold,
+        player1: res.player1,
+        player2: res.player2,
+      })
+    )
   }
 
   handleClick(id) {
@@ -172,6 +183,9 @@ class Game extends React.Component {
   }
 
   render() {
+    if (this.state == null) {
+      return(<p>Dupa</p>)
+    }
   	const player = this.state.currentPlayer == 0 ? this.state.player1 : this.state.player2
     return (
       <div>
@@ -187,7 +201,7 @@ class Game extends React.Component {
         onBuildWonder={(wonder) => this.buildWonder(wonder)}/>
       <Military />
       <Science />
-      <div className="game">
+      <div className="center">
         <div className="game-board">
           <Board onClick={(id) => this.handleClick(id)} elements={this.state.elements}/>
         </div>
@@ -225,7 +239,7 @@ class ActionSelection extends React.Component {
 			<div className={"modal " + (this.props.selectedCard ? "is-active" : "")}>
   			<div className="modal-background"></div>
   			<div className="modal-content">
-  			  <div className="game">
+  			  <div className="center">
   				<div className="box">
   					<h2>{this.props.selectedCard}</h2>
   					<div className="button is-primary" onClick={() => this.props.onTake()}>Build</div>
@@ -248,7 +262,7 @@ class PlayerSelection extends React.Component {
 			<div className={"modal " + (this.props.state == "CHOOSE_PLAYER" ? "is-active" : "")}>
   			<div className="modal-background"></div>
   			<div className="modal-content">
-  			  <div className="game">
+  			  <div className="center">
   				<div className="box">
   					<h2>New Age!</h2>
   					<div className="button is-primary" onClick={() => this.props.onPlayerSelection(0)}>Player 1</div>
@@ -369,26 +383,86 @@ class PlayerCards extends React.Component {
 		if (this.props.player != null ) {
 			cards = 
 			<table className="table" className={this.props.class}>
-			<tbody>{this.props.player.cards.map((it) => <tr key={it.name}><td>{cardString(it)}</td></tr>)}
+			<tbody>{this.props.player.cards.map((it) => <tr key={it.name}>
+				<PlayerCard 
+					card={it} 
+					cardHover={() => this.cardHover(it)}
+					cardStopHover={() => this.cardStopHover()} />
+					</tr>)}
 			</tbody>
 			</table>
 		}
 
 		return (
-			
 			<div>
+			<CardDetail hoveredCard={this.state && this.state.hoveredCard}/>
 			{cards}
     		</div>
-			
-
 			)
+	}
+
+	cardHover(card) {
+		this.setState({
+			hoveredCard: card
+		}
+			)
+
+	}
+
+	cardStopHover() {
+		this.setState({
+			hoveredCard: null
+		}
+			)
+
+	}
+}
+
+class PlayerCard extends React.Component {
+	render() {
+		return (
+			<td 
+				onMouseEnter={() => this.props.cardHover()}
+				onMouseLeave={() => this.props.cardStopHover()}
+			>{this.props.card.name}</td>
+			)
+	}
+}
+
+class CardDetail extends React.Component {
+	render() {
+		const hidden = this.props.hoveredCard == null ? "hidden" : ""
+		return (
+			<div className={"card cardDetails " + hidden}  style={{left:"20%"}}>
+		 		<header className="card-header">
+    				<p className="card-header-title">
+      					{this.props.hoveredCard && this.props.hoveredCard.name}
+    				</p>
+    			</header>
+		 	<div className="card-content">
+    			<div className="content">
+    				ofoaewifjwe ofijwef oajewfefawoefjaefoijaw ea owefijawe oijaewf;ozsd; flaekfaw oijaef ojiawe oijisdf oawejfseflk aewofia jwe ji
+      			</div>
+      		</div>
+		</div>
+		)
 	}
 }
 
 // ========================================
 
+const GameXD = () => (
+  <Game/>
+)
+
 ReactDOM.render(
-  <Game />,
+   <HashRouter>
+      <Switch>
+      <Route path='/game' component={GameXD}/>
+        <Route exact path='/login' component={Login}/>
+        <Route exact path='/' component={Home}/>
+      </Switch>
+   </HashRouter>,
   document.getElementById('root')
 );
 

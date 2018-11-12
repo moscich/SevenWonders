@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
 
 @Repository
-class GameEventSourcingRepository {
+class GameStateRepository {
     @Autowired
     lateinit var jdbcTemplate: JdbcTemplate
 
@@ -39,28 +39,4 @@ class GameEventSourcingRepository {
             mapper.readValue(it, Wonders::class.java)
         }.last()
     }
-
-    fun storeAction(gameId: String, action: Action) {
-        val deserializedAction = mapper.writeValueAsString(action)
-        jdbcTemplate.execute("insert into actions (game_id, action) values ('$gameId', '$deserializedAction')")
-    }
-
-    fun getWondersGame(id: String): Wonders {
-        val initialGameState = jdbcTemplate.query("select * from games where id = $id") { rs, _ ->
-            rs.getString(2)
-        }.first()
-
-        val readValue: GameInitialSettings = mapper.readValue(initialGameState, GameInitialSettings::class.java)
-
-        val wonders = WondersBuilder().setupWonders(readValue.wonders, readValue.cards)
-
-        val actions = jdbcTemplate.query("select action from actions where game_id = $id") { rs, _ ->
-            rs.getString(1)
-        }.map { mapper.readValue(it, Action::class.java) }
-
-        actions.forEach { wonders.takeAction(it) }
-
-        return wonders
-    }
-
 }

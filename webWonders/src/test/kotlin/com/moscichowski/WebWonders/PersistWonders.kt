@@ -1,6 +1,6 @@
 package com.moscichowski.WebWonders
 
-import com.moscichowski.WebWonders.repository.GameEventSourcingRepository
+import com.moscichowski.WebWonders.repository.GameStateRepository
 import com.moscichowski.wonders.WondersBuilder
 import com.moscichowski.wonders.builder.CardBuilder
 import com.moscichowski.wonders.builder.WonderBuilder
@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner
 class PersistWonders {
 
     @Autowired
-    lateinit var repo: GameEventSourcingRepository
+    lateinit var repo: GameStateRepository
 
     @Test
     fun storeWonders() {
