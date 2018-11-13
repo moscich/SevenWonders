@@ -20,7 +20,9 @@ class XD extends React.Component {
   	console.log(response)
 	 wondersService.token = response.accessToken
 	 sessionStorage.setItem('secret', response.accessToken)
-	 sessionStorage.setItem('secret_expiration', response.data_access_expiration_time)
+	 const now = new Date()
+	 now.setUTCSeconds(response.expiresIn)
+	 sessionStorage.setItem('secret_expiration', now)
 	 history.push('/')
   } 
 

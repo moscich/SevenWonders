@@ -15,6 +15,10 @@ class GameStateRepository {
     @Autowired
     lateinit var mapper: WondersMapper
 
+    fun storeUser(id: String, name: String) {
+        jdbcTemplate.execute("insert into players (id, name) values ('$id', '$name')")
+    }
+
     fun storeInitialState(settings: GameInitialSettings, player1: String, inviteCode: String): Int {
         val writeValueAsString = mapper.writeValueAsString(settings)
 
@@ -38,8 +42,20 @@ class GameStateRepository {
         }.last()
     }
 
-    fun storeInvitation(gameId: String, playerId: String, inviteCode: String) {
-        val update = jdbcTemplate.query("UPDATE games SET player2 = '$playerId' WHERE id = '$gameId' AND inviteCode = '$inviteCode' RETURNING player2") { rs, _ ->
+    fun getWondersWithUsers(id: String): Triple<Wonders, String, String> {
+        return jdbcTemplate.query("SELECT gameStates.wonders, p1.name, p2.name FROM gameStates " +
+                "JOIN games ON (gameStates.game_id = games.id) " +
+                "JOIN players AS p1 ON (p1.id = games.player1) " +
+                "LEFT JOIN players AS p2 ON (p2.id = games.player2) " +
+                "WHERE gameStates.game_id = '$id'") { rs, _ ->
+            Triple(rs.getString(1), rs.getString(2), rs.getString(3))
+        }.asSequence().map {
+            Triple(mapper.readValue(it.first, Wonders::class.java), it.second, it.third)
+        }.last()
+    }
+
+    fun saveInvitedUserToGame(playerId: String, inviteCode: String) {
+        val update = jdbcTemplate.query("UPDATE games SET player2 = '$playerId' WHERE inviteCode = '$inviteCode' RETURNING player2") { rs, _ ->
             rs.getString(1).toString()
         }
         if (update.count() == 0) { throw Error() }

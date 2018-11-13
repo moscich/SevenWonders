@@ -3,8 +3,10 @@ package com.moscichowski.WebWonders.service
 import com.moscichowski.WebWonders.ForbiddenError
 import com.moscichowski.WebWonders.GameInitialSettings
 import com.moscichowski.WebWonders.repository.GameStateRepository
+import com.moscichowski.WebWonders.security.OAuth2
 import com.moscichowski.wonders.Action
 import com.moscichowski.wonders.Game
+import com.moscichowski.wonders.Wonders
 import com.moscichowski.wonders.WondersBuilder
 import com.moscichowski.wonders.builder.CardBuilder
 import com.moscichowski.wonders.builder.WonderBuilder
@@ -17,7 +19,10 @@ class GameService {
     @Autowired
     lateinit var repo: GameStateRepository
 
-    fun createNewGame(playerId: String, invitationCode: String): String {
+    @Autowired
+    lateinit var auth: OAuth2
+
+    fun createNewGame(playerId: String): Pair<String, String> {
 
         val wonderBuilder = WonderBuilder()
         val wonderList = wonderBuilder.getWonders()
@@ -30,10 +35,14 @@ class GameService {
 
         //TODO shuffle
 
+        val playerName = auth.getUserNameForToken(playerId)
+        repo.storeUser(playerId, playerName)
+        val invitationCode = "xdd"
+
         val wonders = WondersBuilder().setupWonders(wonderList.subList(0, 8), cards)
         val gameId = repo.storeInitialState(GameInitialSettings(wonderList, cards), playerId, invitationCode).toString()
         repo.storeWonders(gameId, wonders)
-        return gameId
+        return Pair(gameId, invitationCode)
     }
 
     fun takeAction(gameId: String, action: Action, userId: String): Game {
@@ -43,17 +52,19 @@ class GameService {
             || (wonders.game.currentPlayer == 1 && userId == wondersWrapped.third)) {
             wonders.takeAction(action)
             repo.storeWonders(gameId, wonders)
-            return getGame(gameId)
+            return getGame(gameId).first.game
         } else {
             throw ForbiddenError()
         }
     }
 
-    fun joinGame(gameId: String, userId: String, invitationCode: String) {
-        repo.storeInvitation(gameId, userId, invitationCode)
+    fun joinGame(userId: String, invitationCode: String) {
+        val playerName = auth.getUserNameForToken(userId)
+        repo.storeUser(userId, playerName)
+        repo.saveInvitedUserToGame(userId, invitationCode)
     }
 
-    fun getGame(id: String): Game {
-        return repo.getWonders(id).first.game
+    fun getGame(id: String): Triple<Wonders, String, String> {
+        return repo.getWondersWithUsers(id)
     }
 }

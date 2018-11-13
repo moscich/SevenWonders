@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.moscichowski.WebWonders.security.AuthUser
+import com.moscichowski.WebWonders.security.AuthUserDetails
 import com.moscichowski.WebWonders.security.FacebookAuthUserWrapper
 import junit.framework.Assert.*
 import org.flywaydb.test.annotation.FlywayTest
@@ -20,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.exchange
+import org.springframework.boot.test.web.client.getForEntity
 import org.springframework.http.*
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.web.client.RestTemplate
@@ -192,12 +194,15 @@ class XdTests {
         Mockito.`when`(restTemplate.getForEntity("https://graph.facebook.com/debug_token?input_token=Player-2-token&access_token=1559710037462455|F_CkzUCoMC_tKa0uy5JqZX1ECu8", FacebookAuthUserWrapper::class.java))
                 .thenReturn(ResponseEntity(FacebookAuthUserWrapper(AuthUser("player2", true)), HttpStatus.ACCEPTED))
 
+        mockName("player1", "Andrzej")
+        mockName("player2", "Henryk")
+
         val player1Headers = HttpHeaders()
         player1Headers.add("Authorization", "Bearer Player-1-token")
         val player2Headers = HttpHeaders()
         player2Headers.add("Authorization", "Bearer Player-2-token")
 
-        val gameCreated = testRestTemplate.exchange<Map<String, String>>("/games", HttpMethod.POST, HttpEntity(null, player1Headers), object : TypeReference<Map<String, String>>() {}).body
+        val gameCreated = testRestTemplate.exchange<Map<String, String>>("/games", HttpMethod.POST, player1Entity(), object : TypeReference<Map<String, String>>() {}).body
         assertNotNull(gameCreated)
         val gameId = gameCreated!!["id"]!!
         val game = testRestTemplate.getForEntity("/games/$gameId", String::class.java)
@@ -205,7 +210,7 @@ class XdTests {
 
         val inviteCode = gameCreated["inviteCode"]
         val body = mapOf(Pair("inviteCode", inviteCode))
-        val joinResponse = testRestTemplate.exchange("/games/$gameId", HttpMethod.PUT, HttpEntity(body, player2Headers), String::class.java)
+        val joinResponse = testRestTemplate.exchange("/games", HttpMethod.PUT, HttpEntity(body, player2Headers), String::class.java)
         assertTrue(joinResponse.statusCode.is2xxSuccessful)
 
         takeWonder403(gameId, "Kolos Rodyjski", "Player-2-token")
@@ -213,6 +218,54 @@ class XdTests {
         takeWonder403(gameId, "Via Appia", "Player-1-token")
         takeWonder200(gameId, "Via Appia", "Player-2-token")
     }
+
+    @Test
+    fun getGames() {
+        mockId("Player-1-token", "player1-id")
+        mockId("Player-2-token", "player2-id")
+        mockName("player1-id", "Andrzej")
+        mockName("player2-id", "Henryk")
+
+        val (id, inviteCode) = createGamePair()
+        var game = testRestTemplate.getForEntity<Map<String, String>>("/games/${id}", player1Entity(), object : TypeReference<Map<String, String>>() {})
+        assertEquals("Andrzej", game.body!!["player1"])
+
+        joinPlayer2(inviteCode)
+        game = testRestTemplate.getForEntity("/games/${id}", player1Entity(), object : TypeReference<Map<String, String>>() {})
+        assertEquals("Andrzej", game.body!!["player1"])
+        assertEquals("Henryk", game.body!!["player2"])
+    }
+
+    fun createGamePair(): Pair<String, String> {
+        val gameCreated = testRestTemplate.exchange<Map<String, String>>("/games", HttpMethod.POST, player1Entity(), object : TypeReference<Map<String, String>>() {})
+        return Pair(gameCreated.body!!["id"]!!, gameCreated.body!!["inviteCode"]!!)
+    }
+
+    fun joinPlayer2(inviteCode: String) {
+        val player2Headers = HttpHeaders()
+        player2Headers.add("Authorization", "Bearer Player-2-token")
+
+        val body = mapOf(Pair("inviteCode", inviteCode))
+        testRestTemplate.exchange("/games", HttpMethod.PUT, HttpEntity(body, player2Headers), String::class.java)
+    }
+
+    fun player1Entity(): HttpEntity<Any?> {
+        val player1Headers = HttpHeaders()
+        player1Headers.add("Authorization", "Bearer Player-1-token")
+        return HttpEntity(null, player1Headers)
+    }
+
+    fun mockId(token: String, id: String) {
+        Mockito.`when`(restTemplate.getForEntity("https://graph.facebook.com/debug_token?input_token=$token&access_token=1559710037462455|F_CkzUCoMC_tKa0uy5JqZX1ECu8", FacebookAuthUserWrapper::class.java))
+                .thenReturn(ResponseEntity(FacebookAuthUserWrapper(AuthUser(id, true)), HttpStatus.ACCEPTED))
+    }
+
+    fun mockName(id: String, name: String) {
+        Mockito.`when`(restTemplate.getForEntity("https://graph.facebook.com/$id?access_token=1559710037462455|F_CkzUCoMC_tKa0uy5JqZX1ECu8", AuthUserDetails::class.java))
+                .thenReturn(ResponseEntity(AuthUserDetails(name, "doesnt matter"), HttpStatus.ACCEPTED))
+    }
+
+
 }
 
 data class SimplifiedGame(

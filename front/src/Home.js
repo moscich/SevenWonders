@@ -18,9 +18,11 @@ class HomeComponent extends React.Component {
 		super(props)
 
 		const expDate = new Date(0)
+		const now = new Date()
 		expDate.setUTCSeconds(sessionStorage.getItem('secret_expiration'));
-		console.log(expDate)
-		console.log(new Date())
+		now.setUTCSeconds(4197)
+		console.log(sessionStorage.getItem('secret_expiration'))
+		console.log(now)
 
 		if(sessionStorage.getItem('secret') == null) {
     		props.history.push('login')
@@ -33,7 +35,11 @@ class HomeComponent extends React.Component {
     } 
      
     createGame() {
-    	alert("xd mate")
+    	wondersService.createGame()
+    	.then(function(res) {
+    		alert("xd mate " + res.inviteCode + " " + res.id)
+    	})
+    	
     }
 
     joinGame() {
