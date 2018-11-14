@@ -24,12 +24,10 @@ class GameController {
     @Autowired
     lateinit var auth: OAuth2
 
+    data class GameInList(val id: String, val player1: String, val player2: String?)
     @RequestMapping(method = [RequestMethod.GET])
-    fun returnSomeGames(request: HttpServletRequest): Any? {
-        val header = request.getHeader("Authorization") ?: throw InvalidTokenError()
-        val token = header.slice(7 until header.length)
-        val userForToken = auth.getUserIdForToken(token)
-        return listOf("1", "dwa", "three")
+    fun returnSomeGames(request: HttpServletRequest): List<GameInList> {
+        return gameService.getGames(getUser(request)).map { GameInList(it.first, it.second, it.third) }
     }
 
     @RequestMapping(method = [RequestMethod.POST])

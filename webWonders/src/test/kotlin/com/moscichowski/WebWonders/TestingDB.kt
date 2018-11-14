@@ -220,7 +220,7 @@ class XdTests {
     }
 
     @Test
-    fun getGames() {
+    fun checkPlayerNames() {
         mockId("Player-1-token", "player1-id")
         mockId("Player-2-token", "player2-id")
         mockName("player1-id", "Andrzej")
@@ -234,6 +234,32 @@ class XdTests {
         game = testRestTemplate.getForEntity("/games/${id}", player1Entity(), object : TypeReference<Map<String, String>>() {})
         assertEquals("Andrzej", game.body!!["player1"])
         assertEquals("Henryk", game.body!!["player2"])
+    }
+
+    @Test
+    fun testGetGames() {
+        mockId("Player-1-token", "player1-id")
+        mockId("Player-2-token", "player2-id")
+        mockName("player1-id", "Andrzej")
+        mockName("player2-id", "Henryk")
+
+        val (_, invite1) = createGamePair()
+        val (_, invite2) = createGamePair()
+        val (_, invite3) = createGamePair()
+
+        val games = testRestTemplate.exchange<List<Map<String,String>>>("/games", HttpMethod.GET, player1Entity(), object : TypeReference<List<Map<String,String>>>() {})
+        assertEquals(3, games.body!!.count())
+        assertEquals("Andrzej", games.body!![0]["player1"])
+        assertNull(games.body!![0]["player2"])
+
+        var player2games = testRestTemplate.exchange<List<Map<String,String>>>("/games", HttpMethod.GET, player2Entity(), object : TypeReference<List<Map<String,String>>>() {})
+        assertEquals(0, player2games.body!!.count())
+        joinPlayer2(invite1)
+        player2games = testRestTemplate.exchange("/games", HttpMethod.GET, player2Entity(), object : TypeReference<List<Map<String,String>>>() {})
+        assertEquals(1, player2games.body!!.count())
+        joinPlayer2(invite3)
+        player2games = testRestTemplate.exchange("/games", HttpMethod.GET, player2Entity(), object : TypeReference<List<Map<String,String>>>() {})
+        assertEquals(2, player2games.body!!.count())
     }
 
     fun createGamePair(): Pair<String, String> {
@@ -252,6 +278,12 @@ class XdTests {
     fun player1Entity(): HttpEntity<Any?> {
         val player1Headers = HttpHeaders()
         player1Headers.add("Authorization", "Bearer Player-1-token")
+        return HttpEntity(null, player1Headers)
+    }
+
+    fun player2Entity(): HttpEntity<Any?> {
+        val player1Headers = HttpHeaders()
+        player1Headers.add("Authorization", "Bearer Player-2-token")
         return HttpEntity(null, player1Headers)
     }
 

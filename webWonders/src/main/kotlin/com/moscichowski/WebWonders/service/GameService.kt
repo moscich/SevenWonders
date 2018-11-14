@@ -2,6 +2,7 @@ package com.moscichowski.WebWonders.service
 
 import com.moscichowski.WebWonders.ForbiddenError
 import com.moscichowski.WebWonders.GameInitialSettings
+import com.moscichowski.WebWonders.common.InvitationCodeGenerator
 import com.moscichowski.WebWonders.repository.GameStateRepository
 import com.moscichowski.WebWonders.security.OAuth2
 import com.moscichowski.wonders.Action
@@ -22,6 +23,9 @@ class GameService {
     @Autowired
     lateinit var auth: OAuth2
 
+    @Autowired
+    lateinit var codeGenerator: InvitationCodeGenerator
+
     fun createNewGame(playerId: String): Pair<String, String> {
 
         val wonderBuilder = WonderBuilder()
@@ -37,7 +41,7 @@ class GameService {
 
         val playerName = auth.getUserNameForToken(playerId)
         repo.storeUser(playerId, playerName)
-        val invitationCode = "xdd"
+        val invitationCode = codeGenerator.generateInviteCode()
 
         val wonders = WondersBuilder().setupWonders(wonderList.subList(0, 8), cards)
         val gameId = repo.storeInitialState(GameInitialSettings(wonderList, cards), playerId, invitationCode).toString()
@@ -66,5 +70,9 @@ class GameService {
 
     fun getGame(id: String): Triple<Wonders, String, String> {
         return repo.getWondersWithUsers(id)
+    }
+
+    fun getGames(playerId: String): List<Triple<String, String, String?>> {
+        return repo.getUserGames(playerId)
     }
 }

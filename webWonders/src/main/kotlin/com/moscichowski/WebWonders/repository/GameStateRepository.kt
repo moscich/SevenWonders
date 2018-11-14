@@ -16,7 +16,8 @@ class GameStateRepository {
     lateinit var mapper: WondersMapper
 
     fun storeUser(id: String, name: String) {
-        jdbcTemplate.execute("insert into players (id, name) values ('$id', '$name')")
+        jdbcTemplate.execute("insert into players (id, name) values ('$id', '$name')" +
+                "on conflict (id) do update set name = '$name'")
     }
 
     fun storeInitialState(settings: GameInitialSettings, player1: String, inviteCode: String): Int {
@@ -52,6 +53,15 @@ class GameStateRepository {
         }.asSequence().map {
             Triple(mapper.readValue(it.first, Wonders::class.java), it.second, it.third)
         }.last()
+    }
+
+    fun getUserGames(playerId: String): List<Triple<String, String, String?>> {
+        return jdbcTemplate.query("select games.id, p1.name, p2.name from games " +
+                "join players as p1 on (p1.id = games.player1)" +
+                "left join players as p2 on (p2.id = games.player2) " +
+                "where player1 = '$playerId' or player2 = '$playerId' ") { rs, _ ->
+            Triple(rs.getInt(1).toString(), rs.getString(2), rs.getString(3))
+        }
     }
 
     fun saveInvitedUserToGame(playerId: String, inviteCode: String) {
