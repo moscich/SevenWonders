@@ -1,16 +1,60 @@
 class WondersService {
-	constructor() {
-		console.log("Im being made mate")
-		this.smth = 42
-	}
 	
-	createGame() {
+	checkSession() {
+		const token = sessionStorage.getItem('secret')
+		if (token == null) {
+			return new Promise(function(resolve, reject) {
+				reject("no token")
+			})
+		} 
+		const now = new Date()
+		var expireDate = new Date(0)
+		expireDate.setUTCSeconds(sessionStorage.getItem('secret_expiration'))
+
+		if (expireDate < now) {
+			return new Promise(function(resolve, reject) {
+				reject("expired")
+			})
+		}
+		return null
+	}
+
+	joinGame(inviteCode) {
+		const check = this.checkSession()
+		if (check != null) {
+			return check
+		}
 		const token = sessionStorage.getItem('secret')
 		return new Promise(function(resolve, reject) {
-			if (token == null) {
-				reject("No token")
-				return
-			}
+			
+			const body = {inviteCode: inviteCode}
+
+  		fetch("http://localhost:8080/games", {
+  			method: 'PUT',
+			headers: {
+				'Accept': 'application/json',
+			    'Content-Type': 'application/json',
+			    'Authorization': 'Bearer ' + token
+			},
+			body: JSON.stringify(body)
+		})
+		.then(function(res) {
+    		if (!res.ok) {
+    			reject()
+    		}
+    		resolve(res.json())
+    	})
+	})
+	}
+
+	createGame() {
+		const check = this.checkSession()
+		if (check != null) {
+			return check
+		}
+		const token = sessionStorage.getItem('secret')
+		return new Promise(function(resolve, reject) {
+			
   		fetch("http://localhost:8080/games", {
   			method: 'POST',
 			headers: {
@@ -29,14 +73,13 @@ class WondersService {
 	}
 
 	getGames() {
-		console.log("token = " + this.token)
+		const check = this.checkSession()
+		if (check != null) {
+			return check
+		}
 		const token = sessionStorage.getItem('secret')
 		return new Promise(function(resolve, reject) {
-			console.log("token " + token)
-			if (token == null) {
-				reject("No token")
-				return
-			}
+			
   		fetch("http://localhost:8080/games", {
 			headers: {
 				'Accept': 'application/json',
@@ -51,23 +94,19 @@ class WondersService {
     		return res.json()
     	})
     	.then(function(res) {
-    		console.log(res)
-    		console.log(JSON.stringify(res))
-    		
     		resolve(res) 
     	})
 	});
 	}
 
 	getGame(gameNo) {
-		console.log("token = " + this.token)
+		const check = this.checkSession()
+		if (check != null) {
+			return check
+		}
 		const token = sessionStorage.getItem('secret')
 		return new Promise(function(resolve, reject) {
-			console.log("token " + token)
-			if (token == null) {
-				reject("No token")
-				return
-			}
+			
   		fetch("http://localhost:8080/games/"+gameNo, {
 			headers: {
 				'Accept': 'application/json',

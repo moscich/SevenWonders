@@ -1,6 +1,10 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import wondersService from './WondersService'
+import {
+  NavLink,
+  HashRouter
+} from "react-router-dom";
 
 const Home = () => (
   <div>
@@ -17,20 +21,29 @@ class HomeComponent extends React.Component {
 	constructor(props) {
 		super(props)
 
-		const expDate = new Date(0)
 		const now = new Date()
-		expDate.setUTCSeconds(sessionStorage.getItem('secret_expiration'));
-		now.setUTCSeconds(4197)
-		console.log(sessionStorage.getItem('secret_expiration'))
-		console.log(now)
+		var expireDate = new Date(0)
+		expireDate.setUTCSeconds(sessionStorage.getItem('secret_expiration'))
+		
+		console.log(expireDate)
+
+		if (expireDate < now) {
+			console.log('chyba expired')
+		} else {
+			console.log('a tu nie expired')
+		}
 
 		if(sessionStorage.getItem('secret') == null) {
     		props.history.push('login')
     	}
 
-		this.state = {
-        	inputValue: 'xd'
-      	}
+    	wondersService.getGames()
+    	.then((res) => 
+    		this.setState({
+    			gameList: res,
+    			inputValue: ""
+    		})
+    	)
 
     } 
      
@@ -43,7 +56,10 @@ class HomeComponent extends React.Component {
     }
 
     joinGame() {
-    	alert(this.state.inputValue)
+    	wondersService.joinGame(this.state.inputValue)
+    	.then(function(res) {
+    		alert(res)
+    	})
     }
 
     updateInputValue(evt) {
@@ -61,8 +77,18 @@ class HomeComponent extends React.Component {
     	<div className="button is-primary" onClick={() => this.createGame()}>Create game</div>
     	<input value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} className="input" type="text" placeholder="Invitation code"/>
     	<div className="button is-primary" onClick={() => this.joinGame()}>Join game</div>
+    	<GamesList games={this.state.gameList}/>
     	</div>
     )
   }
 }
 
+class GamesList extends React.Component {
+	render() {
+		const listItems = this.props.games.map((game) =>
+  			<li><NavLink to={"/games/" + game.id}>{game.id} {game.player1} {game.player2}</NavLink></li>
+		);
+
+		return(<HashRouter><ul>{listItems}</ul></HashRouter>)
+	}
+}
