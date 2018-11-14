@@ -47,6 +47,48 @@ class WondersService {
 	})
 	}
 
+	takeAction(gameNo, id, action, param1, playerNo) {
+
+		const check = this.checkSession()
+			if (check != null) {
+				return check
+			}
+		const token = sessionStorage.getItem('secret')
+		return new Promise(function(resolve, reject) {
+		  	var body = {
+		  		type: action
+		  	}
+
+		  	if (id) {
+		  		body["name"] = id
+		  	}
+
+		  	if (param1) {
+		  		body["card"] = param1
+		  	}
+
+		  	if (playerNo != null) {
+		  		body["playerNo"] = playerNo
+		  	}
+
+			fetch('http://localhost:8080/games/'+gameNo+'/actions', {
+			    method: 'POST',
+			    headers: {
+				    'Accept': 'application/json',
+				    'Content-Type': 'application/json',
+				    'Authorization': 'Bearer ' + token
+			    },
+			    body: JSON.stringify(body)
+	  		})
+			.then(function(res) {
+	    		if (!res.ok) {
+	    			reject()
+	    		}
+    			resolve(res.json())
+    		})
+	 	})
+	}
+
 	createGame() {
 		const check = this.checkSession()
 		if (check != null) {
@@ -100,6 +142,7 @@ class WondersService {
 	}
 
 	getGame(gameNo) {
+		console.log("reloading")
 		const check = this.checkSession()
 		if (check != null) {
 			return check

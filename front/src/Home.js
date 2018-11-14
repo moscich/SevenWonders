@@ -1,6 +1,9 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import wondersService from './WondersService'
+import Websocket from 'react-websocket';
+
+
 import {
   NavLink,
   HashRouter
@@ -20,6 +23,10 @@ export default Home
 class HomeComponent extends React.Component {
 	constructor(props) {
 		super(props)
+
+
+
+
 
 		const now = new Date()
 		var expireDate = new Date(0)
@@ -68,6 +75,21 @@ class HomeComponent extends React.Component {
     });
   }
 
+  handleData(data) {
+  	console.log("terefere")
+  	console.log(data)
+
+      // this.setState({count: this.state.count + result.movement});
+    }
+
+ 	onOpen(data) {
+  	console.log("Open")
+  	console.log(data)
+
+      // this.setState({count: this.state.count + result.movement});
+    }
+
+
   render() {
   	if (this.state == null) {
   		return(<div></div>)
@@ -81,6 +103,7 @@ class HomeComponent extends React.Component {
     	</div>
     )
   }
+
 }
 
 class GamesList extends React.Component {

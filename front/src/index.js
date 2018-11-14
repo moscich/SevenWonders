@@ -9,6 +9,7 @@ import {
 import Login from './Login'
 import Home from './Home'
 import wondersService from './WondersService'
+import Sockette from 'sockette'
 
 import './bulma.css';
 import './index.css';
@@ -18,6 +19,9 @@ class Board extends React.Component {
   render() {
   	var cards = [];
   	var descendants = {}
+    if (this.props.elements == null) {
+      return (<div></div>)
+    }
   	for(var i = 0; i < this.props.elements.length; i++) {
   		var elem = this.props.elements[i]
 		cards.push(<Card onClick={(id) => this.props.onClick(id)} 
@@ -96,17 +100,32 @@ class Game extends React.Component {
   constructor(props) {
   	super(props);
 
-  wondersService.getGame(77)
+const ws = new Sockette('ws://localhost:8080/my-websocket-endpoint/'+props.gameNo, {
+  timeout: 5e3,
+  maxAttempts: 10,
+  onopen: function(e) {
+    ws.send("xd")
+  },
+  onmessage: e => wondersService.getGame(props.gameNo)
   .then((res) => 
-      this.setState({
-        game: res,
-        elements: res.board.elements,
-        currentPlayer: res.currentPlayer,
-        player1gold: res.player1.gold,
-        player2gold: res.player2.gold,
-        player1: res.player1,
-        player2: res.player2,
-      })
+      this.updateState(res)
+    ),
+  onreconnect: e => console.log('Reconnecting...', e),
+  onmaximum: e => console.log('Stop Attempting!', e),
+  onclose: e => console.log('Closed!', e),
+  onerror: e => console.log('Error:', e)
+});
+
+// ws.send('Hello, world!');
+// ws.json({type: 'ping'});
+// ws.close(); // graceful shutdown
+
+// Reconnect 10s later
+setTimeout(ws.reconnect, 10e4);
+
+  wondersService.getGame(props.gameNo)
+  .then((res) => 
+      this.updateState(res)
     )
   }
 
@@ -128,52 +147,37 @@ class Game extends React.Component {
   	this.cardAction(id, 'BUILD_WONDER', this.state.selectedCard)
   }
 
+  selectWonder(id) {
+    this.cardAction(id, 'CHOOSE_WONDER')
+  }
+
   selectPlayer(playerNo) {
   	this.cardAction(null, "CHOOSE_PLAYER", null, playerNo)
   }
 
   cardAction(id, action, param1, playerNo) {
-
-  	var body = {
-  		type: action
-  	}
-
-  	if (id) {
-  		body["name"] = id
-  	}
-
-  	if (param1) {
-  		body["card"] = param1
-  	}
-
-  	if (playerNo != null) {
-  		body["playerNo"] = playerNo
-  	}
-
-	fetch('http://localhost:8080/games/77/actions', {
-    method: 'POST',
-    headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body)
-  }).then(result=>result.json())
+    wondersService.takeAction(this.props.gameNo, id, action, param1, playerNo)
     .then((res) => 
-    	this.setState({
-    		game: res,
-    		elements: res.board.elements,
-    		currentPlayer: res.currentPlayer,
-    		player1gold: res.player1.gold,
-    		player2gold: res.player2.gold,
-    		player1: res.player1,
-    		player2: res.player2,
-    		selectedCard: null
-    	})
-    )
-    .catch(function(e) {
-        console.log("error " + e);
-    });
+        this.updateState(res)
+      )
+      .catch(function(e) {
+          console.log("error " + e);
+      });
 
+  }
+
+  updateState(res) {
+
+    this.setState({
+        game: res.game,
+        elements: res.game.board && res.game.board.elements,
+        currentPlayer: res.game.currentPlayer,
+        player1gold: res.game.player1.gold,
+        player2gold: res.game.player2.gold,
+        player1: res.game.player1,
+        player2: res.game.player2,
+        selectedCard: null
+      })
   }
 
   closeModal() {
@@ -189,6 +193,10 @@ class Game extends React.Component {
   	const player = this.state.currentPlayer == 0 ? this.state.player1 : this.state.player2
     return (
       <div>
+      <WonderSelection 
+        state={this.state.game.state}
+        wonders={this.state.game.wonders}
+        onWonderSelection={(wonder) => this.selectWonder(wonder)}/>
       <PlayerSelection
         onPlayerSelection={(playerNo) => this.selectPlayer(playerNo)}
         state={this.state.game && this.state.game.state}/>
@@ -254,6 +262,27 @@ class ActionSelection extends React.Component {
 	
 		)
 	}
+}
+
+class WonderSelection extends React.Component {
+  render() {
+
+    return (
+      <div className={"modal " + (this.props.state == "WONDERS_SELECT" ? "is-active" : "")}>
+        <div className="modal-background"></div>
+        <div className="modal-content">
+          <div className="center">
+          <div className="box">
+            <ul>
+            {this.props.wonders.map((wonder) => <li><a onClick={() => this.props.onWonderSelection(wonder.name)} >{wonder.name}</a></li>)}
+            </ul>
+          </div>
+          </div>
+        </div>
+    </div>
+  
+    )
+  }
 }
 
 class PlayerSelection extends React.Component {
@@ -451,14 +480,14 @@ class CardDetail extends React.Component {
 
 // ========================================
 
-const GameXD = () => (
-  <Game/>
+const GameXD = ({ match }) => (
+  <Game gameNo={match.params.id}/>
 )
 
 ReactDOM.render(
    <HashRouter>
       <Switch>
-      <Route path='/game' component={GameXD}/>
+      <Route path='/games/:id' component={GameXD}/>
         <Route exact path='/login' component={Login}/>
         <Route exact path='/' component={Home}/>
       </Switch>

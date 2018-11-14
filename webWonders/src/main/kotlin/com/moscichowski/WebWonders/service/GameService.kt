@@ -49,14 +49,14 @@ class GameService {
         return Pair(gameId, invitationCode)
     }
 
-    fun takeAction(gameId: String, action: Action, userId: String): Game {
+    fun takeAction(gameId: String, action: Action, userId: String): Triple<Wonders, String, String> {
         val wondersWrapped = repo.getWonders(gameId)
         val wonders = wondersWrapped.first
         if ((wonders.game.currentPlayer == 0 && userId == wondersWrapped.second)
             || (wonders.game.currentPlayer == 1 && userId == wondersWrapped.third)) {
             wonders.takeAction(action)
             repo.storeWonders(gameId, wonders)
-            return getGame(gameId).first.game
+            return getGame(gameId)
         } else {
             throw ForbiddenError()
         }

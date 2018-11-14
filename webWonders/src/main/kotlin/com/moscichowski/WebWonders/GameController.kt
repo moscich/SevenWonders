@@ -1,13 +1,16 @@
 package com.moscichowski.WebWonders
 
 import com.moscichowski.WebWonders.common.GameCreated
+import com.moscichowski.WebWonders.repository.MyMessageHandler
 import com.moscichowski.WebWonders.security.OAuth2
 import com.moscichowski.WebWonders.service.GameService
 import com.moscichowski.wonders.Action
+import com.moscichowski.wonders.Game
 import com.moscichowski.wonders.Wonders
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestTemplate
+import org.springframework.web.socket.WebSocketHandler
 import javax.servlet.http.HttpServletRequest
 
 @RestController
@@ -24,6 +27,9 @@ class GameController {
     @Autowired
     lateinit var auth: OAuth2
 
+    @Autowired
+    lateinit var webSocketHandler: MyMessageHandler
+
     data class GameInList(val id: String, val player1: String, val player2: String?)
     @RequestMapping(method = [RequestMethod.GET])
     fun returnSomeGames(request: HttpServletRequest): List<GameInList> {
@@ -36,11 +42,11 @@ class GameController {
         return GameCreated(gameId, inviteCode)
     }
 
-    data class GameResponse(val wonders: Wonders, val player1: String, val player2: String?)
+    data class GameResponse(val game: Game, val player1: String, val player2: String?)
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getGame(@PathVariable(value="id") id: String): Any {
         val (wonders, player1, player2) = gameService.getGame(id)
-        return GameResponse(wonders, player1, player2)
+        return GameResponse(wonders.game, player1, player2)
     }
 
     @RequestMapping(method = [RequestMethod.PUT])
@@ -58,7 +64,10 @@ class GameController {
         val token = header.slice(7 until header.length)
         val userForToken = auth.getUserIdForToken(token)
 
-        return gameService.takeAction(gameId, action, userForToken)
+        val (wonders, player1, player2) = gameService.takeAction(gameId, action, userForToken)
+        webSocketHandler.notify(gameId)
+        return GameResponse(wonders.game, player1, player2)
+
     }
 
     private fun getUser(request: HttpServletRequest): String {
