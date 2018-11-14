@@ -25,6 +25,7 @@ import org.springframework.boot.test.web.client.getForEntity
 import org.springframework.http.*
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.web.client.RestTemplate
+import java.time.Instant
 import kotlin.test.*
 
 @FlywayTest
@@ -173,7 +174,7 @@ class XdTests {
     @Test
     fun `authentication failed game creation`() {
         Mockito.`when`(restTemplate.getForEntity("https://graph.facebook.com/debug_token?input_token=Something-noth-valid&access_token=1559710037462455|F_CkzUCoMC_tKa0uy5JqZX1ECu8", FacebookAuthUserWrapper::class.java))
-                .thenReturn(ResponseEntity(FacebookAuthUserWrapper(AuthUser("", false)), HttpStatus.ACCEPTED))
+                .thenReturn(ResponseEntity(FacebookAuthUserWrapper(AuthUser("", false, Instant.now().epochSecond)), HttpStatus.ACCEPTED))
         val headers = HttpHeaders()
         headers.add("Authorization", "Bearer Something-noth-valid")
         val httpEntity = HttpEntity("parameters", headers)
@@ -194,8 +195,8 @@ class XdTests {
         Mockito.`when`(restTemplate.getForEntity("https://graph.facebook.com/debug_token?input_token=Player-2-token&access_token=1559710037462455|F_CkzUCoMC_tKa0uy5JqZX1ECu8", FacebookAuthUserWrapper::class.java))
                 .thenReturn(ResponseEntity(FacebookAuthUserWrapper(AuthUser("player2", true)), HttpStatus.ACCEPTED))
 
-        mockName("player1", "Andrzej")
-        mockName("player2", "Henryk")
+        mockName("player1-id", "Andrzej")
+        mockName("player2-id", "Henryk")
 
         val player1Headers = HttpHeaders()
         player1Headers.add("Authorization", "Bearer Player-1-token")
@@ -297,7 +298,7 @@ class XdTests {
                 .thenReturn(ResponseEntity(AuthUserDetails(name, "doesnt matter"), HttpStatus.ACCEPTED))
     }
 
-
+    fun AuthUser(id: String, valid: Boolean) = AuthUser(id, valid, Instant.now().epochSecond + 1000)
 }
 
 data class SimplifiedGame(

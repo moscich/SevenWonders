@@ -6,6 +6,7 @@ import com.moscichowski.wonders.Wonders
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
+import java.time.Instant
 
 @Repository
 class GameStateRepository {
@@ -44,6 +45,8 @@ class GameStateRepository {
     }
 
     fun getWondersWithUsers(id: String): Triple<Wonders, String, String> {
+        println("Getting wonders ${Instant.now()}")
+
         return jdbcTemplate.query("SELECT gameStates.wonders, p1.name, p2.name FROM gameStates " +
                 "JOIN games ON (gameStates.game_id = games.id) " +
                 "JOIN players AS p1 ON (p1.id = games.player1) " +

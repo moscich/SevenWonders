@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.socket.WebSocketHandler
+import java.time.Instant
 import javax.servlet.http.HttpServletRequest
 
 @RestController
@@ -60,12 +61,16 @@ class GameController {
 
     @RequestMapping(value = ["/{gameId}/actions"], method = [RequestMethod.POST])
     fun postAction(request: HttpServletRequest, @PathVariable(value="gameId") gameId: String, @RequestBody action: Action): Any {
+        val start = Instant.now()
         val header = request.getHeader("Authorization") ?: throw InvalidTokenError()
         val token = header.slice(7 until header.length)
         val userForToken = auth.getUserIdForToken(token)
 
         val (wonders, player1, player2) = gameService.takeAction(gameId, action, userForToken)
-        webSocketHandler.notify(gameId)
+        Thread {
+            webSocketHandler.notify(gameId)
+        }.run()
+        println("Instant.now() - start = ${Instant.now().toEpochMilli() - start.toEpochMilli()}")
         return GameResponse(wonders.game, player1, player2)
 
     }

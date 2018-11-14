@@ -32,18 +32,21 @@ class MyMessageHandler : TextWebSocketHandler() {
 
     private val map = HashMap<String, MutableList<WebSocketSession>>()
 
+    @Synchronized
     fun notify(gameId: String) {
         map[gameId]?.forEach {
             it.sendMessage(TextMessage("Reload"))
         }
     }
 
+    @Synchronized
     @Throws(Exception::class)
     override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus) {
         val gameNo = session.uri?.path?.split("/")?.last()
         map[gameNo]?.removeIf { !it.isOpen }
     }
 
+    @Synchronized
     @Throws(Exception::class)
     override fun afterConnectionEstablished(session: WebSocketSession) {
         // The WebSocket has been opened
