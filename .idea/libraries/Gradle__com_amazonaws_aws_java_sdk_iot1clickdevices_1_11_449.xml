@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.amazonaws:aws-java-sdk-iot1clickdevices:1.11.449">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-iot1clickdevices/1.11.449/4e066334b71367d0c4b21a23549e588fbaaa80ed/aws-java-sdk-iot1clickdevices-1.11.449.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-iot1clickdevices/1.11.449/9476f96ede3e06ac053cca460e77970ae7838ff1/aws-java-sdk-iot1clickdevices-1.11.449-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

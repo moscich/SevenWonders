@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.amazonaws:aws-java-sdk-sagemaker:1.11.449">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-sagemaker/1.11.449/8428ffd1323fe8aa4423f67e9ea70bec5ac8b5a7/aws-java-sdk-sagemaker-1.11.449.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-sagemaker/1.11.449/96964e8a0f1b465b6759ac0b3f6dda9615b50f0e/aws-java-sdk-sagemaker-1.11.449-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

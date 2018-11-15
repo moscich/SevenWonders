@@ -9,12 +9,44 @@ import org.springframework.boot.runApplication
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
+import com.amazonaws.regions.Regions
+import com.amazonaws.auth.AWSStaticCredentialsProvider
+import com.amazonaws.services.s3.AmazonS3ClientBuilder
+import com.amazonaws.services.s3.AmazonS3
+import org.springframework.boot.builder.SpringApplicationBuilder
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
+import java.io.File
+import java.util.*
+
 
 @SpringBootApplication
 class WebWondersApplication
 
+fun getProperties(bucketName: String): Properties {
+
+    val s3client = AmazonS3ClientBuilder
+            .standard()
+            .withRegion(Regions.US_EAST_1)
+            .build()
+
+    val s3Object = s3client.getObject(bucketName, "application.properties")
+    val properties = Properties()
+    properties.load(s3Object.objectContent)
+    println("properties = $properties")
+    return properties
+}
+
 fun main(args: Array<String>) {
-    runApplication<WebWondersApplication>(*args)
+    var builder = SpringApplicationBuilder().sources(WebWondersApplication::class.java)
+    if (args.count() > 0) {
+        args.forEach {
+            if (it.contains("--s3config=")) {
+                val s3 = it.split("=")[1]
+                builder = builder.properties(getProperties(s3))
+            }
+        }
+    }
+    builder.run(*args)
 }
 
 @Component

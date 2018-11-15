@@ -2,3 +2,4 @@ SevenWonders/out
 build
 .gradle
 out
+terraform/.terraform

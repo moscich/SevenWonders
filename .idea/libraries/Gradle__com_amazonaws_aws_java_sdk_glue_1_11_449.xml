@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.amazonaws:aws-java-sdk-glue:1.11.449">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-glue/1.11.449/98af05554e8a91bf31d0aa273cc330611cbedb8f/aws-java-sdk-glue-1.11.449.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-glue/1.11.449/f07dab18833535f9aa569d219afb11a8adf4e83a/aws-java-sdk-glue-1.11.449-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

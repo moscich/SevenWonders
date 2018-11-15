@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.amazonaws:aws-java-sdk-chime:1.11.449">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-chime/1.11.449/7add926793db329add829c6493dfe8be6dd0786a/aws-java-sdk-chime-1.11.449.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-chime/1.11.449/e71e5d0f9564d72540fe11d2360115b4eaba4224/aws-java-sdk-chime-1.11.449-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
