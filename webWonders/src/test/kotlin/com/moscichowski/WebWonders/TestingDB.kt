@@ -178,7 +178,8 @@ class XdTests {
         val headers = HttpHeaders()
         headers.add("Authorization", "Bearer Something-noth-valid")
         val httpEntity = HttpEntity("parameters", headers)
-        assertFails { testRestTemplate.exchange("/games", HttpMethod.POST, httpEntity, Any::class.java) }
+        val failedResponse = testRestTemplate.exchange("/games", HttpMethod.POST, httpEntity, Any::class.java)
+        assertEquals(401, failedResponse.statusCodeValue)
     }
 
     private fun <T> anyObject(): T {
