@@ -2,38 +2,31 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "random_id" "tf_bucket_id" {
-  byte_length = 2
+# Deploy Storage Resource
+module "storage" {
+  source       = "./storage"
+  security_group  = "${module.network.rds_security_group_id}"
+  subnet = "${module.network.main_subnet}"
+  subnet_secondary = "${module.network.secondary_subnet}"
 }
 
-data "template_file" "config_template" {
-  template = "${file("${path.module}/template.tpl")}"
-
-  vars {
-    db_password = "${random_string.password.result}"
-  }
+# Deploy Compute Resource
+module "compute" {
+  source       = "./compute"
+  security_group  = "${module.network.ec2_security_group_id}"
+  subnet = "${module.network.main_subnet}"
+  config_s3 = "${module.storage.config_bucket}"
 }
 
-resource "aws_s3_bucket" "config_bucket" {
-  bucket        = "wonders-config-bucket-${random_id.tf_bucket_id.dec}"
-  acl           = "private"
-  force_destroy = true
-
-  tags {
-    Name = "tf_bucket"
-  }
+# Deploy Network Resource
+module "network" {
+  source       = "./network"
 }
 
-resource "aws_s3_bucket_object" "object" {
-  bucket  = "${aws_s3_bucket.config_bucket.bucket}"
-  key     = "application.properties"
-  content = "${data.template_file.config_template.rendered}"
+output "db" {
+  value = "${module.storage.db}"
 }
 
-resource "random_string" "password" {
-  length = 16
-  special = true
-  override_special = "/@\" "
+output "config" {
+  value = "${module.storage.config_bucket}"
 }
-
- 
